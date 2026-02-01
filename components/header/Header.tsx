@@ -1,19 +1,26 @@
-'use client'
 import SignInButton from "../auth/SignInButton";
 import UserAvatar from "./UserAvatar";
-import { Session } from "next-auth";
+import { User } from "next-auth";
+import SearchBar from "./SearchBar";
+import Link from "next/link";
 
-export default function Header({ session }: { session: Session | null }) {
+export default function Header({ user }: { user?: User }) {
     return (
-            <header className="flex justify-between gap-2 items-center px-10 py-4">
-                <h1>Header</h1>
-                <section className="flex gap-2 items-center">
-                    {!!session?.user ? (
-                        <UserAvatar user={session.user} />
-                    ) : (
-                        <SignInButton />
-                    )}
-                </section>
-            </header>
+        <header className="flex justify-between gap-2 items-center px-10 py-4">
+            <section className="flex gap-4 items-center">
+                <Link href={"/"}>
+                    <h1 className="text-2xl font-bold">Inkspace</h1>
+                </Link>
+                <SearchBar />
+            </section>
+            <section className="flex gap-2 items-center">
+
+                {!!user ? (
+                    <UserAvatar user={user} />
+                ) : (
+                    <SignInButton />
+                )}
+            </section>
+        </header>
     )
 }

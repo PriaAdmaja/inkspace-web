@@ -1,14 +1,14 @@
 import Header from "@/components/header/Header";
 import Image from "next/image";
-import { auth } from "@/auth";
 import { Suspense } from "react";
+import { auth } from "@/auth";
 
 export default async function Home() {
   const session = await auth()
   return (
     <div className="min-h-screen">
       <Suspense>
-        <Header session={session} />
+        <Header user={session?.user} />
       </Suspense>
       <div className="flex h-full items-center justify-center bg-zinc-50 font-sans dark:bg-black">
         <main className="flex h-full w-full max-w-7xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
