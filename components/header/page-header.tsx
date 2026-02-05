@@ -1,7 +1,7 @@
-import SignInButton from "../auth/SignInButton";
-import UserAvatar from "./UserAvatar";
+import SignInButton from "../auth/sign-in-button";
+import UserAvatar from "./user-avatar";
 import { User } from "next-auth";
-import SearchBar from "./SearchBar";
+import SearchBar from "./search-bar";
 import Link from "next/link";
 
 export default function Header({ user }: { user?: User }) {
@@ -14,7 +14,6 @@ export default function Header({ user }: { user?: User }) {
                 <SearchBar />
             </section>
             <section className="flex gap-2 items-center">
-
                 {!!user ? (
                     <UserAvatar user={user} />
                 ) : (
