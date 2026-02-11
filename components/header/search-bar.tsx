@@ -20,11 +20,17 @@ export default function SearchBar() {
 
     return (
         <InputGroup className="max-w-sm">
-            <InputGroupInput placeholder="Search..." onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                    onSearch()
-                }
-            }} onChange={(e) => setSearch(e.target.value)} value={search} />
+            <InputGroupInput
+                placeholder="Search..."
+                onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                        onSearch()
+                    }
+                }}
+                onChange={(e) => setSearch(e.target.value)}
+                value={search}
+                
+            />
             <InputGroupAddon>
                 <SearchIcon className="text-muted-foreground" />
             </InputGroupAddon>

@@ -1,39 +1,34 @@
-import Header from "@/components/header/page-header";
-import { Suspense } from "react";
-import { auth } from "@/auth";
 import { getPostsData } from "@/lib/data/posts";
 import { Post } from "@/types/posts";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import dayjs from "dayjs";
+import { Separator } from "@/components/ui/separator";
+import { ImageOff } from "lucide-react";
 
 export default async function Home() {
-  const session = await auth()
   const posts = await getPostsData({})
   const { data } = posts
-  return (
-    <div className="min-h-screen">
-      <Suspense>
-        <Header user={session?.user} />
-      </Suspense>
+  const limit = 60
 
-      <section className="p-10 flex flex-col gap-4 max-w-7xl mx-auto">
-        {data?.map((post: Post) => {
-          const content = post.content.split(" ").slice(0, 70).join(" ")
-          return (
-            <Card key={post.id} className="gap-3">
-              <CardHeader className="gap-0">
-                <CardTitle className="text-2xl font-bold">{post.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>{content}{post.content.length > 70 && "..."}</p>
-              </CardContent>
-              <CardFooter>
-                <p className="text-muted-foreground text-sm">{dayjs(post.createdAt).format("MMM DD, YYYY")} • {post.author.username}</p>
-              </CardFooter>
-            </Card>
-          )
-        })}
-      </section>
-    </div>
+  return (
+    <section className="p-10 flex flex-col gap-4 max-w-7xl mx-auto">
+      {data?.map((post: Post, index: number) => {
+        const content = post.content.split(" ").slice(0, limit).join(" ")
+        return (
+          <section key={post.id} className="space-y-4">
+            <section className="flex gap-4 justify-between cursor-pointer">
+              <section className="flex flex-col gap-2" >
+                <h1 className="text-2xl font-bold">{post.title}</h1>
+                <p>{content}{post.content.length > limit && "..."}</p>
+                <div className="text-muted-foreground text-sm mt-auto">{dayjs(post.createdAt).format("MMM DD, YYYY")} • {post.author.username}</div>
+              </section>
+              <div className="w-40 h-40 shrink-0 flex justify-center items-center border">
+                <ImageOff className="h-10 w-10 text-muted-foreground" />
+              </div>
+            </section>
+            {index !== data.length - 1 && <Separator />}
+          </section>
+        )
+      })}
+    </section>
   );
 }
