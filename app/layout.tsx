@@ -3,8 +3,7 @@ import { Monomakh, Montserrat } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/sonner";
-import { Suspense } from "react";
-import Header from "@/components/header/page-header";
+import PageLayout from "@/components/page-layout";
 import { auth } from "@/auth";
 
 const montserrat = Montserrat({
@@ -15,11 +14,13 @@ const montserrat = Montserrat({
 const monomakh = Monomakh({
   weight: "400",
   variable: "--font-monomakh",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
   title: "Inkspace",
-  description: "Inkspace is a powerful blog platform for writers and creators to publish content, engage readers, and grow online.",
+  description:
+    "Inkspace is a powerful blog platform for writers and creators to publish content, engage readers, and grow online.",
 };
 
 export default async function RootLayout({
@@ -27,21 +28,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth()
+  const session = await auth();
   return (
     <html lang="en">
       <body
         className={`${montserrat.className} ${monomakh.variable} antialiased`}
       >
         <SessionProvider>
-          <section className="min-h-screen">
-            <Suspense>
-              <Header user={session?.user} />
-            </Suspense>
-
-            {children}
-
-          </section>
+          <PageLayout session={session}>{children}</PageLayout>
         </SessionProvider>
         <Toaster />
       </body>
