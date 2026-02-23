@@ -31,10 +31,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     //   },
     // }),
   ],
-  
+
   callbacks: {
     async redirect({ baseUrl }) {
       return baseUrl;
     },
+  },
+  session: {
+    strategy: "jwt",
   },
 });
