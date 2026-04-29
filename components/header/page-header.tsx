@@ -1,7 +1,6 @@
 "use client";
-import SignInButton from "../auth/sign-in-button";
+import SignInButton from "../auth/auth-dialog";
 import UserAvatar from "./user-avatar";
-import { User } from "next-auth";
 import SearchBar from "./search-bar";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -10,11 +9,13 @@ import { Button } from "../ui/button";
 import { PencilLine } from "lucide-react";
 import { routes } from "@/constants/routes";
 import { usePathname } from "next/navigation";
+import { useUserDataStore } from "@/store/user-data";
 
-export default function Header({ user }: { user?: User }) {
+export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const pathname = usePathname();
+  const user = useUserDataStore((state) => state.userData);
 
   const isHomepage = pathname === "/";
 

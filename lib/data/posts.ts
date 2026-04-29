@@ -13,9 +13,10 @@ export async function getPostsData({
   limit?: number;
 }) {
   const params = buildParams({ search, page, limit });
-  const baseUrl = process.env.BASE_API?.startsWith("http")
-    ? process.env.BASE_API
-    : `https://${process.env.BASE_API}`;
+  const baseApi = process.env.NEXT_PUBLIC_BASE_API;
+  const baseUrl = baseApi?.startsWith("http")
+    ? baseApi
+    : `https://${baseApi}`;
     const url = `${baseUrl}${API_ROUTES.POSTS.GET_ALL}?${params}`
   const res = await fetch(url);
   console.log(url)

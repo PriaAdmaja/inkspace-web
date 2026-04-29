@@ -37,7 +37,7 @@ export default async function RootLayout({
         <SessionProvider>
           <PageLayout session={session}>{children}</PageLayout>
         </SessionProvider>
-        <Toaster />
+        <Toaster position="top-center"/>
       </body>
     </html>
   );
