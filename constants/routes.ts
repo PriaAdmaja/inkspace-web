@@ -1,3 +1,4 @@
 export const routes = {
-    newIdea: "/new-idea"
+    newIdea: "/new-idea",
+    me: "/me"
 }

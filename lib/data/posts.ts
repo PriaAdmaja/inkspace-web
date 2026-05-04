@@ -19,6 +19,5 @@ export async function getPostsData({
     : `https://${baseApi}`;
     const url = `${baseUrl}${API_ROUTES.POSTS.GET_ALL}?${params}`
   const res = await fetch(url);
-  console.log(url)
   return res.json() as Promise<Response<Post[]>>;
 }

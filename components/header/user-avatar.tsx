@@ -13,6 +13,9 @@ import { LogOutIcon } from "lucide-react";
 import { useAccessTokenStore } from "@/store/access-token";
 import useAxios from "@/hooks/use-axios";
 import { API_ROUTES } from "@/constants/api-routes";
+import { AxiosError } from "axios";
+import Link from "next/link";
+import { routes } from "@/constants/routes";
 
 export default function UserAvatar({ user }: { user?: UserData | null }) {
   const axios = useAxios();
@@ -25,10 +28,17 @@ export default function UserAvatar({ user }: { user?: UserData | null }) {
     .map((word) => word[0])
     .join("");
 
-  const signOut = async () => {
-    await axios.post(API_ROUTES.AUTH.LOGOUT, {}, { withCredentials: true });
-    setAccessToken(null);
-    setUserData(null);
+  const signOut = () => {
+    try {
+      axios.post(API_ROUTES.AUTH.LOGOUT, {}, { withCredentials: true });
+    } catch (error) {
+      if (error instanceof AxiosError && error.status !== 401) {
+        console.error("Error occurred while logging out:", error);
+      }
+    } finally {
+      setAccessToken(null);
+      setUserData(null);
+    }
   };
 
   return (
@@ -44,7 +54,9 @@ export default function UserAvatar({ user }: { user?: UserData | null }) {
 
       <DropdownMenuContent align="end">
         <DropdownMenuGroup>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <Link href={routes.me}>
+            <DropdownMenuItem>My Account</DropdownMenuItem>
+          </Link>
           <DropdownMenuItem variant="destructive" onClick={() => signOut()}>
             <LogOutIcon />
             Sign Out

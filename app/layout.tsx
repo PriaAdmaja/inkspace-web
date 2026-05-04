@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Monomakh, Montserrat } from "next/font/google";
 import "./globals.css";
-import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/sonner";
 import PageLayout from "@/components/page-layout";
-import { auth } from "@/auth";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -28,15 +26,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
   return (
     <html lang="en">
       <body
         className={`${montserrat.className} ${monomakh.variable} antialiased`}
       >
-        <SessionProvider>
-          <PageLayout session={session}>{children}</PageLayout>
-        </SessionProvider>
+          <PageLayout>{children}</PageLayout>
         <Toaster position="top-center"/>
       </body>
     </html>
