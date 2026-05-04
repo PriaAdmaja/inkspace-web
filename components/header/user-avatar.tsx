@@ -26,14 +26,9 @@ export default function UserAvatar({ user }: { user?: UserData | null }) {
     .join("");
 
   const signOut = async () => {
-    try {
-      await axios.post(API_ROUTES.AUTH.LOGOUT, {}, { withCredentials: true });
-    } catch (error) {
-      console.error("Error signing out:", error);
-    } finally {
-      setAccessToken(null);
-      setUserData(null);
-    }
+    await axios.post(API_ROUTES.AUTH.LOGOUT, {}, { withCredentials: true });
+    setAccessToken(null);
+    setUserData(null);
   };
 
   return (
