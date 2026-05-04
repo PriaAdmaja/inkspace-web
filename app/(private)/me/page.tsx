@@ -28,7 +28,6 @@ export default function Page() {
   useEffect(() => {
     const getUserData = async () => {
       const data = await fetchMeData();
-      console.log("Fetched user data:", data);
       if (data) {
         setUserData(data);
       }

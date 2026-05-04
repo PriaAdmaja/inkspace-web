@@ -6,7 +6,6 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { LogOutIcon } from "lucide-react";
@@ -16,9 +15,12 @@ import { API_ROUTES } from "@/constants/api-routes";
 import { AxiosError } from "axios";
 import Link from "next/link";
 import { routes } from "@/constants/routes";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function UserAvatar({ user }: { user?: UserData | null }) {
   const axios = useAxios();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const setUserData = useUserDataStore((state) => state.setUserData);
   const setAccessToken = useAccessTokenStore((state) => state.setAccessToken);
@@ -30,7 +32,10 @@ export default function UserAvatar({ user }: { user?: UserData | null }) {
 
   const signOut = () => {
     try {
-      axios.post(API_ROUTES.AUTH.LOGOUT, {}, { withCredentials: true });
+      axios.post(API_ROUTES.AUTH.LOGOUT, {});
+      if (pathname !== "/") {
+        router.replace("/");
+      }
     } catch (error) {
       if (error instanceof AxiosError && error.status !== 401) {
         console.error("Error occurred while logging out:", error);

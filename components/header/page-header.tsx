@@ -15,7 +15,8 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const pathname = usePathname();
-  const { hasHydrated, userData } = useUserDataStore();
+  const userData = useUserDataStore((state) => state.userData);
+  const hasHydrated = useUserDataStore((state) => state.hasHydrated);
 
   const isHomepage = pathname === "/";
 
@@ -39,7 +40,9 @@ export default function Header() {
       </Link>
       {isHomepage && <SearchBar />}
       <section
-        className={cn("flex gap-4 items-center justify-end w-40", { "invisible": !hasHydrated })}
+        className={cn("flex gap-4 items-center justify-end w-40", {
+          invisible: !hasHydrated,
+        })}
       >
         {isHomepage && !!userData && (
           <Button variant={"ghost"} asChild>
