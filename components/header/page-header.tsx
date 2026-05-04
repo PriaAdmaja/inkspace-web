@@ -15,7 +15,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const pathname = usePathname();
-  const user = useUserDataStore((state) => state.userData);
+  const { hasHydrated, userData } = useUserDataStore();
 
   const isHomepage = pathname === "/";
 
@@ -37,11 +37,11 @@ export default function Header() {
       <Link href={"/"}>
         <p className="text-3xl font-bold font-monomakh">Inkspace</p>
       </Link>
-
       {isHomepage && <SearchBar />}
-
-      <section className="flex gap-4 items-center">
-        {isHomepage && !!user && (
+      <section
+        className={cn("flex gap-4 items-center justify-end w-40", { "invisible": !hasHydrated })}
+      >
+        {isHomepage && !!userData && (
           <Button variant={"ghost"} asChild>
             <Link href={routes.newIdea}>
               <PencilLine />
@@ -50,7 +50,7 @@ export default function Header() {
           </Button>
         )}
 
-        {!!user ? <UserAvatar user={user} /> : <SignInButton />}
+        {!!userData ? <UserAvatar user={userData} /> : <SignInButton />}
       </section>
     </header>
   );
