@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@/components/ui/spinner";
 import { API_ROUTES } from "@/constants/api-routes";
-import useAxios from "@/hooks/use-axios";
+import axios from "@/lib/axios";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -16,8 +16,6 @@ export default function NewIdea() {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const axios = useAxios()
 
   const isDisable = !title.trim() || !content.trim();
 

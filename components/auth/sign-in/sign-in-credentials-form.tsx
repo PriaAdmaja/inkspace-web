@@ -5,7 +5,6 @@ import Link from "next/link";
 import InputPassword from "../components/input-password";
 import { useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
-import useAxios from "@/hooks/use-axios";
 import { API_ROUTES } from "@/constants/api-routes";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
@@ -13,6 +12,7 @@ import { useAccessTokenStore } from "@/store/access-token";
 import { Response } from "@/types/app";
 import { LoginResponse } from "@/types/auth";
 import { useUserDataStore } from "@/store/user-data";
+import axios from "@/lib/axios";
 
 export default function SignInCredentialsForm() {
   // State
@@ -21,7 +21,6 @@ export default function SignInCredentialsForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Hooks and stores
-  const axios = useAxios();
   const setAccessToken = useAccessTokenStore((state) => state.setAccessToken);
   const setUserData = useUserDataStore((state) => state.setUserData);
 

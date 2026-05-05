@@ -1,7 +1,7 @@
 "use client";
 
 import { API_ROUTES } from "@/constants/api-routes";
-import useAxios from "@/hooks/use-axios";
+import axios from "@/lib/axios";
 import { Response } from "@/types/app";
 import { MeResponse, UserData } from "@/types/me";
 import { AxiosError } from "axios";
@@ -11,7 +11,7 @@ import { toast } from "sonner";
 export default function Page() {
   const [userData, setUserData] = useState<UserData | null>(null);
 
-  const axios = useAxios();
+
   const fetchMeData = useCallback(async () => {
     try {
       const response = await axios.get<Response<MeResponse>>(API_ROUTES.ME.GET);
@@ -23,7 +23,7 @@ export default function Page() {
           : "Failed to fetch user data.";
       toast.error(message);
     }
-  }, [axios]);
+  }, []);
 
   useEffect(() => {
     const getUserData = async () => {

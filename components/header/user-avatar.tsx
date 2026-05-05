@@ -10,15 +10,14 @@ import {
 } from "../ui/dropdown-menu";
 import { LogOutIcon } from "lucide-react";
 import { useAccessTokenStore } from "@/store/access-token";
-import useAxios from "@/hooks/use-axios";
 import { API_ROUTES } from "@/constants/api-routes";
 import { AxiosError } from "axios";
 import Link from "next/link";
 import { routes } from "@/constants/routes";
 import { usePathname, useRouter } from "next/navigation";
+import axios from "@/lib/axios";
 
 export default function UserAvatar({ user }: { user?: UserData | null }) {
-  const axios = useAxios();
   const pathname = usePathname();
   const router = useRouter();
 
