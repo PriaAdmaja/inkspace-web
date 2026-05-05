@@ -30,7 +30,10 @@ axios.interceptors.response.use(
     const status = error.response?.status;
     const url = error.config?.url;
 
-    if (unallowedUrls.includes(url) === false && status === 401) {
+    if (
+      unallowedUrls.some((u) => String(url).includes(u)) === false &&
+      status === 401
+    ) {
       try {
         const newToken = await getNewAccessToken();
 
@@ -56,7 +59,43 @@ axios.interceptors.response.use(
 
 // Add a request interceptor to include the access token in the Authorization header
 axios.interceptors.request.use(async (config) => {
-  const token = useAccessTokenStore.getState().accessToken;
+  let token = useAccessTokenStore.getState().accessToken;
+
+  if (token) {
+    let payload: { exp: number } | null = null;
+
+    try {
+      payload = JSON.parse(atob(token.split(".")[1]));
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      token = null;
+      useAccessTokenStore.getState().setAccessToken(null);
+    }
+
+    if (payload) {
+      const isTokenExpired = payload?.exp
+        ? payload.exp * 1000 < Date.now() + 60 * 1000
+        : true;
+
+      const url = config.url;
+
+      if (
+        isTokenExpired &&
+        unallowedUrls.some((u) => String(url).includes(u)) === false
+      ) {
+        const newToken = await getNewAccessToken();
+
+        if (newToken) {
+          token = newToken;
+          useAccessTokenStore.getState().setAccessToken(newToken);
+        } else {
+          token = null;
+          useAccessTokenStore.getState().setAccessToken(null);
+        }
+      }
+    }
+  }
+
   if (token) {
     config.headers = config.headers || {};
     config.headers.Authorization = `Bearer ${token}`;
