@@ -16,6 +16,7 @@ import Link from "next/link";
 import { routes } from "@/constants/routes";
 import { usePathname, useRouter } from "next/navigation";
 import axios from "@/lib/axios";
+import { toast } from "sonner";
 
 export default function UserAvatar({ user }: { user?: UserData | null }) {
   const pathname = usePathname();
@@ -29,15 +30,16 @@ export default function UserAvatar({ user }: { user?: UserData | null }) {
     .map((word) => word[0])
     .join("");
 
-  const signOut = () => {
+  const signOut = async () => {
     try {
-      axios.post(API_ROUTES.AUTH.LOGOUT, {});
+      await axios.post(API_ROUTES.AUTH.LOGOUT, {});
       if (pathname !== "/") {
         router.replace("/");
       }
     } catch (error) {
       if (error instanceof AxiosError && error.status !== 401) {
-        console.error("Error occurred while logging out:", error);
+        const message = error.message
+        toast.error(message)
       }
     } finally {
       setAccessToken(null);
