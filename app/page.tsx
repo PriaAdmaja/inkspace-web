@@ -3,33 +3,36 @@ import { Post } from "@/types/posts";
 import dayjs from "dayjs";
 import { Separator } from "@/components/ui/separator";
 import { ImageOff } from "lucide-react";
+import PageLayout from "@/components/page-layout";
 
 export default async function Home() {
   const posts = await getPostsData({});
   const { data } = posts;
 
   return (
-    <section className="flex flex-col gap-4">
-      {data?.map((post: Post, index: number) => {
-        return (
-          <section key={post.id} className="space-y-4">
-            <section className="flex gap-4 justify-between cursor-pointer">
-              <section className="flex flex-col gap-2">
-                <h1 className="text-2xl font-bold">{post.title}</h1>
-                <p className="line-clamp-4">{post.content}</p>
-                <div className="text-muted-foreground text-sm mt-auto">
-                  {dayjs(post.createdAt).format("MMM DD, YYYY")} •{" "}
-                  {post.author.username}
+    <PageLayout>
+      <section className="flex flex-col gap-4">
+        {data?.map((post: Post, index: number) => {
+          return (
+            <section key={post.id} className="space-y-4">
+              <section className="flex gap-4 justify-between cursor-pointer">
+                <section className="flex flex-col gap-2">
+                  <h1 className="text-2xl font-bold">{post.title}</h1>
+                  <p className="line-clamp-4">{post.content}</p>
+                  <div className="text-muted-foreground text-sm mt-auto">
+                    {dayjs(post.createdAt).format("MMM DD, YYYY")} •{" "}
+                    {post.author.username}
+                  </div>
+                </section>
+                <div className="w-40 h-40 shrink-0 flex justify-center items-center border">
+                  <ImageOff className="h-10 w-10 text-muted-foreground" />
                 </div>
               </section>
-              <div className="w-40 h-40 shrink-0 flex justify-center items-center border">
-                <ImageOff className="h-10 w-10 text-muted-foreground" />
-              </div>
+              {index !== data.length - 1 && <Separator />}
             </section>
-            {index !== data.length - 1 && <Separator />}
-          </section>
-        );
-      })}
-    </section>
+          );
+        })}
+      </section>
+    </PageLayout>
   );
 }

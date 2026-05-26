@@ -1,5 +1,6 @@
 "use client";
 
+import PageLayout from "@/components/page-layout";
 import { API_ROUTES } from "@/constants/api-routes";
 import axios from "@/lib/axios";
 import { Response } from "@/types/app";
@@ -10,7 +11,6 @@ import { toast } from "sonner";
 
 export default function Page() {
   const [userData, setUserData] = useState<UserData | null>(null);
-
 
   const fetchMeData = useCallback(async () => {
     try {
@@ -35,5 +35,9 @@ export default function Page() {
     getUserData();
   }, []);
 
-  return <div>{userData && <div>{userData.email}</div>}</div>;
+  return (
+    <PageLayout>
+      <div>{userData && <div>{userData.email}</div>}</div>
+    </PageLayout>
+  );
 }

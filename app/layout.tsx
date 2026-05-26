@@ -31,8 +31,8 @@ export default async function RootLayout({
       <body
         className={`${montserrat.className} ${monomakh.variable} antialiased`}
       >
-          <PageLayout>{children}</PageLayout>
-        <Toaster position="top-center"/>
+        {children}
+        <Toaster position="top-center" />
       </body>
     </html>
   );
