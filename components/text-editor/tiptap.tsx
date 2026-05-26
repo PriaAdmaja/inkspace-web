@@ -3,11 +3,11 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Placeholder, CharacterCount } from "@tiptap/extensions";
+import TextAlign from "@tiptap/extension-text-align";
+import { BackgroundColor, TextStyle } from "@tiptap/extension-text-style";
 import { DisableEnter } from "./extentions/disable-enter";
 import "./styles.css";
-import { Button } from "../ui/button";
-import { BoldIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+import Toolbar from "./toolbar";
 
 export interface TiptapProps {
   defaultContent?: string;
@@ -33,6 +33,11 @@ const Tiptap = ({
         placeholder: placeholder || "Start writing...",
       }),
       ...(isDisableEnter ? [DisableEnter] : []),
+      TextAlign.configure({
+        types: ["paragraph", "heading"],
+      }),
+      TextStyle,
+      BackgroundColor,
       CharacterCount.configure({
         limit: 2000,
       }),
@@ -50,11 +55,7 @@ const Tiptap = ({
     <section className="space-y-4 w-full">
       {!disableToolbar && (
         <section className="sticky top-17 pb-1 z-10 bg-white">
-          <section className="flex flex-col gap-0.5 px-2 py-1 bg-zinc-200  rounded">
-            <Button size={"icon"} variant={"ghost"}>
-              <BoldIcon />
-            </Button>
-          </section>
+          <Toolbar editor={editor} />
         </section>
       )}
       <EditorContent editor={editor} className={className} />
