@@ -11,7 +11,7 @@ import Separator from "./components/shared/separator";
 
 export default function Toolbar({ editor }: { editor: Editor | null }) {
   return (
-    <section className="flex gap-0.5 px-2 py-1 bg-zinc-200  rounded">
+    <section className="flex gap-0.5 px-2 py-1 bg-neutral-200/80  rounded">
       {/* Basic Formatting Controls */}
       <Bold editor={editor} />
       <Italic editor={editor} />
