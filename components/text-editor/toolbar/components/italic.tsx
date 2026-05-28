@@ -16,7 +16,7 @@ export default function Italic({ editor }: { editor: Editor | null }) {
   };
 
   return (
-    <ToolbarButton onClick={italicToggle} active={editorState?.isItalic}>
+    <ToolbarButton onClick={italicToggle} active={editorState?.isItalic} toolbarName="Italic">
       <ItalicIcon />
     </ToolbarButton>
   );

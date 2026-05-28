@@ -3,6 +3,7 @@ import { Monomakh, Montserrat } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import PageLayout from "@/components/page-layout";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -31,7 +32,7 @@ export default async function RootLayout({
       <body
         className={`${montserrat.className} ${monomakh.variable} antialiased`}
       >
-        {children}
+        <TooltipProvider>{children}</TooltipProvider>
         <Toaster position="top-center" />
       </body>
     </html>

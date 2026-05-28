@@ -4,11 +4,10 @@ import { useEditorState } from "@tiptap/react";
 import ToolbarButton from "./shared/toolbar-button";
 
 export default function AlignCenter({ editor }: { editor: Editor | null }) {
-
   const editorState = useEditorState({
     editor,
     selector: ({ editor: editorInstance }) => ({
-      isAlignCenter: editorInstance?.isActive({ textAlign: 'center' }),
+      isAlignCenter: editorInstance?.isActive({ textAlign: "center" }),
     }),
   });
 
@@ -18,7 +17,11 @@ export default function AlignCenter({ editor }: { editor: Editor | null }) {
   };
 
   return (
-    <ToolbarButton onClick={alignCenterToggle} active={editorState?.isAlignCenter}>
+    <ToolbarButton
+      onClick={alignCenterToggle}
+      active={editorState?.isAlignCenter}
+      toolbarName="Align Center"
+    >
       <AlignCenterIcon />
     </ToolbarButton>
   );

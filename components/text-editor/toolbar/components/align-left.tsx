@@ -4,11 +4,10 @@ import { useEditorState } from "@tiptap/react";
 import ToolbarButton from "./shared/toolbar-button";
 
 export default function AlignLeft({ editor }: { editor: Editor | null }) {
-
   const editorState = useEditorState({
     editor,
     selector: ({ editor: editorInstance }) => ({
-      isAlignLeft: editorInstance?.isActive({ textAlign: 'left' }),
+      isAlignLeft: editorInstance?.isActive({ textAlign: "left" }),
     }),
   });
 
@@ -18,7 +17,11 @@ export default function AlignLeft({ editor }: { editor: Editor | null }) {
   };
 
   return (
-    <ToolbarButton onClick={alignLeftToggle} active={editorState?.isAlignLeft}>
+    <ToolbarButton
+      onClick={alignLeftToggle}
+      active={editorState?.isAlignLeft}
+      toolbarName="Align Left"
+    >
       <AlignLeftIcon />
     </ToolbarButton>
   );

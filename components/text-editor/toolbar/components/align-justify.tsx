@@ -20,6 +20,7 @@ export default function AlignJustify({ editor }: { editor: Editor | null }) {
     <ToolbarButton
       onClick={alignJustifyToggle}
       active={editorState?.isAlignJustify}
+      toolbarName="Align Justify"
     >
       <AlignJustifyIcon />
     </ToolbarButton>

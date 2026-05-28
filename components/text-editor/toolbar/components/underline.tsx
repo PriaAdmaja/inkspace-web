@@ -1,10 +1,9 @@
 import { Editor } from "@tiptap/core";
 import ToolbarButton from "./shared/toolbar-button";
-import {  UnderlineIcon } from "lucide-react";
+import { UnderlineIcon } from "lucide-react";
 import { useEditorState } from "@tiptap/react";
 
 export default function Underline({ editor }: { editor: Editor | null }) {
-
   const editorState = useEditorState({
     editor,
     selector: ({ editor: editorInstance }) => ({
@@ -18,7 +17,11 @@ export default function Underline({ editor }: { editor: Editor | null }) {
   };
 
   return (
-    <ToolbarButton onClick={underlineToggle} active={editorState?.isUnderline}>
+    <ToolbarButton
+      onClick={underlineToggle}
+      active={editorState?.isUnderline}
+      toolbarName="Underline"
+    >
       <UnderlineIcon />
     </ToolbarButton>
   );

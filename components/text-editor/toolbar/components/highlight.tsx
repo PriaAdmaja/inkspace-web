@@ -39,7 +39,10 @@ export default function Highlight({ editor }: { editor: Editor | null }) {
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <ToolbarButton active={isOpen || !!editorState?.highlightColor}>
+        <ToolbarButton
+          active={isOpen || !!editorState?.highlightColor}
+          toolbarName="Highlight"
+        >
           <HighlighterIcon />
         </ToolbarButton>
       </PopoverTrigger>

@@ -4,7 +4,6 @@ import { BoldIcon } from "lucide-react";
 import { useEditorState } from "@tiptap/react";
 
 export default function Bold({ editor }: { editor: Editor | null }) {
-
   const editorState = useEditorState({
     editor,
     selector: ({ editor: editorInstance }) => ({
@@ -18,7 +17,11 @@ export default function Bold({ editor }: { editor: Editor | null }) {
   };
 
   return (
-    <ToolbarButton onClick={boldToggle} active={editorState?.isBold}>
+    <ToolbarButton
+      onClick={boldToggle}
+      active={editorState?.isBold}
+      toolbarName="Bold"
+    >
       <BoldIcon />
     </ToolbarButton>
   );

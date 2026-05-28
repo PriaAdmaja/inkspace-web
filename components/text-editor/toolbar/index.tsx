@@ -8,6 +8,7 @@ import AlignRight from "./components/align-right";
 import AlignJustify from "./components/align-justify";
 import Highlight from "./components/highlight";
 import Separator from "./components/shared/separator";
+import Strike from "./components/strike";
 
 export default function Toolbar({ editor }: { editor: Editor | null }) {
   return (
@@ -16,6 +17,7 @@ export default function Toolbar({ editor }: { editor: Editor | null }) {
       <Bold editor={editor} />
       <Italic editor={editor} />
       <Underline editor={editor} />
+      <Strike editor={editor} />
       <Highlight editor={editor} />
 
       <Separator className="bg-zinc-300 mx-1"/>

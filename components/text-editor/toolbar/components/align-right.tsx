@@ -20,6 +20,7 @@ export default function AlignRight({ editor }: { editor: Editor | null }) {
     <ToolbarButton
       onClick={alignRightToggle}
       active={editorState?.isAlignRight}
+      toolbarName="Align Right"
     >
       <AlignRightIcon />
     </ToolbarButton>
