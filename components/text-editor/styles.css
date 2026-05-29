@@ -8,6 +8,7 @@
     margin-top: 0;
   }
 
+  /** Style for code blocks */
   pre {
     background: var(--editor-dark);
     /* background: var(--color-editor-background-dark); */
@@ -78,6 +79,7 @@
     }
   }
 
+  /** Style for blockquotes */
   blockquote {
     border-left: 3px solid #e7e4e2;
     margin: 1.5rem 0;
@@ -120,8 +122,15 @@
 
 .ProseMirror p {
   text-align: inherit;
+  margin: 0;
 }
 
+/** Add spacing between paragraphs in the editor */
+.ProseMirror p + p {
+  margin-top: 1rem;
+}
+
+/** Placeholder styling for empty editor */
 .ProseMirror .is-editor-empty::before {
   content: attr(data-placeholder);
   float: left;

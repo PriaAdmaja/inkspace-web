@@ -11,7 +11,8 @@ import Separator from "./components/shared/separator";
 import Strike from "./components/strike";
 import Codeblock from "./components/codeblock";
 import Blockquote from "./components/blockquote";
-import BulletList from "./components/list-item";
+import OrderedList from "./components/ordered-list";
+import BulletList from "./components/bullet-list";
 
 export default function Toolbar({ editor }: { editor: Editor | null }) {
   return (
@@ -33,9 +34,13 @@ export default function Toolbar({ editor }: { editor: Editor | null }) {
 
       <Separator className="bg-zinc-300 mx-1" />
 
+      <BulletList editor={editor}/>
+      <OrderedList editor={editor}/>
+      
+      <Separator className="bg-zinc-300 mx-1" />
+
       <Codeblock editor={editor} />
       <Blockquote editor={editor} />
-      <BulletList editor={editor} />
     </section>
   );
 }

@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export default function ListItem({ editor }: { editor: Editor | null }) {
+export default function ListIteDropdown({ editor }: { editor: Editor | null }) {
   const editorState = useEditorState({
     editor,
     selector: ({ editor: editorInstance }) => ({
@@ -58,7 +58,13 @@ export default function ListItem({ editor }: { editor: Editor | null }) {
       <DropdownMenuContent>
         <DropdownMenuGroup>
           <DropdownMenuRadioGroup
-            value={editorState?.isBulletList ? "bulletList" : editorState?.isOrderedList ? "orderedList" : undefined}
+            value={
+              editorState?.isBulletList
+                ? "bulletList"
+                : editorState?.isOrderedList
+                  ? "orderedList"
+                  : undefined
+            }
             onValueChange={(value) => {
               handleListToggle(value as "bulletList" | "orderedList");
             }}

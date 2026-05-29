@@ -1,6 +1,6 @@
 import { Editor } from "@tiptap/core";
 import ToolbarButton from "./shared/toolbar-button";
-import { BoldIcon, StrikethroughIcon } from "lucide-react";
+import { StrikethroughIcon } from "lucide-react";
 import { useEditorState } from "@tiptap/react";
 
 export default function Strike({ editor }: { editor: Editor | null }) {
