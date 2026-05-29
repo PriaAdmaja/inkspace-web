@@ -4,8 +4,13 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Placeholder, CharacterCount } from "@tiptap/extensions";
 import TextAlign from "@tiptap/extension-text-align";
+import Text from '@tiptap/extension-text'
 import { BackgroundColor, TextStyle } from "@tiptap/extension-text-style";
 import { DisableEnter } from "./extentions/disable-enter";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import Blockquote from '@tiptap/extension-blockquote'
+import { BulletList, ListItem, OrderedList } from '@tiptap/extension-list'
+import { all, createLowlight } from "lowlight";
 import "./styles.css";
 import Toolbar from "./toolbar";
 
@@ -17,6 +22,9 @@ export interface TiptapProps {
   isDisableEnter?: boolean;
   disableToolbar?: boolean;
 }
+
+// create a lowlight instance with all languages loaded
+const lowlight = createLowlight(all);
 
 const Tiptap = ({
   defaultContent,
@@ -36,8 +44,16 @@ const Tiptap = ({
       TextAlign.configure({
         types: ["paragraph", "heading"],
       }),
+      Text,
       TextStyle,
       BackgroundColor,
+      CodeBlockLowlight.configure({
+        lowlight,
+      }),
+      Blockquote,
+      ListItem,
+      BulletList,
+      OrderedList,
       CharacterCount.configure({
         limit: 2000,
       }),

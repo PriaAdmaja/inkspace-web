@@ -32,7 +32,7 @@ export default async function RootLayout({
       <body
         className={`${montserrat.className} ${monomakh.variable} antialiased`}
       >
-        <TooltipProvider>{children}</TooltipProvider>
+        <TooltipProvider delayDuration={300} skipDelayDuration={0}>{children}</TooltipProvider>
         <Toaster position="top-center" />
       </body>
     </html>

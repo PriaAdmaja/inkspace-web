@@ -18,7 +18,7 @@ export default function ToolbarButton({
   ...props
 }: ToolbarButtonProps) {
   return (
-    <Tooltip delayDuration={300}>
+    <Tooltip disableHoverableContent>
       <TooltipTrigger asChild>
           <Button
             size={"icon-sm"}
@@ -30,7 +30,7 @@ export default function ToolbarButton({
 
       </TooltipTrigger>
       {toolbarName && (
-        <TooltipContent side="bottom">
+        <TooltipContent side="bottom" >
           <p>{toolbarName}</p>
         </TooltipContent>
       )}
