@@ -1,6 +1,6 @@
 import { Editor } from "@tiptap/core";
 import ToolbarButton from "./shared/toolbar-button";
-import { ListOrdered, StrikethroughIcon } from "lucide-react";
+import { ListOrdered } from "lucide-react";
 import { useEditorState } from "@tiptap/react";
 
 export default function OrderedList({ editor }: { editor: Editor | null }) {

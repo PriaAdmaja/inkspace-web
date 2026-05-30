@@ -110,6 +110,12 @@
       margin-bottom: 0.25em;
     }
   }
+
+  /** Style for links */
+  a {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 }
 
 .tiptap p.is-editor-empty:first-child::before {
