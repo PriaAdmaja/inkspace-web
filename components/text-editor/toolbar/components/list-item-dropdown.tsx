@@ -1,4 +1,4 @@
-import { List, ListOrdered } from "lucide-react";
+import { Check, ChevronDown, List, ListOrdered } from "lucide-react";
 import ToolbarButton from "./shared/toolbar-button";
 import { Editor } from "@tiptap/core";
 import { useEditorState } from "@tiptap/react";
@@ -10,8 +10,11 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useState } from "react";
 
-export default function ListIteDropdown({ editor }: { editor: Editor | null }) {
+export default function ListItemDropdown({ editor }: { editor: Editor | null }) {
+const [open, setOpen] = useState<boolean>(false);
+
   const editorState = useEditorState({
     editor,
     selector: ({ editor: editorInstance }) => ({
@@ -41,16 +44,18 @@ export default function ListIteDropdown({ editor }: { editor: Editor | null }) {
   };
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <div>
           <ToolbarButton
             toolbarName="Bullet List"
+            className="gap-0"
             active={
-              editorState?.isBulletList || editorState?.isOrderedList || false
+              editorState?.isBulletList || editorState?.isOrderedList || open
             }
           >
             {editorState?.isOrderedList ? <ListOrdered /> : <List />}
+            <ChevronDown strokeWidth={1.5} />
           </ToolbarButton>
         </div>
       </DropdownMenuTrigger>

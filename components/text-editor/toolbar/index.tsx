@@ -15,36 +15,65 @@ import OrderedList from "./components/ordered-list";
 import BulletList from "./components/bullet-list";
 import Link from "./components/link";
 import Unsplash from "./components/unsplash";
+import { ReactNode } from "react";
+import { cn } from "@/lib/utils";
+import ListItemDropdown from "./components/list-item-dropdown";
+import AlignDropdown from "./components/align-dropdown";
 
 export default function Toolbar({ editor }: { editor: Editor | null }) {
   return (
     <section className="flex gap-0.5 px-2 py-1 bg-neutral-200/80  rounded">
       {/* Basic Formatting Controls */}
-      <Bold editor={editor} />
-      <Italic editor={editor} />
-      <Strike editor={editor} />
-      <Underline editor={editor} />
-      <Highlight editor={editor} />
+      <GroupWrapper>
+        <Bold editor={editor} />
+        <Italic editor={editor} />
+        <Strike editor={editor} />
+        <Underline editor={editor} />
+        <Highlight editor={editor} />
+      </GroupWrapper>
 
       <Separator className="bg-zinc-300 mx-1" />
 
       {/* Alignment Controls */}
-      <AlignLeft editor={editor} />
-      <AlignCenter editor={editor} />
-      <AlignRight editor={editor} />
-      <AlignJustify editor={editor} />
+      <GroupWrapper className="hidden md:flex">
+        <AlignLeft editor={editor} />
+        <AlignCenter editor={editor} />
+        <AlignRight editor={editor} />
+        <AlignJustify editor={editor} />
+      </GroupWrapper>
+      <GroupWrapper className="flex md:hidden">
+        <AlignDropdown editor={editor} />
+      </GroupWrapper>
+
+      {/** List Controls */}
+      <Separator className="bg-zinc-300 mx-1" />
+      <GroupWrapper className="hidden md:flex">
+        <BulletList editor={editor} />
+        <OrderedList editor={editor} />
+      </GroupWrapper>
+      <GroupWrapper className="flex md:hidden">
+        <ListItemDropdown editor={editor} />
+      </GroupWrapper>
 
       <Separator className="bg-zinc-300 mx-1" />
 
-      <BulletList editor={editor}/>
-      <OrderedList editor={editor}/>
-      
-      <Separator className="bg-zinc-300 mx-1" />
-
-      <Codeblock editor={editor} />
-      <Blockquote editor={editor} />
-      <Link editor={editor}/>
-      <Unsplash editor={editor} />
+      {/* Other Controls */}
+      <GroupWrapper className="hidden md:flex">
+        <Link editor={editor} />
+        <Codeblock editor={editor} />
+        <Blockquote editor={editor} />
+        <Unsplash editor={editor} />
+      </GroupWrapper>
     </section>
   );
 }
+
+const GroupWrapper = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) => {
+  return <div className={cn("flex gap-0.5", className)}>{children}</div>;
+};

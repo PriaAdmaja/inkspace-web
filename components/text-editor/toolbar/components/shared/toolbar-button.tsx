@@ -21,7 +21,7 @@ export default function ToolbarButton({
     <Tooltip disableHoverableContent>
       <TooltipTrigger asChild>
           <Button
-            size={"icon-sm"}
+            size={"sm"}
             variant={active ? "secondary" : "ghost"}
             {...props}
           >
