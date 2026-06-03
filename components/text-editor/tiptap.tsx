@@ -14,6 +14,7 @@ import Link from "@tiptap/extension-link";
 import { all, createLowlight } from "lowlight";
 import "./styles.css";
 import Toolbar from "./toolbar";
+import { UnsplashImage } from "./extentions/unsplash-image";
 
 export interface TiptapProps {
   defaultContent?: string;
@@ -96,6 +97,7 @@ const Tiptap = ({
           }
         },
       }).extend({ inclusive: false }),
+      UnsplashImage,
       CharacterCount.configure({
         limit: 2000,
       }),

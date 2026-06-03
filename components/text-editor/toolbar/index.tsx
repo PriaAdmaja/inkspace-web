@@ -14,6 +14,7 @@ import Blockquote from "./components/blockquote";
 import OrderedList from "./components/ordered-list";
 import BulletList from "./components/bullet-list";
 import Link from "./components/link";
+import Unsplash from "./components/unsplash";
 
 export default function Toolbar({ editor }: { editor: Editor | null }) {
   return (
@@ -43,6 +44,7 @@ export default function Toolbar({ editor }: { editor: Editor | null }) {
       <Codeblock editor={editor} />
       <Blockquote editor={editor} />
       <Link editor={editor}/>
+      <Unsplash editor={editor} />
     </section>
   );
 }

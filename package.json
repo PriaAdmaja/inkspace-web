@@ -18,6 +18,7 @@
     "@tiptap/extension-blockquote": "^3.23.6",
     "@tiptap/extension-code-block-lowlight": "^3.23.6",
     "@tiptap/extension-highlight": "^3.23.6",
+    "@tiptap/extension-image": "^3.23.6",
     "@tiptap/extension-link": "^3.23.6",
     "@tiptap/extension-list": "^3.23.6",
     "@tiptap/extension-text": "^3.23.6",
@@ -40,6 +41,7 @@
     "react-dom": "19.2.3",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.4.0",
+    "unsplash-js": "^7.0.20",
     "zustand": "^5.0.12"
   },
   "devDependencies": {
