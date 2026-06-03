@@ -4,7 +4,9 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const search = searchParams.get("search");
   const page = searchParams.get("page") || "1";
+  const perPage = searchParams.get("perPage") || "10";
   const numberPage = parseInt(page);
+  const numberPerPage = parseInt(perPage);
 
   if (!search) {
     return new Response(
@@ -29,7 +31,7 @@ export async function GET(request: Request) {
 
   const response = await unsplash.search.getPhotos({
     query: search,
-    perPage: 10,
+    perPage: isNaN(numberPerPage) ? 10 : numberPerPage,
     page: isNaN(numberPage) ? 1 : numberPage,
   });
 

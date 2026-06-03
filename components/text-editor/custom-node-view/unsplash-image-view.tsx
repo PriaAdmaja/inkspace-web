@@ -9,7 +9,7 @@ export function UnsplashImageView({
   node: any;
   selected: boolean;
 }) {
-  console.log(node);
+
   return (
     <NodeViewWrapper>
       <section
