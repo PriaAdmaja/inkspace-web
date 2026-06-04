@@ -25,18 +25,16 @@ import HeadingDropdown from "./components/heading";
 export default function Toolbar({ editor }: { editor: Editor | null }) {
   const { md } = useMediaQueries();
   return (
-    <section className="flex gap-0.5 px-2 py-1 bg-neutral-200/80  rounded overflow-x-auto">
+    <section className="flex flex-wrap gap-0.5 px-2 py-1 bg-neutral-200/80  rounded overflow-x-auto">
       {/* Basic Formatting Controls */}
-      <GroupWrapper>
-        <Bold editor={editor} />
-        <Italic editor={editor} />
-        <Strike editor={editor} />
-        <Underline editor={editor} />
-        <Highlight editor={editor} />
-        <HeadingDropdown editor={editor} />
-      </GroupWrapper>
+      <Bold editor={editor} />
+      <Italic editor={editor} />
+      <Strike editor={editor} />
+      <Underline editor={editor} />
+      <Highlight editor={editor} />
+      <HeadingDropdown editor={editor} />
 
-      {md && <Separator className="bg-zinc-300 mx-1" />}
+      <Separator className="bg-zinc-300 mx-1 hidden md:block" />
 
       {/* Alignment Controls */}
       <GroupWrapper className="hidden md:flex">
@@ -49,7 +47,7 @@ export default function Toolbar({ editor }: { editor: Editor | null }) {
         <AlignDropdown editor={editor} />
       </GroupWrapper>
 
-      {md && <Separator className="bg-zinc-300 mx-1" />}
+      <Separator className="bg-zinc-300 mx-1 hidden md:block" />
 
       {/** List Controls */}
       <GroupWrapper className="hidden md:flex">
@@ -60,15 +58,13 @@ export default function Toolbar({ editor }: { editor: Editor | null }) {
         <ListItemDropdown editor={editor} />
       </GroupWrapper>
 
-      {md && <Separator className="bg-zinc-300 mx-1" />}
+      <Separator className="bg-zinc-300 mx-1 hidden md:block" />
 
       {/* Other Controls */}
-      <GroupWrapper className="hidden md:flex">
-        <Link editor={editor} />
-        <Codeblock editor={editor} />
-        <Blockquote editor={editor} />
-        <Unsplash editor={editor} />
-      </GroupWrapper>
+      <Link editor={editor} />
+      <Codeblock editor={editor} />
+      <Blockquote editor={editor} />
+      <Unsplash editor={editor} />
     </section>
   );
 }
