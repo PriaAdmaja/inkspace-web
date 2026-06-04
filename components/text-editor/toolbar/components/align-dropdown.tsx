@@ -30,7 +30,7 @@ export default function AlignDropdown({ editor }: { editor: Editor | null }) {
       isJustified: editorInstance?.isActive({ textAlign: "justify" }),
     }),
   });
-  console.log(editorState);
+
   const leftAlign = () => {
     if (!editor) return;
     editor.chain().focus().setTextAlign("left").run();
@@ -51,6 +51,10 @@ export default function AlignDropdown({ editor }: { editor: Editor | null }) {
     editor.chain().focus().setTextAlign("justify").run();
   };
 
+  const isAlignLeftIconActive =
+    editorState?.isLeftAligned ||
+    Object.values(editorState || {}).every((value) => value !== true);
+
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
@@ -66,10 +70,7 @@ export default function AlignDropdown({ editor }: { editor: Editor | null }) {
               open
             }
           >
-            {(editorState?.isLeftAligned ||
-              Object.entries(editorState || {}).every(
-                ([, value]) => value === false,
-              ) === true) && <AlignLeft />}
+            {isAlignLeftIconActive && <AlignLeft />}
             {editorState?.isCenterAligned && <AlignCenter />}
             {editorState?.isRightAligned && <AlignRight />}
             {editorState?.isJustified && <AlignJustify />}

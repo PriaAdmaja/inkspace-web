@@ -8,7 +8,7 @@ export default function PageLayout({ children }: { children: ReactNode }) {
       <Suspense>
         <Header />
       </Suspense>
-      <section className={cn("max-w-7xl mx-auto p-10 flex-1")}>
+      <section className={cn("max-w-7xl mx-auto p-4 sm:p-10 flex-1")}>
         {children}
       </section>
     </section>

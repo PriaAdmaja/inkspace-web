@@ -31,12 +31,12 @@ export default function Header() {
   return (
     <header
       className={cn(
-        "flex justify-between gap-2 items-center px-10 py-4 sticky top-0 z-50 bg-background transition-all duration-300 ease-in-out",
+        "flex justify-between gap-2 items-center px-4 sm:px-10 py-4 sticky top-0 z-50 bg-background transition-all duration-300 ease-in-out",
         { "border-b border-border": isScrolled },
       )}
     >
       <Link href={"/"}>
-        <p className="text-3xl font-bold font-monomakh">Inkspace</p>
+        <p className=" text-xl sm:text-3xl font-bold font-monomakh">Inkspace</p>
       </Link>
       {isHomepage && <SearchBar />}
       <section

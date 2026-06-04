@@ -19,10 +19,13 @@ import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import ListItemDropdown from "./components/list-item-dropdown";
 import AlignDropdown from "./components/align-dropdown";
+import { useMediaQueries } from "@/hooks/use-media-queries";
+import HeadingDropdown from "./components/heading";
 
 export default function Toolbar({ editor }: { editor: Editor | null }) {
+  const { md } = useMediaQueries();
   return (
-    <section className="flex gap-0.5 px-2 py-1 bg-neutral-200/80  rounded">
+    <section className="flex gap-0.5 px-2 py-1 bg-neutral-200/80  rounded overflow-x-auto">
       {/* Basic Formatting Controls */}
       <GroupWrapper>
         <Bold editor={editor} />
@@ -30,9 +33,10 @@ export default function Toolbar({ editor }: { editor: Editor | null }) {
         <Strike editor={editor} />
         <Underline editor={editor} />
         <Highlight editor={editor} />
+        <HeadingDropdown editor={editor} />
       </GroupWrapper>
 
-      <Separator className="bg-zinc-300 mx-1" />
+      {md && <Separator className="bg-zinc-300 mx-1" />}
 
       {/* Alignment Controls */}
       <GroupWrapper className="hidden md:flex">
@@ -45,8 +49,9 @@ export default function Toolbar({ editor }: { editor: Editor | null }) {
         <AlignDropdown editor={editor} />
       </GroupWrapper>
 
+      {md && <Separator className="bg-zinc-300 mx-1" />}
+
       {/** List Controls */}
-      <Separator className="bg-zinc-300 mx-1" />
       <GroupWrapper className="hidden md:flex">
         <BulletList editor={editor} />
         <OrderedList editor={editor} />
@@ -55,7 +60,7 @@ export default function Toolbar({ editor }: { editor: Editor | null }) {
         <ListItemDropdown editor={editor} />
       </GroupWrapper>
 
-      <Separator className="bg-zinc-300 mx-1" />
+      {md && <Separator className="bg-zinc-300 mx-1" />}
 
       {/* Other Controls */}
       <GroupWrapper className="hidden md:flex">

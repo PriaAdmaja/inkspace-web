@@ -17,6 +17,7 @@
     "@tiptap/core": "^3.23.6",
     "@tiptap/extension-blockquote": "^3.23.6",
     "@tiptap/extension-code-block-lowlight": "^3.23.6",
+    "@tiptap/extension-heading": "^3.23.6",
     "@tiptap/extension-highlight": "^3.23.6",
     "@tiptap/extension-image": "^3.23.6",
     "@tiptap/extension-link": "^3.23.6",

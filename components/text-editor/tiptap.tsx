@@ -11,6 +11,7 @@ import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import Blockquote from "@tiptap/extension-blockquote";
 import { BulletList, ListItem, OrderedList } from "@tiptap/extension-list";
 import Link from "@tiptap/extension-link";
+import Heading from "@tiptap/extension-heading";
 import { all, createLowlight } from "lowlight";
 import "./styles.css";
 import Toolbar from "./toolbar";
@@ -98,6 +99,9 @@ const Tiptap = ({
         },
       }).extend({ inclusive: false }),
       UnsplashImage,
+      Heading.configure({
+        levels: [1, 2, 3, 4],
+      }),
       CharacterCount.configure({
         limit: 2000,
       }),

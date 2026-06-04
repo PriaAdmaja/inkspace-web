@@ -223,7 +223,7 @@ const ImagesNavigation = ({
           prev
         </button>
       )}
-      <p>{images.total} images</p>
+      <p>{images.total.toLocaleString()} images</p>
       <button
         onClick={() => {
           const nextPage = page + 1;
