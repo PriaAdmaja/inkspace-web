@@ -17,7 +17,9 @@ export default async function Home() {
           const image = post.content.content?.find(
             (c) => c.type === "unsplashImage",
           );
-          const imageUrl = image ? image.attrs?.src : undefined;
+          const imageThumbnailUrl = image
+            ? image.attrs?.thumbnailUrl || image.attrs?.url
+            : undefined;
           return (
             <section key={post.id} className="space-y-4">
               <section className="flex gap-4 justify-between cursor-pointer">
@@ -30,9 +32,9 @@ export default async function Home() {
                   </div>
                 </section>
                 <div className="w-40 h-40 shrink-0 flex justify-center items-center border relative">
-                  {imageUrl ? (
+                  {imageThumbnailUrl ? (
                     <Image
-                      src={imageUrl}
+                      src={imageThumbnailUrl}
                       alt={"image"}
                       fill
                       className="object-cover"

@@ -5,6 +5,7 @@ import { ReactNodeViewRenderer } from "@tiptap/react";
 
 export interface UnsplashImageAttrs {
   src: string;
+  thumbnailUrl: string
   alt?: string;
   photographerName?: string;
   photographerUrl?: string;
@@ -20,10 +21,14 @@ declare module "@tiptap/core" {
 }
 
 export const UnsplashImage = Image.extend({
-    name: "unsplashImage",
+  name: "unsplashImage",
   addAttributes() {
     return {
       ...this.parent?.(),
+
+      thumbnailUrl: {
+        default: null,
+      },
 
       photographerName: {
         default: null,
@@ -47,7 +52,7 @@ export const UnsplashImage = Image.extend({
         (attrs: UnsplashImageAttrs) =>
         ({ commands }: CommandProps) => {
           return commands.insertContent({
-            type: 'unsplashImage',
+            type: "unsplashImage",
             attrs,
           });
         },
@@ -56,6 +61,5 @@ export const UnsplashImage = Image.extend({
 
   addNodeView() {
     return ReactNodeViewRenderer(UnsplashImageView);
-  }
-
+  },
 });

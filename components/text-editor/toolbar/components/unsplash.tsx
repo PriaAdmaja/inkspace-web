@@ -148,6 +148,7 @@ export default function Unsplash({ editor }: { editor: Editor | null }) {
 
                           const data = {
                             src: image.urls.regular,
+                            thumbnailUrl: image.urls.thumb,
                             alt: image.alt_description || "Unsplash Image",
                             photographerName: image.user.name,
                             photographerUrl: image.user.links.html,
