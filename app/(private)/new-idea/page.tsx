@@ -8,8 +8,7 @@ import PostEditor from "@/features/posts/post-editor";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
-import { generateText, JSONContent } from "@tiptap/core";
-import StarterKit from "@tiptap/starter-kit";
+import { JSONContent } from "@tiptap/core";
 
 export default function NewIdea() {
   const [title, setTitle] = useState<string>("");
