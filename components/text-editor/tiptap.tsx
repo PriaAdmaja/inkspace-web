@@ -1,6 +1,6 @@
 "use client";
 
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor, EditorContent, Content } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Placeholder, CharacterCount } from "@tiptap/extensions";
 import TextAlign from "@tiptap/extension-text-align";
@@ -18,8 +18,8 @@ import Toolbar from "./toolbar";
 import { UnsplashImage } from "./extentions/unsplash-image";
 
 export interface TiptapProps {
-  defaultContent?: string;
-  onChange?: (content: string) => void;
+  defaultContent?: Content;
+  onChange?: (content: object) => void;
   placeholder?: string;
   className?: string;
   isDisableEnter?: boolean;
@@ -28,6 +28,82 @@ export interface TiptapProps {
 
 // create a lowlight instance with all languages loaded
 const lowlight = createLowlight(all);
+
+type TiptapExtentionsProps = {
+  placeholder?: string;
+  isDisableEnter?: boolean;
+};
+export const tiptapExtentions = ({
+  placeholder,
+  isDisableEnter,
+}: TiptapExtentionsProps = {}) => [
+  StarterKit,
+  Placeholder.configure({
+    placeholder: placeholder || "Start writing...",
+  }),
+  ...(isDisableEnter ? [DisableEnter] : []),
+  TextAlign.configure({
+    types: ["paragraph", "heading"],
+  }),
+  Text,
+  TextStyle,
+  BackgroundColor,
+  CodeBlockLowlight.configure({
+    lowlight,
+  }),
+  Blockquote,
+  ListItem,
+  BulletList,
+  OrderedList,
+  Link.configure({
+    openOnClick: false,
+    autolink: false,
+    defaultProtocol: "https",
+    protocols: ["http", "https"],
+    isAllowedUri: (url, ctx) => {
+      try {
+        // construct URL
+        const parsedUrl = url.includes(":")
+          ? new URL(url)
+          : new URL(`${ctx.defaultProtocol}://${url}`);
+
+        // use default validation
+        if (!ctx.defaultValidate(parsedUrl.href)) {
+          return false;
+        }
+
+        // disallowed protocols
+        const disallowedProtocols = ["ftp", "file"];
+        const protocol = parsedUrl.protocol.replace(":", "");
+
+        if (disallowedProtocols.includes(protocol)) {
+          return false;
+        }
+
+        // only allow protocols specified in ctx.protocols
+        const allowedProtocols = ctx.protocols.map((p) =>
+          typeof p === "string" ? p : p.scheme,
+        );
+
+        if (!allowedProtocols.includes(protocol)) {
+          return false;
+        }
+
+        // all checks have passed
+        return true;
+      } catch {
+        return false;
+      }
+    },
+  }).extend({ inclusive: false }),
+  UnsplashImage,
+  Heading.configure({
+    levels: [1, 2, 3, 4],
+  }),
+  CharacterCount.configure({
+    limit: 2000,
+  }),
+];
 
 const Tiptap = ({
   defaultContent,
@@ -38,80 +114,13 @@ const Tiptap = ({
   disableToolbar = false,
 }: TiptapProps) => {
   const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Placeholder.configure({
-        placeholder: placeholder || "Start writing...",
-      }),
-      ...(isDisableEnter ? [DisableEnter] : []),
-      TextAlign.configure({
-        types: ["paragraph", "heading"],
-      }),
-      Text,
-      TextStyle,
-      BackgroundColor,
-      CodeBlockLowlight.configure({
-        lowlight,
-      }),
-      Blockquote,
-      ListItem,
-      BulletList,
-      OrderedList,
-      Link.configure({
-        openOnClick: false,
-        autolink: false,
-        defaultProtocol: "https",
-        protocols: ["http", "https"],
-        isAllowedUri: (url, ctx) => {
-          try {
-            // construct URL
-            const parsedUrl = url.includes(":")
-              ? new URL(url)
-              : new URL(`${ctx.defaultProtocol}://${url}`);
-
-            // use default validation
-            if (!ctx.defaultValidate(parsedUrl.href)) {
-              return false;
-            }
-
-            // disallowed protocols
-            const disallowedProtocols = ["ftp", "file"];
-            const protocol = parsedUrl.protocol.replace(":", "");
-
-            if (disallowedProtocols.includes(protocol)) {
-              return false;
-            }
-
-            // only allow protocols specified in ctx.protocols
-            const allowedProtocols = ctx.protocols.map((p) =>
-              typeof p === "string" ? p : p.scheme,
-            );
-
-            if (!allowedProtocols.includes(protocol)) {
-              return false;
-            }
-
-            // all checks have passed
-            return true;
-          } catch {
-            return false;
-          }
-        },
-      }).extend({ inclusive: false }),
-      UnsplashImage,
-      Heading.configure({
-        levels: [1, 2, 3, 4],
-      }),
-      CharacterCount.configure({
-        limit: 2000,
-      }),
-    ],
+    extensions: tiptapExtentions({ placeholder, isDisableEnter }),
     content: defaultContent,
     // Don't render immediately on the server to avoid SSR issues
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
       const json = editor.getJSON();
-      onChange?.(JSON.stringify(json));
+      onChange?.(json);
     },
   });
 

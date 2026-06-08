@@ -3,7 +3,7 @@ import SignInButton from "../auth/auth-dialog";
 import UserAvatar from "./user-avatar";
 import SearchBar from "./search-bar";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { PencilLine } from "lucide-react";
@@ -11,7 +11,11 @@ import { routes } from "@/constants/routes";
 import { usePathname } from "next/navigation";
 import { useUserDataStore } from "@/store/user-data";
 
-export default function Header() {
+export default function Header({
+  additionalComponent,
+}: {
+  additionalComponent?: ReactNode;
+}) {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const pathname = usePathname();
@@ -44,6 +48,7 @@ export default function Header() {
           invisible: !hasHydrated,
         })}
       >
+        {additionalComponent}
         {isHomepage && !!userData && (
           <Button variant={"ghost"} asChild>
             <Link href={routes.newIdea}>

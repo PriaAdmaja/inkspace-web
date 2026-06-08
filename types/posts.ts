@@ -1,7 +1,10 @@
+import { JSONContent } from "@tiptap/core";
+
 export type Post = {
   id: string;
   title: string;
-  content: string;
+  content: JSONContent;
+  excerp: string
   createdAt: string;
   updatedAt: string;
   author: {

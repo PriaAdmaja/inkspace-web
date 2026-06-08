@@ -19,11 +19,9 @@ import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import ListItemDropdown from "./components/list-item-dropdown";
 import AlignDropdown from "./components/align-dropdown";
-import { useMediaQueries } from "@/hooks/use-media-queries";
 import HeadingDropdown from "./components/heading";
 
 export default function Toolbar({ editor }: { editor: Editor | null }) {
-  const { md } = useMediaQueries();
   return (
     <section className="flex flex-wrap gap-0.5 px-2 py-1 bg-neutral-200/80  rounded overflow-x-auto">
       {/* Basic Formatting Controls */}

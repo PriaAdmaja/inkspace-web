@@ -27,6 +27,7 @@ export default function ToolbarButton({
           size={sm ? "sm" : "xs"}
           variant={active ? "secondary" : "ghost"}
           {...props}
+          tabIndex={-1}
         >
           {children}
         </Button>

@@ -8,3 +8,5 @@ export type LoginResponse = {
         about?: string;
     }
 }
+
+export type RegisterResponse = LoginResponse

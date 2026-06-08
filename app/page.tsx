@@ -18,7 +18,7 @@ export default async function Home() {
               <section className="flex gap-4 justify-between cursor-pointer">
                 <section className="flex flex-col gap-2">
                   <h1 className="text-2xl font-bold">{post.title}</h1>
-                  <p className="line-clamp-4">{post.content}</p>
+                  <p className="line-clamp-4">{post.excerp}</p>
                   <div className="text-muted-foreground text-sm mt-auto">
                     {dayjs(post.createdAt).format("MMM DD, YYYY")} •{" "}
                     {post.author.username}

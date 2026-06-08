@@ -1,32 +1,44 @@
 "use client";
-import PageLayout from "@/components/page-layout";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Spinner } from "@/components/ui/spinner";
 import { API_ROUTES } from "@/constants/api-routes";
+import { routes } from "@/constants/routes";
 import axios from "@/lib/axios";
-import dynamic from "next/dynamic";
+import { Response } from "@/types/app";
+import { Post } from "@/types/posts";
+import PostEditor from "@/features/posts/post-editor";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
-
-const TiptapEditor = dynamic(() => import("@/components/text-editor/tiptap"), {
-  ssr: false,
-});
+import { generateText, JSONContent } from "@tiptap/core";
+import StarterKit from "@tiptap/starter-kit";
 
 export default function NewIdea() {
   const [title, setTitle] = useState<string>("");
-  const [content, setContent] = useState<string>("");
+  const [content, setContent] = useState<JSONContent | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const isDisable = !title.trim() || !content.trim();
+  const router = useRouter();
 
-  const onSave = async () => {
+  const isDisable = !title.trim() || content === undefined;
+
+  const onSave = async (excerp: string) => {
     try {
       setIsLoading(true);
-      await axios.post(API_ROUTES.POSTS.CREATE, {
-        title,
-        content,
-      });
+      if (!content) {
+        return;
+      }
+
+      const response = await axios.post<Response<Post>>(
+        API_ROUTES.POSTS.CREATE,
+        {
+          title,
+          content,
+          excerp,
+        },
+      );
+      const id = response.data.data?.id;
+      if (id) {
+        router.replace(routes.post.edit(id));
+      }
     } catch (error) {
       const message =
         (error as Error).message || "An unexpected error occurred.";
@@ -37,29 +49,13 @@ export default function NewIdea() {
   };
 
   return (
-    <PageLayout>
-      <section className="flex flex-col gap-2">
-        <div className="flex w-full">
-          <TiptapEditor
-            placeholder="Title"
-            className="font-bold text-2xl w-full"
-            isDisableEnter
-            onChange={setTitle}
-            disableToolbar
-          />
-          <Button
-            onClick={onSave}
-            variant={"secondary"}
-            className="ml-auto"
-            disabled={isDisable || isLoading}
-          >
-            {isLoading && <Spinner data-icon="inline-start" />}
-            Save
-          </Button>
-        </div>
-        <Separator />
-        <TiptapEditor onChange={setContent} />
-      </section>
-    </PageLayout>
+    <PostEditor
+      onSave={onSave}
+      content={content}
+      isDisableSave={isDisable}
+      setContent={setContent}
+      setTitle={setTitle}
+      isSaveLoading={isLoading}
+    />
   );
 }
