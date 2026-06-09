@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import { Monomakh, Montserrat } from "next/font/google";
+import { Google_Sans, Monomakh } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import PageLayout from "@/components/page-layout";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
-  subsets: ["latin"],
-});
+const googleSans = Google_Sans({
+  variable: "--font-google-sans",
+  subsets: ['latin']
+})
 
 const monomakh = Monomakh({
   weight: "400",
@@ -30,7 +29,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${montserrat.className} ${monomakh.variable} antialiased`}
+        className={`${googleSans.className} ${monomakh.variable} antialiased`}
       >
         <TooltipProvider delayDuration={300} skipDelayDuration={0}>{children}</TooltipProvider>
         <Toaster position="top-center" />

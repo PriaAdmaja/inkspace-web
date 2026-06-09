@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@/components/ui/spinner";
 import { generateText, JSONContent } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
-import { tiptapExtentions } from "@/components/text-editor/tiptap";
+import { tiptapExtentions } from "@/components/text-editor/extentions";
 
 const TiptapEditor = dynamic(() => import("@/components/text-editor/tiptap"), {
   ssr: false,

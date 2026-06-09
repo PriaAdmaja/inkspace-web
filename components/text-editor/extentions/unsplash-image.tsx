@@ -5,7 +5,7 @@ import { ReactNodeViewRenderer } from "@tiptap/react";
 
 export interface UnsplashImageAttrs {
   src: string;
-  thumbnailUrl: string
+  thumbnailUrl: string;
   alt?: string;
   photographerName?: string;
   photographerUrl?: string;
@@ -61,5 +61,50 @@ export const UnsplashImage = Image.extend({
 
   addNodeView() {
     return ReactNodeViewRenderer(UnsplashImageView);
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return [
+      "figure",
+      {
+        class: "my-6 flex flex-col items-center",
+      },
+      [
+        "img",
+        {
+          src: HTMLAttributes.src,
+          alt: HTMLAttributes.alt,
+          class: "object-cover max-w-4/5 max-h-[700px]"
+        },
+      ],
+      [
+        "figcaption",
+        {
+          class: "mt-2 text-xs text-muted-foreground",
+        },
+        "Photo by ",
+        [
+          "a",
+          {
+            href: HTMLAttributes.photographerUrl,
+            target: "_blank",
+            rel: "noopener noreferrer",
+            class: "hover:underline"
+          },
+          HTMLAttributes.photographerName,
+        ],
+        " on ",
+        [
+          "a",
+          {
+            href: "https://unsplash.com",
+            target: "_blank",
+            rel: "noopener noreferrer",
+            class: "hover:underline"
+          },
+          "Unsplash",
+        ],
+      ],
+    ];
   },
 });

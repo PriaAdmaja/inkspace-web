@@ -16,7 +16,7 @@ const EditPost = ({ post }: { post: Post }) => {
   const onSave = async (excerp: string) => {
     try {
       setIsSaveLoading(true);
-      await axios.post<Response<Post>>(API_ROUTES.POSTS.UPDATE(post.id), {
+      await axios.patch<Response<Post>>(API_ROUTES.POSTS.UPDATE(post.id), {
         title,
         content: content,
         excerp,

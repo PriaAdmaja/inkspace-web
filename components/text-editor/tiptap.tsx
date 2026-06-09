@@ -1,21 +1,9 @@
 "use client";
 
 import { useEditor, EditorContent, Content } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import { Placeholder, CharacterCount } from "@tiptap/extensions";
-import TextAlign from "@tiptap/extension-text-align";
-import Text from "@tiptap/extension-text";
-import { BackgroundColor, TextStyle } from "@tiptap/extension-text-style";
-import { DisableEnter } from "./extentions/disable-enter";
-import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
-import Blockquote from "@tiptap/extension-blockquote";
-import { BulletList, ListItem, OrderedList } from "@tiptap/extension-list";
-import Link from "@tiptap/extension-link";
-import Heading from "@tiptap/extension-heading";
-import { all, createLowlight } from "lowlight";
 import "./styles.css";
 import Toolbar from "./toolbar";
-import { UnsplashImage } from "./extentions/unsplash-image";
+import { tiptapExtentions } from "./extentions";
 
 export interface TiptapProps {
   defaultContent?: Content;
@@ -25,85 +13,6 @@ export interface TiptapProps {
   isDisableEnter?: boolean;
   disableToolbar?: boolean;
 }
-
-// create a lowlight instance with all languages loaded
-const lowlight = createLowlight(all);
-
-type TiptapExtentionsProps = {
-  placeholder?: string;
-  isDisableEnter?: boolean;
-};
-export const tiptapExtentions = ({
-  placeholder,
-  isDisableEnter,
-}: TiptapExtentionsProps = {}) => [
-  StarterKit,
-  Placeholder.configure({
-    placeholder: placeholder || "Start writing...",
-  }),
-  ...(isDisableEnter ? [DisableEnter] : []),
-  TextAlign.configure({
-    types: ["paragraph", "heading"],
-  }),
-  Text,
-  TextStyle,
-  BackgroundColor,
-  CodeBlockLowlight.configure({
-    lowlight,
-  }),
-  Blockquote,
-  ListItem,
-  BulletList,
-  OrderedList,
-  Link.configure({
-    openOnClick: false,
-    autolink: false,
-    defaultProtocol: "https",
-    protocols: ["http", "https"],
-    isAllowedUri: (url, ctx) => {
-      try {
-        // construct URL
-        const parsedUrl = url.includes(":")
-          ? new URL(url)
-          : new URL(`${ctx.defaultProtocol}://${url}`);
-
-        // use default validation
-        if (!ctx.defaultValidate(parsedUrl.href)) {
-          return false;
-        }
-
-        // disallowed protocols
-        const disallowedProtocols = ["ftp", "file"];
-        const protocol = parsedUrl.protocol.replace(":", "");
-
-        if (disallowedProtocols.includes(protocol)) {
-          return false;
-        }
-
-        // only allow protocols specified in ctx.protocols
-        const allowedProtocols = ctx.protocols.map((p) =>
-          typeof p === "string" ? p : p.scheme,
-        );
-
-        if (!allowedProtocols.includes(protocol)) {
-          return false;
-        }
-
-        // all checks have passed
-        return true;
-      } catch {
-        return false;
-      }
-    },
-  }).extend({ inclusive: false }),
-  UnsplashImage,
-  Heading.configure({
-    levels: [1, 2, 3, 4],
-  }),
-  CharacterCount.configure({
-    limit: 2000,
-  }),
-];
 
 const Tiptap = ({
   defaultContent,
