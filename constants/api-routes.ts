@@ -15,5 +15,9 @@ export const API_ROUTES = {
   ME: {
     GET: "/api/me",
     UPDATE: "/api/me",
+    POSTS: "/api/me/posts",
+  },
+  USERS: {
+    POSTS: (userId: string) => `/api/public/users/${userId}/posts`,
   },
 };
