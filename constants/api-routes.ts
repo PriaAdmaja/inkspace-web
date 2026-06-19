@@ -4,6 +4,7 @@ export const API_ROUTES = {
     GET_BY_ID: (id: string) => `/api/public/posts/${id}`,
     CREATE: "/api/posts/create",
     UPDATE: (id: string) => `/api/posts/${id}`,
+    PUBLISH: (id: string) => `/api/posts/${id}/publish`,
     DELETE: (id: string) => `/api/posts/${id}`,
   },
   AUTH: {

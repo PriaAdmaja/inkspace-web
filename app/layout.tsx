@@ -3,11 +3,12 @@ import { Google_Sans, Monomakh } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { NavigationGuardProvider } from "next-navigation-guard";
 
 const googleSans = Google_Sans({
   variable: "--font-google-sans",
-  subsets: ['latin']
-})
+  subsets: ["latin"],
+});
 
 const monomakh = Monomakh({
   weight: "400",
@@ -31,7 +32,11 @@ export default async function RootLayout({
       <body
         className={`${googleSans.className} ${monomakh.variable} antialiased`}
       >
-        <TooltipProvider delayDuration={300} skipDelayDuration={0}>{children}</TooltipProvider>
+        <NavigationGuardProvider>
+          <TooltipProvider delayDuration={300} skipDelayDuration={0}>
+            {children}
+          </TooltipProvider>
+        </NavigationGuardProvider>
         <Toaster position="top-center" />
       </body>
     </html>

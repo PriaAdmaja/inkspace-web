@@ -1,6 +1,6 @@
 "use client";
 import dynamic from "next/dynamic";
-import { Save } from "lucide-react";
+import { Save, Send } from "lucide-react";
 import PageLayout from "@/components/page-layout";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -17,13 +17,13 @@ export type PostEditorProps = {
   title?: string;
   setTitle?: (title: string) => void;
   content?: JSONContent;
-  setContent?: (content: JSONContent) => void;
+  setContent?: (content: JSONContent, isEmpty?: boolean) => void;
   isSaveLoading?: boolean;
   isPublishLoading?: boolean;
   isDisableSave?: boolean;
   isDisablePublish?: boolean;
   onSave?: (excerp: string) => void;
-  onPublish?: () => void;
+  onPublish?: (excerp: string) => void;
 };
 
 export default function PostEditor({
@@ -58,15 +58,20 @@ export default function PostEditor({
             disabled={isDisableSave || isSaveLoading}
           >
             {isSaveLoading ? <Spinner data-icon="inline-start" /> : <Save />}
-            Save
+            Save as Draft
           </Button>
           <Button
             variant={"default"}
             disabled={isDisablePublish || isPublishLoading}
-            onClick={onPublish}
+            onClick={() => {
+              const excerp = content
+                ? generateText(content, tiptapExtentions())
+                : "";
+              onPublish?.(excerp);
+            }}
           >
-            {isPublishLoading && <Spinner data-icon="inline-start" />}
-            Publish
+            {isPublishLoading ? <Spinner data-icon="inline-start" /> : <Send />}
+            Save & Publish
           </Button>
           <Separator orientation="vertical" />
         </div>

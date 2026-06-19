@@ -7,7 +7,7 @@ import { tiptapExtentions } from "./extentions";
 
 export interface TiptapProps {
   defaultContent?: Content;
-  onChange?: (content: object) => void;
+  onChange?: (content: object, isEmpty?: boolean) => void;
   placeholder?: string;
   className?: string;
   isDisableEnter?: boolean;
@@ -29,7 +29,7 @@ const Tiptap = ({
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
       const json = editor.getJSON();
-      onChange?.(json);
+      onChange?.(json, editor.isEmpty);
     },
   });
 
