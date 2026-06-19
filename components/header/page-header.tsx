@@ -13,8 +13,10 @@ import { useUserDataStore } from "@/store/user-data";
 
 export default function Header({
   additionalComponent,
+  className,
 }: {
   additionalComponent?: ReactNode;
+  className?: string;
 }) {
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -37,6 +39,7 @@ export default function Header({
       className={cn(
         "flex justify-between gap-2 items-center px-4 sm:px-10 py-4 sticky top-0 z-50 bg-background transition-all duration-300 ease-in-out",
         { "border-b border-border": isScrolled },
+        className,
       )}
     >
       <Link href={"/"}>

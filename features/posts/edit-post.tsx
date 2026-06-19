@@ -7,17 +7,31 @@ import axios from "@/lib/axios";
 import { Response } from "@/types/app";
 import { API_ROUTES } from "@/constants/api-routes";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
+import { MoveLeft, Save, Send } from "lucide-react";
+import { excerpBuilder } from "./libs/excerp-builder";
+import { useRouter } from "next/navigation";
+import { routes } from "@/constants/routes";
+import PostSkeleton from "./components/post-skeleton";
+import { useMediaQueries } from "@/hooks/use-media-queries";
 
 const EditPost = ({ id }: { id: string }) => {
+  // States
   const [post, setPost] = useState<MePost | null>(null);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<JSONContent>({});
   const [isSaveLoading, setIsSaveLoading] = useState<boolean>(false);
-  const [isPublishLoading, setIsPublishLoading] = useState<boolean>(false);
   const [isGettingData, setIsGettingData] = useState<boolean>(false);
 
-  const hasFetched = useRef(false);
+  const router = useRouter();
+  const { sm } = useMediaQueries();
 
+  // Vars
+  const isDraft = !post?.isPublished;
+
+  // Fetching Data
+  const hasFetched = useRef(false);
   const fetchData = useCallback(async () => {
     try {
       setIsGettingData(true);
@@ -46,7 +60,7 @@ const EditPost = ({ id }: { id: string }) => {
     fetchData();
   }, [fetchData]);
 
-  const onSave = async (excerp: string) => {
+  const onSave = async (excerp: string, isPublished?: boolean) => {
     try {
       setIsSaveLoading(true);
       if (!post?.id) return;
@@ -55,6 +69,7 @@ const EditPost = ({ id }: { id: string }) => {
         title,
         content: content,
         excerp,
+        isPublished,
       });
     } catch (error) {
       const message =
@@ -65,24 +80,8 @@ const EditPost = ({ id }: { id: string }) => {
     }
   };
 
-  const onPublish = async () => {
-    try {
-      setIsPublishLoading(true);
-      if (!post?.id) return;
-
-      await axios.put<Response<MePost>>(API_ROUTES.POSTS.PUBLISH(post.id), {});
-      toast.success("This post is published successfully");
-    } catch (error) {
-      const message =
-        (error as Error).message || "An unexpected error occurred.";
-      toast.error(message);
-    } finally {
-      setIsPublishLoading(false);
-    }
-  };
-
   if (isGettingData) {
-    return <p>Loading...</p>;
+    return <PostSkeleton />;
   }
 
   return (
@@ -91,11 +90,48 @@ const EditPost = ({ id }: { id: string }) => {
       content={content}
       setTitle={setTitle}
       setContent={setContent}
-      isSaveLoading={isSaveLoading}
-      isPublishLoading={isPublishLoading}
-      isDisablePublish={post?.isPublished}
-      onSave={onSave}
-      onPublish={onPublish}
+      headerComponent={
+        <>
+          {isDraft ? (
+            <Button
+              onClick={() => {
+                const excerp = excerpBuilder(content);
+                onSave(excerp);
+              }}
+              variant={"secondary"}
+              disabled={isSaveLoading}
+              size={"sm"}
+            >
+              {isSaveLoading ? <Spinner data-icon="inline-start" /> : <Save />}
+              {sm && <> Save as Draft</>}
+            </Button>
+          ) : (
+            <Button
+              onClick={() => {
+                router.push(routes.post.view(id));
+              }}
+              variant={"ghost"}
+              size={"sm"}
+            >
+              <MoveLeft />
+              {sm && <>Back to View</>}
+            </Button>
+          )}
+
+          <Button
+            variant={"default"}
+            disabled={isSaveLoading}
+            onClick={() => {
+              const excerp = excerpBuilder(content);
+              onSave(excerp, true);
+            }}
+            size={"sm"}
+          >
+            {isSaveLoading ? <Spinner data-icon="inline-start" /> : <Send />}
+            {sm && <>Save & Publish</>}
+          </Button>
+        </>
+      }
     />
   );
 };

@@ -7,10 +7,15 @@ import PostEditor from "@/features/posts/post-editor";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { JSONContent } from "@tiptap/core";
+import { generateText, JSONContent } from "@tiptap/core";
 import { useNavigationGuard } from "next-navigation-guard";
 import { isContentEmpty } from "@/features/posts/libs/content-checker";
 import { routes } from "@/constants/routes";
+import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
+import { Save, Send } from "lucide-react";
+import { tiptapExtentions } from "@/components/text-editor/extentions";
+import { excerpBuilder } from "@/features/posts/libs/excerp-builder";
 
 export default function NewIdea() {
   const [title, setTitle] = useState<string>("");
@@ -74,15 +79,35 @@ export default function NewIdea() {
 
   return (
     <PostEditor
-      onSave={onSave}
-      onPublish={(excerp) => onSave(excerp, true)}
       content={content}
-      isDisableSave={isDisable}
-      isDisablePublish={isDisable}
       setContent={setContent}
       setTitle={setTitle}
-      isSaveLoading={isLoading}
-      isPublishLoading={isLoading}
+      headerComponent={
+        <>
+          <Button
+            onClick={() => {
+              const excerp = excerpBuilder(content);
+              onSave(excerp);
+            }}
+            variant={"secondary"}
+            disabled={isDisable || isLoading}
+          >
+            {isLoading ? <Spinner data-icon="inline-start" /> : <Save />}
+            Save as Draft
+          </Button>
+          <Button
+            variant={"default"}
+            disabled={isDisable || isLoading}
+            onClick={() => {
+              const excerp = excerpBuilder(content);
+              onSave(excerp, true);
+            }}
+          >
+            {isLoading ? <Spinner data-icon="inline-start" /> : <Send />}
+            Save & Publish
+          </Button>
+        </>
+      }
     />
   );
 }
