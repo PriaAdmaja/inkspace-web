@@ -1,8 +1,10 @@
 export const routes = {
-    newIdea: "/new-idea",
-    me: "/me",
-    post: {
-        view: (postId: string) => `/post/${postId}`,
-        edit: (postId: string) => `/post/${postId}/edit`,
-    }
-}
+  newIdea: "/new-idea",
+  post: {
+    view: (postId: string) => `/post/${postId}`,
+    edit: (postId: string) => `/post/${postId}/edit`,
+  },
+  user: {
+    view: (username: string) => `/${username}`,
+  },
+};

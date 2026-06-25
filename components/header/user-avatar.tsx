@@ -18,6 +18,8 @@ import { usePathname, useRouter } from "next/navigation";
 import axios from "@/lib/axios";
 import { toast } from "sonner";
 
+const privateRoutes = ["/new-idea", "/edit"];
+
 export default function UserAvatar({ user }: { user?: UserData | null }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -33,13 +35,13 @@ export default function UserAvatar({ user }: { user?: UserData | null }) {
   const signOut = async () => {
     try {
       await axios.post(API_ROUTES.AUTH.LOGOUT, {});
-      if (pathname !== "/") {
+      if (privateRoutes.some((route) => pathname.includes(route))) {
         router.replace("/");
       }
     } catch (error) {
       if (error instanceof AxiosError && error.status !== 401) {
-        const message = error.message
-        toast.error(message)
+        const message = error.message;
+        toast.error(message);
       }
     } finally {
       setAccessToken(null);
@@ -58,17 +60,19 @@ export default function UserAvatar({ user }: { user?: UserData | null }) {
         </Avatar>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end">
-        <DropdownMenuGroup>
-          <Link href={routes.me}>
-            <DropdownMenuItem>My Account</DropdownMenuItem>
-          </Link>
-          <DropdownMenuItem variant="destructive" onClick={() => signOut()}>
-            <LogOutIcon />
-            Sign Out
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
+      {user && (
+        <DropdownMenuContent align="end">
+          <DropdownMenuGroup>
+            <Link href={routes.user.view(user.username)}>
+              <DropdownMenuItem>My Account</DropdownMenuItem>
+            </Link>
+            <DropdownMenuItem variant="destructive" onClick={() => signOut()}>
+              <LogOutIcon />
+              Sign Out
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      )}
     </DropdownMenu>
   );
 }

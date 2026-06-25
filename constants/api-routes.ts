@@ -19,6 +19,8 @@ export const API_ROUTES = {
     POSTS: "/api/me/posts",
   },
   USERS: {
-    POSTS: (userId: string) => `/api/public/users/${userId}/posts`,
+    POSTS: (username: string) => `/api/public/users/${username}/posts`,
+    CHECK_USERNAME: "/api/public/users/username/check",
+    DETAIL: (username: string) => `/api/public/users/${username}`
   },
 };
