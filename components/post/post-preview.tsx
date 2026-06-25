@@ -26,14 +26,14 @@ export default function PostPreview({
         className="flex gap-4 justify-between cursor-pointer"
       >
         <section className="flex flex-col gap-2">
-          <h2 className="text-2xl font-bold">{post.title}</h2>
-          <p className="line-clamp-4">{post.excerp}</p>
-          <div className="text-muted-foreground text-sm mt-auto">
+          <h2 className="text-xl sm:text-2xl font-bold">{post.title}</h2>
+          <p className="text-sm sm:text-base line-clamp-2 sm:line-clamp-4">{post.excerp}</p>
+          <div className="text-muted-foreground text-xs sm:text-sm mt-auto">
             {dayjs(post.createdAt).format("MMM DD, YYYY")} •{" "}
             {post.author.username}
           </div>
         </section>
-        <div className="w-40 h-40 shrink-0 flex justify-center items-center border relative rounded-sm overflow-hidden">
+        <div className="size-20 sm:size-32 lg:size-40 shrink-0 flex justify-center items-center border relative rounded-sm overflow-hidden">
           {imageThumbnailUrl ? (
             <Image
               src={imageThumbnailUrl}

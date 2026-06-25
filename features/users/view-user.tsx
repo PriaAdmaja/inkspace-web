@@ -17,16 +17,17 @@ export default function ViewUser({ username }: { username: string }) {
   });
   const avatar = user?.data?.avatar ?? avatarPlaceholder;
   const name = user?.data?.name ?? user?.data?.username;
-  const about = user?.data?.about;
+//   const about = user?.data?.about;
+  const about = 'Kim=nasih asmara djati';
 
   return (
     <PageLayout>
       <section className="space-y-6">
         {/** User Profile */}
-        <section className="space-y-8">
-          <section className="flex gap-10">
+        <section className="space-y-4">
+          <section className="flex gap-4 md:gap-10 items-center">
             {/** Avatar */}
-            <div className="size-32 overflow-hidden rounded-2xl relative shrink-0">
+            <div className="size-14 sm:size-20 md:size-32 overflow-hidden rounded-2xl relative shrink-0">
               <Image
                 src={avatar}
                 alt={user?.data?.username ?? "avatar"}
@@ -35,11 +36,13 @@ export default function ViewUser({ username }: { username: string }) {
               />
             </div>
 
-            <div className=" space-y-4">
-              <p className="text-4xl font-extrabold">{name}</p>
-              {about && <p>{about}</p>}
+            <div className="md:space-y-4">
+              <p className="text-lg sm:text-2xl md:text-4xl font-extrabold">{name}</p>
+              {about && <p className="hidden md:block">{about}</p>}
             </div>
           </section>
+
+          {about && <p className="block md:hidden text-sm">{about}</p>}
         </section>
 
         <Tabs defaultValue="posts">
