@@ -12,8 +12,7 @@ export default function UserPosts({ username }: { username: string }) {
   username === currentUser?.username
   ? API_ROUTES.ME.POSTS
   : API_ROUTES.USERS.POSTS(username);
-  console.log(hasHydrated)
-  console.log(endpoint)
+
   const { data, isLoading: isLoading } = useFetcher<Response<MePost[]>>({
     endpoint,
     enable: hasHydrated
