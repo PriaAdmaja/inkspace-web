@@ -85,16 +85,18 @@ export default function Header({
               )}
             >
               {/** Button to display search bar in mobile   */}
-              <Button
-                size={"icon"}
-                variant={"ghost"}
-                className="flex sm:hidden"
-                onClick={() => {
-                  setIsSearchHeader(true);
-                }}
-              >
-                <SearchIcon />
-              </Button>
+              {isHomepage && (
+                <Button
+                  size={"icon"}
+                  variant={"ghost"}
+                  className="flex sm:hidden"
+                  onClick={() => {
+                    setIsSearchHeader(true);
+                  }}
+                >
+                  <SearchIcon />
+                </Button>
+              )}
 
               {additionalComponent}
 
