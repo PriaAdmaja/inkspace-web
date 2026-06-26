@@ -8,6 +8,8 @@ import { tiptapExtentions } from "@/components/text-editor/extentions";
 import { Separator } from "@/components/ui/separator";
 import dayjs from "dayjs";
 import PostDropdown from "./post-dropdown";
+import Link from "next/link";
+import { routes } from "@/constants/routes";
 
 export default function ViewPost({ post }: { post: Post }) {
   const author = post.author;
@@ -24,7 +26,10 @@ export default function ViewPost({ post }: { post: Post }) {
 
         {/** Post details*/}
         <section className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
+          <Link
+            href={routes.user.view(author.username)}
+            className="flex items-center gap-2"
+          >
             <Avatar className="cursor-pointer">
               {!!author.avatar && (
                 <AvatarImage src={author.avatar} alt={author.username || ""} />
@@ -34,8 +39,8 @@ export default function ViewPost({ post }: { post: Post }) {
               </AvatarFallback>
             </Avatar>
 
-            <p>{author.username}</p>
-          </div>
+            <p className="hover:underline">{author.username}</p>
+          </Link>
           <p className="text-muted-foreground text-sm">
             {dayjs(post.createdAt).format("MMM DD, YYYY")}
           </p>

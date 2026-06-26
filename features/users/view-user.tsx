@@ -17,15 +17,14 @@ export default function ViewUser({ username }: { username: string }) {
   });
   const avatar = user?.data?.avatar ?? avatarPlaceholder;
   const name = user?.data?.name ?? user?.data?.username;
-//   const about = user?.data?.about;
-  const about = 'Kim=nasih asmara djati';
+  const about = user?.data?.about;
 
   return (
     <PageLayout>
       <section className="space-y-6">
         {/** User Profile */}
         <section className="space-y-4">
-          <section className="flex gap-4 md:gap-10 items-center">
+          <section className="flex gap-4 md:gap-10 items-center md:items-start">
             {/** Avatar */}
             <div className="size-14 sm:size-20 md:size-32 overflow-hidden rounded-2xl relative shrink-0">
               <Image

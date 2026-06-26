@@ -1,4 +1,4 @@
-import PostPreview from "@/components/post/post-preview";
+import PostItem from "@/features/posts/post-item";
 import { API_ROUTES } from "@/constants/api-routes";
 import useFetcher from "@/hooks/use-fetcher";
 import { useUserDataStore } from "@/store/user-data";
@@ -9,13 +9,13 @@ export default function UserPosts({ username }: { username: string }) {
   const currentUser = useUserDataStore((state) => state.userData);
   const hasHydrated = useUserDataStore((state) => state.hasHydrated);
   const endpoint =
-  username === currentUser?.username
-  ? API_ROUTES.ME.POSTS
-  : API_ROUTES.USERS.POSTS(username);
+    username === currentUser?.username
+      ? API_ROUTES.ME.POSTS
+      : API_ROUTES.USERS.POSTS(username);
 
   const { data, isLoading: isLoading } = useFetcher<Response<MePost[]>>({
     endpoint,
-    enable: hasHydrated
+    enable: hasHydrated,
   });
   const posts = data?.data ?? [];
 
@@ -30,7 +30,7 @@ export default function UserPosts({ username }: { username: string }) {
   return (
     <section className="flex flex-col gap-4">
       {posts.map((post, idx) => (
-        <PostPreview
+        <PostItem
           post={post}
           key={post.id}
           showSeparator={idx !== posts.length - 1}

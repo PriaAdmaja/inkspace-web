@@ -4,16 +4,15 @@ import dayjs from "dayjs";
 import { ImageOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Separator } from "../ui/separator";
+import { Separator } from "../../components/ui/separator";
 
-export default function PostPreview({
+export default function PostItem({
   post,
   showSeparator,
 }: {
   post: Post;
   showSeparator?: boolean;
 }) {
-
   const image = post.content.content?.find((c) => c.type === "unsplashImage");
   const imageThumbnailUrl = image
     ? image.attrs?.thumbnailUrl || image.attrs?.src
@@ -27,24 +26,29 @@ export default function PostPreview({
       >
         <section className="flex flex-col gap-2">
           <h2 className="text-xl sm:text-2xl font-bold">{post.title}</h2>
-          <p className="text-sm sm:text-base line-clamp-2 sm:line-clamp-4">{post.excerp}</p>
+          <p className="text-sm sm:text-base line-clamp-2 sm:line-clamp-4">
+            {post.excerp}
+          </p>
           <div className="text-muted-foreground text-xs sm:text-sm mt-auto">
             {dayjs(post.createdAt).format("MMM DD, YYYY")} •{" "}
-            {post.author.username}
+            <Link
+              href={routes.user.view(post.author.username)}
+              className="hover:underline"
+            >
+              {post.author.username}
+            </Link>
           </div>
         </section>
-        <div className="size-20 sm:size-32 lg:size-40 shrink-0 flex justify-center items-center border relative rounded-sm overflow-hidden">
-          {imageThumbnailUrl ? (
+        {imageThumbnailUrl && (
+          <div className="size-20 sm:size-32 lg:size-40 shrink-0 flex justify-center items-center border relative rounded-sm overflow-hidden">
             <Image
               src={imageThumbnailUrl}
               alt={"image"}
               fill
               className="object-cover"
             />
-          ) : (
-            <ImageOff className="h-10 w-10 text-muted-foreground" />
-          )}
-        </div>
+          </div>
+        )}
       </Link>
       {showSeparator && <Separator />}
     </section>

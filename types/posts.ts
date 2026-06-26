@@ -9,7 +9,7 @@ export type Post = {
   updatedAt: string;
   author: {
     id: string;
-    username: string | null;
+    username: string;
     avatar: string | null;
   };
   tags: {
