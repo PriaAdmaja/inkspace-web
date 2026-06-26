@@ -1,15 +1,15 @@
 "use client";
 import SignInButton from "../auth/auth-dialog";
 import UserAvatar from "./user-avatar";
-import SearchBar from "./search-bar";
 import Link from "next/link";
 import { ReactNode, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-import { PencilLine } from "lucide-react";
+import { ArrowLeft, PencilLine, SearchIcon } from "lucide-react";
 import { routes } from "@/constants/routes";
 import { usePathname } from "next/navigation";
 import { useUserDataStore } from "@/store/user-data";
+import SearchInput from "./search-bar/search-input";
 
 export default function Header({
   additionalComponent,
@@ -18,7 +18,8 @@ export default function Header({
   additionalComponent?: ReactNode;
   className?: string;
 }) {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [isSearchHeader, setIsSearchHeader] = useState<boolean>(false);
 
   const pathname = usePathname();
   const userData = useUserDataStore((state) => state.userData);
@@ -35,34 +36,74 @@ export default function Header({
   }, []);
 
   return (
-    <header
-      className={cn(
-        "flex justify-between gap-2 items-center px-4 sm:px-10 py-4 sticky top-0 z-50 bg-background transition-all duration-300 ease-in-out",
-        { "border-b border-border": isScrolled },
-        className,
-      )}
-    >
-      <Link href={"/"}>
-        <p className=" text-xl sm:text-3xl font-bold font-monomakh">Inkspace</p>
-      </Link>
-      {isHomepage && <SearchBar />}
-      <section
-        className={cn("flex gap-4 items-center justify-end w-40", {
-          invisible: !hasHydrated,
-        })}
-      >
-        {additionalComponent}
-        {isHomepage && !!userData && (
-          <Button variant={"ghost"} asChild>
-            <Link href={routes.newIdea}>
-              <PencilLine />
-              Write
-            </Link>
-          </Button>
+    <>
+      <header
+        className={cn(
+          "flex justify-between gap-2 items-center px-4 sm:px-10 py-4 sticky top-0 z-50 bg-background transition-all duration-300 ease-in-out",
+          { "border-b border-border": isScrolled },
+          className,
         )}
+      >
+        {isSearchHeader ? (
+          <>
+            {/** Seach bar in mobile view */}
+            <Button
+              variant={"ghost"}
+              size={"icon"}
+              onClick={() => setIsSearchHeader(false)}
+            >
+              <ArrowLeft />
+            </Button>
+            <SearchInput />
+          </>
+        ) : (
+          <>
+            {/** Logo */}
+            <Link href={"/"}>
+              <p className=" text-xl sm:text-3xl font-bold font-monomakh">
+                Inkspace
+              </p>
+            </Link>
 
-        {!!userData ? <UserAvatar user={userData} /> : <SignInButton />}
-      </section>
-    </header>
+            {/** Search bar in large screen */}
+            {isHomepage && <SearchInput classname="hidden sm:flex" />}
+
+            <section
+              className={cn(
+                "flex gap-2 sm:gap-4 items-center justify-end w-40",
+                {
+                  invisible: !hasHydrated,
+                },
+              )}
+            >
+              {/** Button to display search bar in mobile   */}
+              <Button
+                size={"icon"}
+                variant={"ghost"}
+                className="flex sm:hidden"
+                onClick={() => setIsSearchHeader(true)}
+              >
+                <SearchIcon />
+              </Button>
+
+              {additionalComponent}
+
+              {/** Link button to create new post */}
+              {isHomepage && !!userData && (
+                <Button variant={"ghost"} asChild>
+                  <Link href={routes.newIdea}>
+                    <PencilLine />
+                    <span className="hidden sm:block">Write</span>
+                  </Link>
+                </Button>
+              )}
+
+              {/** User Menu */}
+              {!!userData ? <UserAvatar user={userData} /> : <SignInButton />}
+            </section>
+          </>
+        )}
+      </header>
+    </>
   );
 }
