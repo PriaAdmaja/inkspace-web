@@ -2,7 +2,7 @@
 import SignInButton from "../auth/auth-dialog";
 import UserAvatar from "./user-avatar";
 import Link from "next/link";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { ArrowLeft, PencilLine, SearchIcon } from "lucide-react";
@@ -25,6 +25,8 @@ export default function Header({
   const userData = useUserDataStore((state) => state.userData);
   const hasHydrated = useUserDataStore((state) => state.hasHydrated);
 
+  const searchRef = useRef<HTMLInputElement>(null);
+
   const isHomepage = pathname === "/";
 
   useEffect(() => {
@@ -34,6 +36,12 @@ export default function Header({
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (isSearchHeader) {
+      searchRef.current?.focus();
+    }
+  }, [isSearchHeader]);
 
   return (
     <>
@@ -54,7 +62,7 @@ export default function Header({
             >
               <ArrowLeft />
             </Button>
-            <SearchInput />
+            <SearchInput ref={searchRef} />
           </>
         ) : (
           <>
@@ -81,7 +89,9 @@ export default function Header({
                 size={"icon"}
                 variant={"ghost"}
                 className="flex sm:hidden"
-                onClick={() => setIsSearchHeader(true)}
+                onClick={() => {
+                  setIsSearchHeader(true);
+                }}
               >
                 <SearchIcon />
               </Button>
