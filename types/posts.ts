@@ -5,6 +5,7 @@ export type Post = {
   title: string;
   content: JSONContent;
   excerp: string;
+  isPublished: boolean
   createdAt: string;
   updatedAt: string;
   author: {
@@ -17,5 +18,3 @@ export type Post = {
     slug: string;
   }[];
 };
-
-export type MePost = Post & { isPublished: boolean };

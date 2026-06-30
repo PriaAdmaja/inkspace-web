@@ -7,14 +7,13 @@ import PostEditor from "@/features/posts/post-editor";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { generateText, JSONContent } from "@tiptap/core";
+import { JSONContent } from "@tiptap/core";
 import { useNavigationGuard } from "next-navigation-guard";
 import { isContentEmpty } from "@/features/posts/libs/content-checker";
 import { routes } from "@/constants/routes";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { Save, Send } from "lucide-react";
-import { tiptapExtentions } from "@/components/text-editor/extentions";
 import { excerpBuilder } from "@/features/posts/libs/excerp-builder";
 
 export default function NewIdea() {

@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import PostEditor from "./post-editor";
-import { MePost } from "@/types/posts";
+import { Post } from "@/types/posts";
 import { JSONContent } from "@tiptap/core";
 import axios from "@/lib/axios";
 import { Response } from "@/types/app";
@@ -18,7 +18,7 @@ import { useMediaQueries } from "@/hooks/use-media-queries";
 
 const EditPost = ({ id }: { id: string }) => {
   // States
-  const [post, setPost] = useState<MePost | null>(null);
+  const [post, setPost] = useState<Post | null>(null);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<JSONContent>({});
   const [isSaveLoading, setIsSaveLoading] = useState<boolean>(false);
@@ -35,7 +35,7 @@ const EditPost = ({ id }: { id: string }) => {
   const fetchData = useCallback(async () => {
     try {
       setIsGettingData(true);
-      const res = await axios.get<Response<MePost>>(
+      const res = await axios.get<Response<Post>>(
         API_ROUTES.POSTS.GET_BY_ID(id),
       );
       const postData = res.data.data;
@@ -65,7 +65,7 @@ const EditPost = ({ id }: { id: string }) => {
       setIsSaveLoading(true);
       if (!post?.id) return;
 
-      await axios.put<Response<MePost>>(API_ROUTES.POSTS.UPDATE(post.id), {
+      await axios.put<Response<Post>>(API_ROUTES.POSTS.UPDATE(post.id), {
         title,
         content: content,
         excerp,

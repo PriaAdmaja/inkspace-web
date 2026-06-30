@@ -3,7 +3,7 @@ import { API_ROUTES } from "@/constants/api-routes";
 import useFetcher from "@/hooks/use-fetcher";
 import { useUserDataStore } from "@/store/user-data";
 import { Response } from "@/types/app";
-import { MePost } from "@/types/posts";
+import { Post } from "@/types/posts";
 
 export default function UserPosts({ username }: { username: string }) {
   const currentUser = useUserDataStore((state) => state.userData);
@@ -13,7 +13,7 @@ export default function UserPosts({ username }: { username: string }) {
       ? API_ROUTES.ME.POSTS
       : API_ROUTES.USERS.POSTS(username);
 
-  const { data, isLoading: isLoading } = useFetcher<Response<MePost[]>>({
+  const { data, isLoading: isLoading } = useFetcher<Response<Post[]>>({
     endpoint,
     enable: hasHydrated,
   });
