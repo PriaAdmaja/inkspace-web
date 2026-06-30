@@ -12,6 +12,7 @@ export interface TiptapProps {
   className?: string;
   isDisableEnter?: boolean;
   disableToolbar?: boolean;
+  characterLimit?: number
 }
 
 const Tiptap = ({
@@ -21,9 +22,10 @@ const Tiptap = ({
   className,
   isDisableEnter = false,
   disableToolbar = false,
+  characterLimit = 2000
 }: TiptapProps) => {
   const editor = useEditor({
-    extensions: tiptapExtentions({ placeholder, isDisableEnter }),
+    extensions: tiptapExtentions({ placeholder, isDisableEnter, characterLimit }),
     content: defaultContent,
     // Don't render immediately on the server to avoid SSR issues
     immediatelyRender: false,

@@ -18,11 +18,13 @@ const lowlight = createLowlight(all);
 type TiptapExtentionsProps = {
   placeholder?: string;
   isDisableEnter?: boolean;
+  characterLimit?: number
 };
 
 export const tiptapExtentions = ({
   placeholder,
   isDisableEnter,
+  characterLimit
 }: TiptapExtentionsProps = {}): Extensions => [
   StarterKit,
   Placeholder.configure({
@@ -87,6 +89,6 @@ export const tiptapExtentions = ({
     levels: [1, 2, 3, 4],
   }),
   CharacterCount.configure({
-    limit: 2000,
+    limit: characterLimit,
   }),
 ];

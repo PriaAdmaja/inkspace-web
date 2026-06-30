@@ -49,6 +49,7 @@ export default function PostEditor({
             isDisableEnter
             onChange={saveTitle}
             disableToolbar
+            characterLimit={150}
           />
         </div>
         <Separator />
