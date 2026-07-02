@@ -24,6 +24,7 @@ import { toast } from "sonner";
 const avatarPlaceholder = "/no-profile.jpg";
 
 export default function EditProfile({ user }: { user?: User }) {
+  const [open, setOpen] = useState<boolean>(false);
   const [avatar, setAvatar] = useState<File | null | undefined>(undefined); // undefined means no change, null means remove avatar, File means new avatar
   const [avatarPreview, setAvatarPreview] = useState(
     user?.avatar?.medium ?? avatarPlaceholder,
@@ -49,7 +50,6 @@ export default function EditProfile({ user }: { user?: User }) {
           break;
         default:
           // New avatar file
-          formData.set("avatar", avatar);
           formData.set("avatarAction", "upload");
       }
 
@@ -74,6 +74,7 @@ export default function EditProfile({ user }: { user?: User }) {
         });
       }
 
+      setOpen(false);
       toast.success("Profile updated successfully!");
     } catch (error) {
       const message =
@@ -86,11 +87,16 @@ export default function EditProfile({ user }: { user?: User }) {
 
   return (
     <Dialog
+      open={open}
       onOpenChange={(open) => {
-        if (!open) {
+        if (!open && !isLoading) {
           setAvatarPreview(user?.avatar?.medium ?? avatarPlaceholder);
           setAvatar(undefined);
+          setOpen(false);
+          return;
         }
+
+        setOpen(true);
       }}
     >
       <DialogTrigger asChild>
@@ -144,9 +150,11 @@ export default function EditProfile({ user }: { user?: User }) {
           </FieldGroup>
 
           <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
+            {isLoading === false && (
+              <DialogClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DialogClose>
+            )}
             <Button type="submit" disabled={isLoading}>
               {isLoading ? "Saving..." : "Save Changes"}
             </Button>
