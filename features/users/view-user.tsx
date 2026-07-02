@@ -1,48 +1,14 @@
 "use client";
 import PageLayout from "@/components/page-layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { API_ROUTES } from "@/constants/api-routes";
-import useFetcher from "@/hooks/use-fetcher";
-import { Response } from "@/types/app";
-import { User } from "@/types/users";
-import Image from "next/image";
 import UserPosts from "./components/user-posts";
-
-const avatarPlaceholder = "/no-profile.jpg";
+import UserProfile from "./components/user-profile";
 
 export default function ViewUser({ username }: { username: string }) {
-  // Fetching user data
-  const { data: user } = useFetcher<Response<User>>({
-    endpoint: API_ROUTES.USERS.DETAIL(username),
-  });
-  const avatar = user?.data?.avatar ?? avatarPlaceholder;
-  const name = user?.data?.name ?? user?.data?.username;
-  const about = user?.data?.about;
-
   return (
     <PageLayout>
       <section className="space-y-6">
-        {/** User Profile */}
-        <section className="space-y-4">
-          <section className="flex gap-4 md:gap-10 items-center md:items-start">
-            {/** Avatar */}
-            <div className="size-14 sm:size-20 md:size-32 overflow-hidden rounded-2xl relative shrink-0">
-              <Image
-                src={avatar}
-                alt={user?.data?.username ?? "avatar"}
-                fill
-                className="object-contain"
-              />
-            </div>
-
-            <div className="md:space-y-4">
-              <p className="text-lg sm:text-2xl md:text-4xl font-extrabold">{name}</p>
-              {about && <p className="hidden md:block">{about}</p>}
-            </div>
-          </section>
-
-          {about && <p className="block md:hidden text-sm">{about}</p>}
-        </section>
+        <UserProfile username={username} />
 
         <Tabs defaultValue="posts">
           <TabsList variant={"line"} className="mb-2">

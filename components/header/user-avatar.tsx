@@ -54,7 +54,7 @@ export default function UserAvatar({ user }: { user?: UserData | null }) {
       <DropdownMenuTrigger asChild>
         <Avatar className="cursor-pointer">
           {!!user?.avatar && (
-            <AvatarImage src={user?.avatar} alt={user?.username || ""} />
+            <AvatarImage src={user?.avatar.small} alt={user?.username || ""} />
           )}
           <AvatarFallback>{initialName}</AvatarFallback>
         </Avatar>
