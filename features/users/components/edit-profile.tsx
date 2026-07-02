@@ -12,6 +12,7 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { API_ROUTES } from "@/constants/api-routes";
+import { useMediaQueries } from "@/hooks/use-media-queries";
 import axios from "@/lib/axios";
 import { useUserDataStore } from "@/store/user-data";
 import { Response } from "@/types/app";
@@ -32,6 +33,7 @@ export default function EditProfile({ user }: { user?: User }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const setUserData = useUserDataStore((state) => state.setUserData);
+  const { sm } = useMediaQueries();
 
   const onSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -100,7 +102,7 @@ export default function EditProfile({ user }: { user?: User }) {
       }}
     >
       <DialogTrigger asChild>
-        <Button>
+        <Button size={sm ? "default" : "sm"}>
           <Pencil /> Edit
         </Button>
       </DialogTrigger>
@@ -135,6 +137,8 @@ export default function EditProfile({ user }: { user?: User }) {
                 id="input-name"
                 defaultValue={user?.name ?? ""}
                 name="name"
+                minLength={3}
+                maxLength={30}
                 required
               />
             </Field>
@@ -145,6 +149,7 @@ export default function EditProfile({ user }: { user?: User }) {
                 id="input-about"
                 defaultValue={user?.about ?? ""}
                 name="about"
+                maxLength={500}
               />
             </Field>
           </FieldGroup>
@@ -191,12 +196,11 @@ const ImageUploader = ({
       <img
         src={avatar}
         alt={alt}
-        className="object-cover shrink-0 rounded-xl size-20"
+        className="object-cover shrink-0 rounded-xl size-24 sm:size-20"
       />
 
       <div className="space-y-3">
-        <div className="flex gap-2">
-          <div>
+        <div className="flex flex-col sm:flex-row gap-2">
             <input
               id="avatar"
               name="avatar"
@@ -208,7 +212,7 @@ const ImageUploader = ({
             <Button asChild size={"sm"} className="cursor-pointer">
               <label htmlFor="avatar">Upload New Photo</label>
             </Button>
-          </div>
+
           <Button
             variant={"destructive"}
             size={"sm"}
@@ -219,7 +223,7 @@ const ImageUploader = ({
           </Button>
         </div>
 
-        <p className="text-sm text-secondary-foreground text-pretty">
+        <p className="text-xs sm:text-sm text-secondary-foreground text-pretty">
           At least 800x800 px recomended. JPG or PNG is allowed.
         </p>
       </div>

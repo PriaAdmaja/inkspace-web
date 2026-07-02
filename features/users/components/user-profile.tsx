@@ -26,26 +26,35 @@ export default function UserProfile({ username }: { username: string }) {
   return (
     <section className="space-y-4">
       <section className="flex gap-4 md:gap-10 items-center md:items-start">
-        
         {/** Avatar */}
         <img
           src={avatar}
           alt={user?.username ?? "avatar"}
-          className="object-cover size-14 sm:size-20 md:size-32 overflow-hidden rounded-2xl shrink-0"
+          className="object-cover size-20 md:size-32 overflow-hidden rounded-2xl shrink-0"
         />
 
-        <div className="md:space-y-4">
-          <div className="flex items-center gap-5">
-            <p className="text-lg sm:text-2xl md:text-4xl font-extrabold">
+        <div className="md:space-y-4 md:mt-4">
+          <div className="flex items-start gap-5">
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-4xl font-extrabold">
               {user?.name ?? user?.username}
             </p>
-            {isShowEditButton && <EditProfile user={user} />}
+            {isShowEditButton && (
+              <div className="hidden sm:block">
+                <EditProfile user={user} />
+              </div>
+            )}
           </div>
           {user?.about && <p className="hidden md:block">{user.about}</p>}
         </div>
       </section>
 
       {user?.about && <p className="block md:hidden text-sm">{user.about}</p>}
+      
+      {isShowEditButton && (
+        <div className="block sm:hidden">
+          <EditProfile user={user} />
+        </div>
+      )}
     </section>
   );
 }
