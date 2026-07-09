@@ -8,6 +8,7 @@ import { NavigationGuardProvider } from "next-navigation-guard";
 const googleSans = Google_Sans({
   variable: "--font-google-sans",
   subsets: ["latin"],
+  adjustFontFallback: true,
 });
 
 const monomakh = Monomakh({
@@ -30,7 +31,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${googleSans.className} ${monomakh.variable} antialiased`}
+        className={`${googleSans.className} ${monomakh.variable} ${googleSans.variable} antialiased`}
       >
         <NavigationGuardProvider>
           <TooltipProvider delayDuration={300} skipDelayDuration={0}>

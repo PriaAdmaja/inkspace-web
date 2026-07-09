@@ -33,7 +33,7 @@ export default function UserProfile({ username }: { username: string }) {
           className="object-cover size-20 md:size-32 overflow-hidden rounded-2xl shrink-0"
         />
 
-        <div className="md:space-y-4 md:mt-4">
+        <div className="md:space-y-4">
           <div className="flex items-start gap-5">
             <p className="text-lg sm:text-xl md:text-2xl lg:text-4xl font-extrabold">
               {user?.name ?? user?.username}
@@ -44,11 +44,11 @@ export default function UserProfile({ username }: { username: string }) {
               </div>
             )}
           </div>
-          {user?.about && <p className="hidden md:block">{user.about}</p>}
+          {user?.about && <p className="hidden md:block whitespace-pre-wrap">{user.about}</p>}
         </div>
       </section>
 
-      {user?.about && <p className="block md:hidden text-sm">{user.about}</p>}
+      {user?.about && <p className="block md:hidden text-sm whitespace-pre-wrap">{user.about}</p>}
       
       {isShowEditButton && (
         <div className="block sm:hidden">

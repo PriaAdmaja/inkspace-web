@@ -8,7 +8,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { API_ROUTES } from "@/constants/api-routes";
@@ -18,9 +23,9 @@ import { useUserDataStore } from "@/store/user-data";
 import { Response } from "@/types/app";
 import { User } from "@/types/users";
 import { Pencil } from "lucide-react";
-import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
+import { isFormChanged } from "./utils";
 
 const avatarPlaceholder = "/no-profile.jpg";
 
@@ -30,10 +35,14 @@ export default function EditProfile({ user }: { user?: User }) {
   const [avatarPreview, setAvatarPreview] = useState(
     user?.avatar?.medium ?? avatarPlaceholder,
   );
+  const [name, setName] = useState<string>(user?.name ?? "");
+  const [about, setAbout] = useState<string>(user?.about ?? "");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const setUserData = useUserDataStore((state) => state.setUserData);
   const { sm } = useMediaQueries();
+
+  const isChanged = isFormChanged({ user, name, about, avatar });
 
   const onSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -87,14 +96,20 @@ export default function EditProfile({ user }: { user?: User }) {
     }
   };
 
+  const onClose = () => {
+    setAvatarPreview(user?.avatar?.medium ?? avatarPlaceholder);
+    setAvatar(undefined);
+    setName(user?.name ?? "");
+    setAbout(user?.about ?? "");
+    setOpen(false);
+  };
+
   return (
     <Dialog
       open={open}
       onOpenChange={(open) => {
         if (!open && !isLoading) {
-          setAvatarPreview(user?.avatar?.medium ?? avatarPlaceholder);
-          setAvatar(undefined);
-          setOpen(false);
+          onClose();
           return;
         }
 
@@ -107,13 +122,24 @@ export default function EditProfile({ user }: { user?: User }) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent>
+      <DialogContent
+        onInteractOutside={(e) => {
+          if (isChanged) {
+            e.preventDefault();
+          }
+        }}
+        onEscapeKeyDown={(e) => {
+          if (isChanged) {
+            e.preventDefault();
+          }
+        }}
+      >
         <form onSubmit={onSubmit} className="space-y-4">
           <DialogHeader>
             <DialogTitle>Edit Profile</DialogTitle>
           </DialogHeader>
 
-          <FieldGroup>
+          <FieldGroup className="gap-5">
             <Field>
               <FieldLabel>Avatar</FieldLabel>
               <ImageUploader
@@ -135,22 +161,31 @@ export default function EditProfile({ user }: { user?: User }) {
               <FieldLabel htmlFor="input-name">Name *</FieldLabel>
               <Input
                 id="input-name"
-                defaultValue={user?.name ?? ""}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 name="name"
                 minLength={3}
                 maxLength={30}
                 required
               />
+              <FieldDescription className="text-end text-xs">
+                {name.length.toLocaleString()} / 30
+              </FieldDescription>
             </Field>
 
             <Field>
               <FieldLabel htmlFor="input-about">About</FieldLabel>
               <Textarea
                 id="input-about"
-                defaultValue={user?.about ?? ""}
+                value={about}
+                onChange={(e) => setAbout(e.target.value)}
                 name="about"
                 maxLength={500}
               />
+
+              <FieldDescription className="text-end text-xs">
+                {about.length.toLocaleString()} / 500
+              </FieldDescription>
             </Field>
           </FieldGroup>
 
@@ -160,7 +195,7 @@ export default function EditProfile({ user }: { user?: User }) {
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
             )}
-            <Button type="submit" disabled={isLoading}>
+            <Button type="submit" disabled={isLoading || !isChanged}>
               {isLoading ? "Saving..." : "Save Changes"}
             </Button>
           </DialogFooter>
@@ -170,19 +205,29 @@ export default function EditProfile({ user }: { user?: User }) {
   );
 }
 
+
 const ImageUploader = ({
   avatar,
   alt,
   onChange,
+  maxSize = 1 * 1024 * 1024, // Default max size is 1MB
 }: {
   avatar: string;
   alt: string;
   onChange: (file: File | null) => void;
+  maxSize?: number;
 }) => {
+const defaultMaxSize = maxSize / (1024 * 1024); // 1MB
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
     if (!file) return;
+
+    if(file.size > maxSize) {
+      toast.error(`File size exceeds the maximum limit of ${defaultMaxSize} MB.`);
+      return;
+    }
 
     onChange(file);
   };
@@ -201,17 +246,17 @@ const ImageUploader = ({
 
       <div className="space-y-3">
         <div className="flex flex-col sm:flex-row gap-2">
-            <input
-              id="avatar"
-              name="avatar"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleChange}
-            />
-            <Button asChild size={"sm"} className="cursor-pointer">
-              <label htmlFor="avatar">Upload New Photo</label>
-            </Button>
+          <input
+            id="avatar"
+            name="avatar"
+            type="file"
+            accept="image/jpeg, image/png, image/webp"
+            className="hidden"
+            onChange={handleChange}
+          />
+          <Button asChild size={"sm"} className="cursor-pointer">
+            <label htmlFor="avatar">Upload New Photo</label>
+          </Button>
 
           <Button
             variant={"destructive"}
@@ -224,7 +269,7 @@ const ImageUploader = ({
         </div>
 
         <p className="text-xs sm:text-sm text-secondary-foreground text-pretty">
-          At least 800x800 px recomended. JPG or PNG is allowed.
+         Recommended size: at least 500 × 500 px, with a file size of no more than {defaultMaxSize} MB.
         </p>
       </div>
     </div>

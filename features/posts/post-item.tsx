@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { routes } from "@/constants/routes";
 import { Post } from "@/types/posts";
 import dayjs from "dayjs";
@@ -23,15 +23,14 @@ export default function PostItem({
 
   return (
     <section className="space-y-4">
-      <div
-        onClick={() => router.push(routes.post.view(post.id))}
-        className="flex gap-4 justify-between cursor-pointer"
-      >
+      <div className="flex gap-4 justify-between">
         <section className="flex flex-col gap-2">
-          <h2 className="text-xl sm:text-2xl font-bold">{post.title}</h2>
-          <p className="text-sm sm:text-base line-clamp-2 sm:line-clamp-4">
-            {post.excerp}
-          </p>
+          <a href={routes.post.view(post.id)} className="space-y-2">
+            <h2 className="text-xl sm:text-2xl font-bold">{post.title}</h2>
+            <p className="text-sm sm:text-base line-clamp-2 sm:line-clamp-4">
+              {post.excerp}
+            </p>
+          </a>
           <div className="text-muted-foreground text-xs sm:text-sm mt-auto">
             {dayjs(post.createdAt).format("MMM DD, YYYY")} •{" "}
             <Link
