@@ -9,9 +9,9 @@ export type Post = {
   createdAt: string;
   updatedAt: string;
   author: {
-    id: string;
     username: string;
     avatar: string | null;
+    name: string | null;
   };
   tags: {
     name: string;

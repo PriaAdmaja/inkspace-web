@@ -4,8 +4,7 @@ import { Post } from "@/types/posts";
 import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
-import { Separator } from "../../components/ui/separator";
-import { useRouter } from "next/navigation";
+import { Separator } from "../../../components/ui/separator";
 
 export default function PostItem({
   post,
@@ -14,8 +13,6 @@ export default function PostItem({
   post: Post;
   showSeparator?: boolean;
 }) {
-  const router = useRouter();
-
   const image = post.content.content?.find((c) => c.type === "unsplashImage");
   const imageThumbnailUrl = image
     ? image.attrs?.thumbnailUrl || image.attrs?.src
@@ -27,7 +24,7 @@ export default function PostItem({
         <section className="flex flex-col gap-2">
           <a href={routes.post.view(post.id)} className="space-y-2">
             <h2 className="text-xl sm:text-2xl font-bold">{post.title}</h2>
-            <p className="text-sm sm:text-base line-clamp-2 sm:line-clamp-4">
+            <p className="text-sm sm:text-base line-clamp-2 sm:line-clamp-4 whitespace-pre-wrap">
               {post.excerp}
             </p>
           </a>
@@ -37,7 +34,7 @@ export default function PostItem({
               href={routes.user.view(post.author.username)}
               className="hover:underline"
             >
-              {post.author.username}
+              {post.author.name || post.author.username}
             </Link>
           </div>
         </section>

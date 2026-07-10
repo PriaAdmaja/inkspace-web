@@ -23,9 +23,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     const keyword = searchParams.get("search") ?? "";
 
     useEffect(() => {
-      if (keyword) {
-        setSearch(keyword);
-      }
+      setSearch(keyword);
     }, [keyword, setSearch]);
 
     const onSearch = () => {
@@ -83,5 +81,4 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
 
 SearchInput.displayName = "SearchInput";
 
-export default SearchInput
-
+export default SearchInput;

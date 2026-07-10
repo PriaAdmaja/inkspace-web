@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import PostDropdown from "./post-dropdown";
 import Link from "next/link";
 import { routes } from "@/constants/routes";
+import { Suspense } from "react";
 
 export default function ViewPost({ post }: { post: Post }) {
   const author = post.author;
@@ -39,15 +40,17 @@ export default function ViewPost({ post }: { post: Post }) {
               </AvatarFallback>
             </Avatar>
 
-            <p className="hover:underline">{author.username}</p>
+            <p className="hover:underline">{author.name || author.username}</p>
           </Link>
           <p className="text-muted-foreground text-sm">
             {dayjs(post.createdAt).format("MMM DD, YYYY")}
           </p>
 
-          <div className="ml-auto">
-            <PostDropdown post={post} />
-          </div>
+          <Suspense>
+            <div className="ml-auto">
+              <PostDropdown post={post} />
+            </div>
+          </Suspense>
         </section>
 
         <Separator />

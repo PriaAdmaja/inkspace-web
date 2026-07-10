@@ -17,6 +17,7 @@ export async function getPostsData({
 }) {
   const params = buildParams({ search, page, limit });
   const url = `${baseUrl}${API_ROUTES.POSTS.GET_ALL}?${params}`;
+
   const res = await fetch(url);
   return res.json() as Promise<Response<Post[]>>;
 }

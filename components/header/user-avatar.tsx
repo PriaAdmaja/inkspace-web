@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { LogOutIcon } from "lucide-react";
+import { LogOutIcon, Settings2, User } from "lucide-react";
 import { useAccessTokenStore } from "@/store/access-token";
 import { API_ROUTES } from "@/constants/api-routes";
 import { AxiosError } from "axios";
@@ -64,13 +64,24 @@ export default function UserAvatar({ user }: { user?: UserData | null }) {
         <DropdownMenuContent align="end">
           <DropdownMenuGroup>
             <Link href={routes.user.view(user.username)}>
-              <DropdownMenuItem>My Account</DropdownMenuItem>
+              <DropdownMenuItem>
+                <User />
+                Profile
+              </DropdownMenuItem>
             </Link>
-            <DropdownMenuItem variant="destructive" onClick={() => signOut()}>
+            <DropdownMenuItem>
+              <Settings2 />
+              Settings
+            </DropdownMenuItem>
+           
+          </DropdownMenuGroup>
+          <DropdownMenuGroup>
+ <DropdownMenuItem variant="destructive" onClick={() => signOut()}>
               <LogOutIcon />
               Sign Out
             </DropdownMenuItem>
           </DropdownMenuGroup>
+
         </DropdownMenuContent>
       )}
     </DropdownMenu>

@@ -1,3 +1,4 @@
+'use client";';
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,7 +15,8 @@ import Link from "next/link";
 
 export default function PostDropdown({ post }: { post: Post }) {
   const userData = useUserDataStore((state) => state.userData);
-  const isAuthor = post.author.id === userData?.id;
+  const hasHydrated = useUserDataStore((state) => state.hasHydrated);
+  const isAuthor = post.author.username === userData?.username;
 
   /** Adjust if there is another  */
   if (!isAuthor) {

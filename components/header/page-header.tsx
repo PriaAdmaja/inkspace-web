@@ -28,6 +28,7 @@ export default function Header({
   const searchRef = useRef<HTMLInputElement>(null);
 
   const isHomepage = pathname === "/";
+  const showNewPostLink = isHomepage && !!userData;
 
   useEffect(() => {
     const handleScroll = () => {
