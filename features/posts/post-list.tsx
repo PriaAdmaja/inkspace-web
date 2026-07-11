@@ -2,29 +2,34 @@
 import { Post } from "@/types/posts";
 import PostItem from "./components/post-item";
 import { API_ROUTES } from "@/constants/api-routes";
-import { Response } from "@/types/app";
-import { useQuery } from "@tanstack/react-query";
-import axios from "@/lib/axios";
+import { useSearchParams } from "next/navigation";
+import useInfiniteQueryFn from "@/hooks/use-infinite-query";
+import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 
-export default function PostList({
-  posts,
-  search,
-}: {
-  posts?: Post[];
-  search?: string;
-}) {
-  const endpoint = `${API_ROUTES.POSTS.GET_ALL}?search=${search}`;
-  const { data, isLoading } = useQuery({
-    queryKey: [endpoint],
-    queryFn: () => axios.get<Response<Post[]>>(endpoint),
-    enabled: !!search,
+export default function PostList() {
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search") || undefined;
+
+  const {
+    isLoading,
+    flattedData,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQueryFn<Post>({
+    endpoint: API_ROUTES.POSTS.GET_ALL,
+    queryKey: ["postList", search],
+    queryParams: {
+      search: search,
+    },
   });
 
   if (isLoading) {
     return <p>Loading...</p>;
   }
 
-  const returnedData = search ? data?.data.data : posts;
+  const returnedData = flattedData;
 
   return (
     <section className="flex flex-col gap-4">
@@ -37,6 +42,14 @@ export default function PostList({
           />
         );
       })}
+      <div className="mx-auto">
+        {hasNextPage && (
+          <Button onClick={() => fetchNextPage} disabled={isFetchingNextPage}>
+            {isFetchingNextPage && <Spinner />}
+            Load more
+          </Button>
+        )}
+      </div>
     </section>
   );
 }
