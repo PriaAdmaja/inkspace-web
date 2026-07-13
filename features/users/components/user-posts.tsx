@@ -5,6 +5,7 @@ import { Response } from "@/types/app";
 import { Post } from "@/types/posts";
 import { useQuery } from "@tanstack/react-query";
 import axios from "@/lib/axios";
+import PostItemSkeleteon from "@/features/posts/components/post-item-skeleteon";
 
 export default function UserPosts({ username }: { username: string }) {
   const currentUser = useUserDataStore((state) => state.userData);
@@ -21,7 +22,13 @@ export default function UserPosts({ username }: { username: string }) {
   const posts = data?.data.data ?? [];
 
   if (isLoading || hasHydrated === false) {
-    return <p>Loading...</p>;
+    return (
+      <section className="flex flex-col gap-6">
+        {Array.from({ length: 2 }).map((_v, i) => (
+          <PostItemSkeleteon key={i} />
+        ))}
+      </section>
+    );
   }
 
   if (!posts || posts.length === 0) {

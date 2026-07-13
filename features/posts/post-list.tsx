@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import useInfiniteQueryFn from "@/hooks/use-infinite-query";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import PostItemSkeleteon from "./components/post-item-skeleteon";
 
 export default function PostList() {
   const searchParams = useSearchParams();
@@ -26,7 +27,13 @@ export default function PostList() {
   });
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <section className="flex flex-col gap-6">
+        {Array.from({ length: 2 }).map((_value, idx) => (
+          <PostItemSkeleteon key={idx} />
+        ))}
+      </section>
+    );
   }
 
   const returnedData = flattedData;
@@ -42,6 +49,7 @@ export default function PostList() {
           />
         );
       })}
+
       <div className="mx-auto">
         {hasNextPage && (
           <Button onClick={() => fetchNextPage} disabled={isFetchingNextPage}>
