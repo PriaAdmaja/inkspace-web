@@ -46,19 +46,9 @@ export default function MePost() {
     },
   });
 
-  if (isLoading) {
-    return (
-      <section className="flex flex-col gap-6">
-        {Array.from({ length: 2 }).map((_, i) => (
-          <PostItemSkeleteon key={i} />
-        ))}
-      </section>
-    );
-  }
-
   return (
     <Tabs
-      defaultValue="published"
+      value={tabValue}
       onValueChange={(value) => {
         console.log(value);
         if (tabsValueArray.includes(value as TabsValue)) {
@@ -71,22 +61,30 @@ export default function MePost() {
         <TabsTrigger value="draft">Draft</TabsTrigger>
       </TabsList>
 
-      <section className="flex flex-col gap-4">
-        {flattedData.map((d, i) => (
-          <PostItem post={d} key={i} isMe />
-        ))}
-        {hasNextPage && (
-          <div className="mx-auto mt-2">
-            <Button
-              onClick={() => fetchNextPage()}
-              disabled={isFetchingNextPage}
-            >
-              {isFetchingNextPage && <Spinner />}
-              Load more
-            </Button>
-          </div>
-        )}
-      </section>
+      {isLoading ? (
+        <section className="flex flex-col gap-6">
+          {Array.from({ length: 2 }).map((_, i) => (
+            <PostItemSkeleteon key={i} />
+          ))}
+        </section>
+      ) : (
+        <section className="flex flex-col gap-4">
+          {flattedData.map((d, i) => (
+            <PostItem post={d} key={i} isMe />
+          ))}
+          {hasNextPage && (
+            <div className="mx-auto mt-2">
+              <Button
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+              >
+                {isFetchingNextPage && <Spinner />}
+                Load more
+              </Button>
+            </div>
+          )}
+        </section>
+      )}
     </Tabs>
   );
 }
