@@ -100,7 +100,7 @@ const EditPost = ({ id }: { id: string }) => {
               }}
               variant={"secondary"}
               disabled={isSaveLoading}
-              size={"sm"}
+              size={sm ? "sm" : "icon-sm"}
             >
               {isSaveLoading ? <Spinner data-icon="inline-start" /> : <Save />}
               {sm && <> Save as Draft</>}
@@ -111,7 +111,7 @@ const EditPost = ({ id }: { id: string }) => {
                 router.push(routes.post.view(id));
               }}
               variant={"ghost"}
-              size={"sm"}
+             size={sm ? "sm" : "icon-sm"}
             >
               <MoveLeft />
               {sm && <>Back to View</>}
@@ -125,7 +125,7 @@ const EditPost = ({ id }: { id: string }) => {
               const excerp = excerpBuilder(content);
               onSave(excerp, true);
             }}
-            size={"sm"}
+           size={sm ? "sm" : "icon-sm"}
           >
             {isSaveLoading ? <Spinner data-icon="inline-start" /> : <Send />}
             {sm && <>Save & Publish</>}

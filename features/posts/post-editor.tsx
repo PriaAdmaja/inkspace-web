@@ -35,7 +35,6 @@ export default function PostEditor({
       headerComponent={
         <div className="flex items-center gap-2 h-full">
           {headerComponent}
-          <Separator orientation="vertical" />
         </div>
       }
       headerClassName="max-w-[1440px] mx-auto"

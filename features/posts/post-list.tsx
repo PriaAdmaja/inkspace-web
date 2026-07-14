@@ -2,15 +2,12 @@
 import { Post } from "@/types/posts";
 import PostItem from "./components/post-item";
 import { API_ROUTES } from "@/constants/api-routes";
-import { useSearchParams } from "next/navigation";
 import useInfiniteQueryFn from "@/hooks/use-infinite-query";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import PostItemSkeleteon from "./components/post-item-skeleteon";
 
-export default function PostList() {
-  const searchParams = useSearchParams();
-  const search = searchParams.get("search") || undefined;
+export default function PostList({ search }: { search?: string }) {
 
   const {
     isLoading,

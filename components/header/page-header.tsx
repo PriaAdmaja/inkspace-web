@@ -2,7 +2,7 @@
 import SignInButton from "../auth/auth-dialog";
 import UserAvatar from "./user-avatar";
 import Link from "next/link";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, Suspense, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { ArrowLeft, PencilLine, SearchIcon } from "lucide-react";
@@ -63,19 +63,26 @@ export default function Header({
             >
               <ArrowLeft />
             </Button>
-            <SearchInput ref={searchRef} />
+
+            <Suspense>
+              <SearchInput ref={searchRef} />
+            </Suspense>
           </>
         ) : (
           <>
             {/** Logo */}
             <Link href={"/"}>
-              <p className=" text-xl sm:text-3xl font-bold font-monomakh">
+              <p className="text-2xl sm:text-3xl font-bold font-monomakh">
                 Inkspace
               </p>
             </Link>
 
             {/** Search bar in large screen */}
-            {isHomepage && <SearchInput classname="hidden sm:flex" />}
+            {isHomepage && (
+              <Suspense>
+                <SearchInput classname="hidden sm:flex" />
+              </Suspense>
+            )}
 
             <section
               className={cn(
