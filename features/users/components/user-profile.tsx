@@ -2,10 +2,10 @@ import { API_ROUTES } from "@/constants/api-routes";
 import { useUserDataStore } from "@/store/user-data";
 import { Response } from "@/types/app";
 import { User } from "@/types/users";
-import Image from "next/image";
 import EditProfile from "./edit-profile";
 import { useQuery } from "@tanstack/react-query";
 import axios from "@/lib/axios";
+import UserProfileSkeleton from "./user-profile-skeleton";
 
 const avatarPlaceholder = "/no-profile.jpg";
 
@@ -15,16 +15,20 @@ export default function UserProfile({ username }: { username: string }) {
   const isMe = userData?.username === username;
 
   const endpoint = API_ROUTES.USERS.DETAIL(username);
-  const {data, isLoading} = useQuery({
+  const { data, isLoading } = useQuery({
     queryFn: () => axios.get<Response<User>>(endpoint),
     queryKey: [endpoint],
     enabled: !isMe,
   });
 
-  const user = isMe ? userData : data?.data.data
+  const user = isMe ? userData : data?.data.data;
   const avatar = user?.avatar?.medium ?? avatarPlaceholder;
 
   const isShowEditButton = isMe && isLoading === false;
+
+  if (isLoading) {
+    return <UserProfileSkeleton />;
+  }
 
   return (
     <section className="space-y-4">
