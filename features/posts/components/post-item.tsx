@@ -22,7 +22,7 @@ export default function PostItem({
     <section className="space-y-4">
       <div className="flex gap-4 justify-between">
         <section className="flex flex-col gap-2">
-          <Link href={routes.post.view(post.id)} className="space-y-2">
+          <Link href={routes.post.view(post.id)} className="space-y-2 flex-1">
             <h2 className="text-xl sm:text-2xl font-bold">{post.title}</h2>
             <p className="text-sm sm:text-base line-clamp-2 sm:line-clamp-4 whitespace-pre-wrap">
               {post.excerp}
