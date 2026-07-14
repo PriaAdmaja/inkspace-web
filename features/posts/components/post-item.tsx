@@ -9,20 +9,27 @@ import { Separator } from "../../../components/ui/separator";
 export default function PostItem({
   post,
   showSeparator,
+  isMe = false,
 }: {
   post: Post;
   showSeparator?: boolean;
+  isMe?: boolean;
 }) {
   const image = post.content.content?.find((c) => c.type === "unsplashImage");
   const imageThumbnailUrl = image
     ? image.attrs?.thumbnailUrl || image.attrs?.src
     : undefined;
 
+  const openPostLink =
+    isMe && post.isPublished === false
+      ? routes.post.edit(post.id)
+      : routes.post.view(post.id);
+
   return (
     <section className="space-y-4">
-      <div className="flex gap-4 justify-between">
-        <section className="flex flex-col gap-2">
-          <Link href={routes.post.view(post.id)} className="space-y-2 flex-1">
+      <div className="flex justify-between">
+        <section className="flex flex-col gap-2 w-full pr-4">
+          <Link href={openPostLink} className="space-y-2 flex-1 w-full">
             <h2 className="text-xl sm:text-2xl font-bold">{post.title}</h2>
             <p className="text-sm sm:text-base line-clamp-2 sm:line-clamp-4 whitespace-pre-wrap">
               {post.excerp}
@@ -39,14 +46,17 @@ export default function PostItem({
           </div>
         </section>
         {imageThumbnailUrl && (
-          <div className="size-20 sm:size-32 lg:size-40 shrink-0 flex justify-center items-center border relative rounded-sm overflow-hidden">
+          <Link
+            href={openPostLink}
+            className="size-20 sm:size-32 lg:size-40 shrink-0 flex justify-center items-center border relative rounded-sm overflow-hidden"
+          >
             <Image
               src={imageThumbnailUrl}
               alt={"image"}
               fill
               className="object-cover"
             />
-          </div>
+          </Link>
         )}
       </div>
       {showSeparator && <Separator />}

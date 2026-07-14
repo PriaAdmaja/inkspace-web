@@ -1,27 +1,26 @@
 import PostItem from "@/features/posts/components/post-item";
 import { API_ROUTES } from "@/constants/api-routes";
-import { useUserDataStore } from "@/store/user-data";
-import { Response } from "@/types/app";
 import { Post } from "@/types/posts";
-import { useQuery } from "@tanstack/react-query";
-import axios from "@/lib/axios";
 import PostItemSkeleteon from "@/features/posts/components/post-item-skeleteon";
+import useInfiniteQueryFn from "@/hooks/use-infinite-query";
+import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function UserPosts({ username }: { username: string }) {
-  const currentUser = useUserDataStore((state) => state.userData);
-  const hasHydrated = useUserDataStore((state) => state.hasHydrated);
-  const endpoint =
-    username === currentUser?.username
-      ? API_ROUTES.ME.POSTS
-      : API_ROUTES.USERS.POSTS(username);
+  const endpoint = API_ROUTES.USERS.POSTS(username);
 
-  const { data, isLoading } = useQuery({
+  const {
+    flattedData: posts,
+    isLoading,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useInfiniteQueryFn<Post>({
+    endpoint,
     queryKey: [endpoint],
-    queryFn: () => axios.get<Response<Post[]>>(endpoint),
   });
-  const posts = data?.data.data ?? [];
 
-  if (isLoading || hasHydrated === false) {
+  if (isLoading) {
     return (
       <section className="flex flex-col gap-6">
         {Array.from({ length: 2 }).map((_v, i) => (
@@ -44,6 +43,15 @@ export default function UserPosts({ username }: { username: string }) {
           showSeparator={idx !== posts.length - 1}
         />
       ))}
+
+      {hasNextPage && (
+        <div className="mx-auto mt-2">
+          <Button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+            {isFetchingNextPage && <Spinner />}
+            Load more
+          </Button>
+        </div>
+      )}
     </section>
   );
 }
