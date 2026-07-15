@@ -20,7 +20,7 @@ export function UnsplashImageView({
         <img
           src={node.attrs.src}
           alt={node.attrs.alt}
-          className="object-cover max-w-4/5 max-h-[700px]"
+          className="object-cover max-w-4/5 max-h-175"
         />
 
         <p className="mt-2 text-xs text-muted-foreground">
