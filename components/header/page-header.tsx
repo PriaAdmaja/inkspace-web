@@ -31,6 +31,7 @@ export default function Header({
     pathname.endsWith(r),
   );
   const showNewPostLink = hideNewPostRoutes === false && !!userData;
+  const isHomePage = pathname === '/'
 
   useEffect(() => {
     const handleScroll = () => {
@@ -80,7 +81,7 @@ export default function Header({
             </Link>
 
             {/** Search bar in large screen */}
-            {showNewPostLink && (
+            {isHomePage && (
               <Suspense>
                 <SearchInput classname="hidden sm:flex" />
               </Suspense>
@@ -95,7 +96,7 @@ export default function Header({
               )}
             >
               {/** Button to display search bar in mobile   */}
-              {showNewPostLink && (
+              {isHomePage && (
                 <Button
                   size={"icon"}
                   variant={"ghost"}
@@ -111,7 +112,7 @@ export default function Header({
               {additionalComponent}
 
               {/** Link button to create new post */}
-              {showNewPostLink && !!userData && (
+              {showNewPostLink && (
                 <Button variant={"ghost"} asChild>
                   <Link href={routes.newIdea}>
                     <PencilLine />
