@@ -100,7 +100,7 @@ const EditPost = ({ id }: { id: string }) => {
       content={content}
       setTitle={setTitle}
       setContent={setContent}
-      headerComponent={
+      headerAdditionalComponent={
         <>
           {isDraft ? (
             <Button

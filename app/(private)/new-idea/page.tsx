@@ -81,7 +81,7 @@ export default function NewIdea() {
       content={content}
       setContent={setContent}
       setTitle={setTitle}
-      headerComponent={
+      headerAdditionalComponent={
         <>
           <Button
             onClick={() => {

@@ -4,19 +4,22 @@ import { cn } from "@/lib/utils";
 
 export default function PageLayout({
   children,
-  headerComponent,
+  headerAdditionalComponent,
   headerClassName,
+  headerContentClassName,
 }: {
   children: ReactNode;
-  headerComponent?: ReactNode;
+  headerAdditionalComponent?: ReactNode;
   headerClassName?: string;
+  headerContentClassName?: string;
 }) {
   return (
     <section className={cn("min-h-screen")}>
       <Suspense>
         <Header
-          additionalComponent={headerComponent}
+          additionalComponent={headerAdditionalComponent}
           className={headerClassName}
+          contentClassName={headerContentClassName}
         />
       </Suspense>
       <section className={cn("max-w-7xl mx-auto p-4 sm:p-10 flex-1")}>

@@ -15,7 +15,7 @@ export type PostEditorProps = {
   setTitle?: (title: string) => void;
   content?: JSONContent;
   setContent?: (content: JSONContent, isEmpty?: boolean) => void;
-  headerComponent?: ReactNode;
+  headerAdditionalComponent?: ReactNode;
 };
 
 export default function PostEditor({
@@ -23,7 +23,7 @@ export default function PostEditor({
   setTitle,
   content,
   setContent,
-  headerComponent,
+  headerAdditionalComponent,
 }: PostEditorProps) {
   const saveTitle = (title: object) => {
     const titleText = generateText(title, [StarterKit]);
@@ -32,12 +32,12 @@ export default function PostEditor({
 
   return (
     <PageLayout
-      headerComponent={
+      headerAdditionalComponent={
         <div className="flex items-center gap-2 h-full">
-          {headerComponent}
+          {headerAdditionalComponent}
         </div>
       }
-      headerClassName="max-w-[1440px] mx-auto"
+      headerContentClassName="max-w-[1440px] mx-auto"
     >
       <section className="flex flex-col gap-2">
         <div className="flex w-full">

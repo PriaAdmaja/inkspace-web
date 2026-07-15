@@ -14,9 +14,11 @@ import SearchInput from "./search-bar/search-input";
 export default function Header({
   additionalComponent,
   className,
+  contentClassName,
 }: {
   additionalComponent?: ReactNode;
   className?: string;
+  contentClassName?: string;
 }) {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [isSearchHeader, setIsSearchHeader] = useState<boolean>(false);
@@ -50,78 +52,88 @@ export default function Header({
   return (
     <header
       className={cn(
-        "flex justify-between gap-2 items-center px-4 sm:px-10 py-4 sticky top-0 z-50 bg-background transition-all duration-300 ease-in-out",
+        "px-4 sm:px-10 py-4 sticky top-0 z-50 bg-background transition-all duration-300 ease-in-out",
         { "border-b border-border": isScrolled },
         className,
       )}
     >
-      {isSearchHeader ? (
-        <>
-          {/** Seach bar in mobile view */}
-          <Button
-            variant={"ghost"}
-            size={"icon"}
-            onClick={() => setIsSearchHeader(false)}
-          >
-            <ArrowLeft />
-          </Button>
+      <section
+        className={cn(
+          "flex justify-between gap-2 items-center",
+          contentClassName,
+        )}
+      >
+        {isSearchHeader ? (
+          <>
+            {/** Seach bar in mobile view */}
+            <Button
+              variant={"ghost"}
+              size={"icon"}
+              onClick={() => setIsSearchHeader(false)}
+            >
+              <ArrowLeft />
+            </Button>
 
-          <Suspense>
-            <SearchInput ref={searchRef} />
-          </Suspense>
-        </>
-      ) : (
-        <>
-          {/** Logo */}
-          <Link href={"/"}>
-            <p className="text-2xl sm:text-3xl font-bold font-monomakh">
-              Inkspace
-            </p>
-          </Link>
-
-          {/** Search bar in large screen */}
-          {isHomePage && (
             <Suspense>
-              <SearchInput classname="hidden sm:flex" />
+              <SearchInput ref={searchRef} />
             </Suspense>
-          )}
+          </>
+        ) : (
+          <>
+            {/** Logo */}
+            <Link href={"/"}>
+              <p className="text-2xl sm:text-3xl font-bold font-monomakh">
+                Inkspace
+              </p>
+            </Link>
 
-          <section
-            className={cn("flex gap-2 sm:gap-4 items-center justify-end w-40", {
-              invisible: !hasHydrated,
-            })}
-          >
-            {/** Button to display search bar in mobile   */}
+            {/** Search bar in large screen */}
             {isHomePage && (
-              <Button
-                size={"icon"}
-                variant={"ghost"}
-                className="flex sm:hidden"
-                onClick={() => {
-                  setIsSearchHeader(true);
-                }}
-              >
-                <SearchIcon />
-              </Button>
+              <Suspense>
+                <SearchInput classname="hidden sm:flex" />
+              </Suspense>
             )}
 
-            {additionalComponent}
+            <section
+              className={cn(
+                "flex gap-2 sm:gap-4 items-center justify-end w-40",
+                {
+                  invisible: !hasHydrated,
+                },
+              )}
+            >
+              {/** Button to display search bar in mobile   */}
+              {isHomePage && (
+                <Button
+                  size={"icon"}
+                  variant={"ghost"}
+                  className="flex sm:hidden"
+                  onClick={() => {
+                    setIsSearchHeader(true);
+                  }}
+                >
+                  <SearchIcon />
+                </Button>
+              )}
 
-            {/** Link button to create new post */}
-            {showNewPostLink && (
-              <Button variant={"ghost"} asChild>
-                <Link href={routes.newIdea}>
-                  <PencilLine />
-                  <span className="hidden sm:block">Write</span>
-                </Link>
-              </Button>
-            )}
+              {additionalComponent}
 
-            {/** User Menu */}
-            {!!userData ? <UserAvatar user={userData} /> : <SignInButton />}
-          </section>
-        </>
-      )}
+              {/** Link button to create new post */}
+              {showNewPostLink && (
+                <Button variant={"ghost"} asChild>
+                  <Link href={routes.newIdea}>
+                    <PencilLine />
+                    <span className="hidden sm:block">Write</span>
+                  </Link>
+                </Button>
+              )}
+
+              {/** User Menu */}
+              {!!userData ? <UserAvatar user={userData} /> : <SignInButton />}
+            </section>
+          </>
+        )}
+      </section>
     </header>
   );
 }
