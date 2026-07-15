@@ -10,11 +10,12 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { MoveLeft, Save, Send } from "lucide-react";
-import { excerpBuilder } from "./libs/excerp-builder";
 import { useRouter } from "next/navigation";
 import { routes } from "@/constants/routes";
 import PostSkeleton from "./components/post-skeleton";
 import { useMediaQueries } from "@/hooks/use-media-queries";
+import { useNavigationGuard } from "next-navigation-guard";
+import { excerptBuilder } from "./libs/excerpt-builder";
 
 const EditPost = ({ id }: { id: string }) => {
   // States
@@ -60,7 +61,7 @@ const EditPost = ({ id }: { id: string }) => {
     fetchData();
   }, [fetchData]);
 
-  const onSave = async (excerp: string, isPublished?: boolean) => {
+  const onSave = async (excerpt: string, isPublished?: boolean) => {
     try {
       setIsSaveLoading(true);
       if (!post?.id) return;
@@ -68,9 +69,10 @@ const EditPost = ({ id }: { id: string }) => {
       await axios.put<Response<Post>>(API_ROUTES.POSTS.UPDATE(post.id), {
         title,
         content: content,
-        excerp,
+        excerpt,
         isPublished,
       });
+      toast.success('Saved!')
     } catch (error) {
       const message =
         (error as Error).message || "An unexpected error occurred.";
@@ -79,6 +81,14 @@ const EditPost = ({ id }: { id: string }) => {
       setIsSaveLoading(false);
     }
   };
+
+  // Guard for unsaved form
+  const isFormFilled = post?.title !== title || post.content !== content
+  useNavigationGuard({
+    enabled:  isFormFilled,
+    confirm: () =>
+      window.confirm("You have unsaved changes that will be lost."),
+  });
 
   if (isGettingData) {
     return <PostSkeleton />;
@@ -95,8 +105,8 @@ const EditPost = ({ id }: { id: string }) => {
           {isDraft ? (
             <Button
               onClick={() => {
-                const excerp = excerpBuilder(content);
-                onSave(excerp);
+                const excerpt = excerptBuilder(content);
+                onSave(excerpt);
               }}
               variant={"secondary"}
               disabled={isSaveLoading}
@@ -111,7 +121,7 @@ const EditPost = ({ id }: { id: string }) => {
                 router.push(routes.post.view(id));
               }}
               variant={"ghost"}
-             size={sm ? "sm" : "icon-sm"}
+              size={sm ? "sm" : "icon-sm"}
             >
               <MoveLeft />
               {sm && <>Back to View</>}
@@ -122,10 +132,10 @@ const EditPost = ({ id }: { id: string }) => {
             variant={"default"}
             disabled={isSaveLoading}
             onClick={() => {
-              const excerp = excerpBuilder(content);
-              onSave(excerp, true);
+              const excerpt = excerptBuilder(content);
+              onSave(excerpt, true);
             }}
-           size={sm ? "sm" : "icon-sm"}
+            size={sm ? "sm" : "icon-sm"}
           >
             {isSaveLoading ? <Spinner data-icon="inline-start" /> : <Send />}
             {sm && <>Save & Publish</>}

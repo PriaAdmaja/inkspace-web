@@ -32,7 +32,7 @@ export default function PostItem({
           <Link href={openPostLink} className="space-y-2 flex-1 w-full">
             <h2 className="text-xl sm:text-2xl font-bold">{post.title}</h2>
             <p className="text-sm sm:text-base line-clamp-2 sm:line-clamp-4 whitespace-pre-wrap">
-              {post.excerp}
+              {post.excerpt}
             </p>
           </Link>
           <div className="text-muted-foreground text-xs sm:text-sm mt-auto">

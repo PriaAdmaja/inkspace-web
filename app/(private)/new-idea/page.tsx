@@ -14,7 +14,7 @@ import { routes } from "@/constants/routes";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { Save, Send } from "lucide-react";
-import { excerpBuilder } from "@/features/posts/libs/excerp-builder";
+import { excerptBuilder } from "@/features/posts/libs/excerpt-builder";
 
 export default function NewIdea() {
   const [title, setTitle] = useState<string>("");
@@ -27,7 +27,7 @@ export default function NewIdea() {
   const contentEmpty = content === undefined || isContentEmpty(content);
   const isDisable = !title.trim() || contentEmpty;
 
-  const onSave = async (excerp: string, isPublished?: boolean) => {
+  const onSave = async (excerpt: string, isPublished?: boolean) => {
     try {
       setIsLoading(true);
       if (!content) {
@@ -39,7 +39,7 @@ export default function NewIdea() {
         {
           title,
           content,
-          excerp,
+          excerpt,
           isPublished,
         },
       );
@@ -85,8 +85,8 @@ export default function NewIdea() {
         <>
           <Button
             onClick={() => {
-              const excerp = excerpBuilder(content);
-              onSave(excerp);
+              const excerpt = excerptBuilder(content);
+              onSave(excerpt);
             }}
             variant={"secondary"}
             disabled={isDisable || isLoading}
@@ -98,8 +98,8 @@ export default function NewIdea() {
             variant={"default"}
             disabled={isDisable || isLoading}
             onClick={() => {
-              const excerp = excerpBuilder(content);
-              onSave(excerp, true);
+              const excerpt = excerptBuilder(content);
+              onSave(excerpt, true);
             }}
           >
             {isLoading ? <Spinner data-icon="inline-start" /> : <Send />}

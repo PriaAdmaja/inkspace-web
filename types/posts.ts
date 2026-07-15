@@ -4,7 +4,7 @@ export type Post = {
   id: string;
   title: string;
   content: JSONContent;
-  excerp: string;
+  excerpt: string;
   isPublished: boolean
   createdAt: string;
   updatedAt: string;
