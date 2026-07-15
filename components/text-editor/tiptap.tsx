@@ -1,6 +1,7 @@
 "use client";
 
 import { useEditor, EditorContent, Content } from "@tiptap/react";
+import { NodeSelection, TextSelection } from "@tiptap/pm/state";
 import "./styles.css";
 import Toolbar from "./toolbar";
 import { tiptapExtentions } from "./extentions";
@@ -12,7 +13,7 @@ export interface TiptapProps {
   className?: string;
   isDisableEnter?: boolean;
   disableToolbar?: boolean;
-  characterLimit?: number
+  characterLimit?: number;
 }
 
 const Tiptap = ({
@@ -22,16 +23,38 @@ const Tiptap = ({
   className,
   isDisableEnter = false,
   disableToolbar = false,
-  characterLimit = 2000
+  characterLimit = 2000,
 }: TiptapProps) => {
   const editor = useEditor({
-    extensions: tiptapExtentions({ placeholder, isDisableEnter, characterLimit }),
+    extensions: tiptapExtentions({
+      placeholder,
+      isDisableEnter,
+      characterLimit,
+    }),
     content: defaultContent,
     // Don't render immediately on the server to avoid SSR issues
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
       const json = editor.getJSON();
       onChange?.(json, editor.isEmpty);
+    },
+    editorProps: {
+      handleDOMEvents: {
+        blur: (view) => {
+          const { state } = view;
+
+          // handle selection on unsplash image
+          if (state.selection instanceof NodeSelection) {
+            view.dispatch(
+              state.tr.setSelection(
+                TextSelection.create(state.doc, state.selection.from),
+              ),
+            );
+          }
+
+          return false;
+        },
+      },
     },
   });
 

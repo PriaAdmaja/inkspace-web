@@ -9,13 +9,12 @@ export function UnsplashImageView({
   node: any;
   selected: boolean;
 }) {
-
   return (
     <NodeViewWrapper>
       <section
         className={cn(
           "my-6 flex flex-col items-center w-full gap-3 ",
-          selected && "ring-2 ring-blue-500",
+          selected &&  "ring-2 ring-blue-500",
         )}
       >
         <img
