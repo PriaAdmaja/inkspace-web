@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import PostEditor from "./post-editor";
 import { Post } from "@/types/posts";
 import { JSONContent } from "@tiptap/core";
@@ -16,55 +16,24 @@ import PostSkeleton from "./components/post-skeleton";
 import { useMediaQueries } from "@/hooks/use-media-queries";
 import { useNavigationGuard } from "next-navigation-guard";
 import { excerptBuilder } from "./libs/excerpt-builder";
+import { useQuery } from "@tanstack/react-query";
+import { usePostDataTempStore } from "@/store/post-data-temp";
 
-const EditPost = ({ id }: { id: string }) => {
+const EditPostComponent = ({ id, post }: { id: string; post: Post }) => {
   // States
-  const [post, setPost] = useState<Post | null>(null);
-  const [title, setTitle] = useState<string>("");
-  const [content, setContent] = useState<JSONContent>({});
+  const [title, setTitle] = useState<string>(post.title ?? "");
+  const [content, setContent] = useState<JSONContent>(post.content ?? {});
   const [isSaveLoading, setIsSaveLoading] = useState<boolean>(false);
-  const [isGettingData, setIsGettingData] = useState<boolean>(false);
 
   const router = useRouter();
   const { sm } = useMediaQueries();
 
   // Vars
-  const isDraft = !post?.isPublished;
-
-  // Fetching Data
-  const hasFetched = useRef(false);
-  const fetchData = useCallback(async () => {
-    try {
-      setIsGettingData(true);
-      const res = await axios.get<Response<Post>>(
-        API_ROUTES.POSTS.GET_BY_ID(id),
-      );
-      const postData = res.data.data;
-      if (postData) {
-        setPost(postData);
-        setTitle(postData.title);
-        setContent(postData.content);
-      }
-    } catch (error) {
-      const message =
-        (error as Error).message || "An unexpected error occurred.";
-      toast.error(message);
-    } finally {
-      setIsGettingData(false);
-    }
-  }, [id]);
-
-  useEffect(() => {
-    if (hasFetched.current) return;
-
-    hasFetched.current = true;
-    fetchData();
-  }, [fetchData]);
+  const isDraft = post.isPublished === false;
 
   const onSave = async (excerpt: string, isPublished?: boolean) => {
     try {
       setIsSaveLoading(true);
-      if (!post?.id) return;
 
       await axios.put<Response<Post>>(API_ROUTES.POSTS.UPDATE(post.id), {
         title,
@@ -72,7 +41,7 @@ const EditPost = ({ id }: { id: string }) => {
         excerpt,
         isPublished,
       });
-      toast.success('Saved!')
+      toast.success("Saved!");
     } catch (error) {
       const message =
         (error as Error).message || "An unexpected error occurred.";
@@ -83,16 +52,12 @@ const EditPost = ({ id }: { id: string }) => {
   };
 
   // Guard for unsaved form
-  const isFormFilled = post?.title !== title || post.content !== content
+  const isFormFilled = post?.title !== title || post.content !== content;
   useNavigationGuard({
-    enabled:  isFormFilled,
+    enabled: isFormFilled,
     confirm: () =>
       window.confirm("You have unsaved changes that will be lost."),
   });
-
-  if (isGettingData) {
-    return <PostSkeleton />;
-  }
 
   return (
     <PostEditor
@@ -144,6 +109,36 @@ const EditPost = ({ id }: { id: string }) => {
       }
     />
   );
+};
+
+const EditPost = ({ id }: { id: string }) => {
+  const postTemp = usePostDataTempStore((state) => state.post);
+  const setPostTemp = usePostDataTempStore((state) => state.setPost);
+
+  const isShouldFetchNewData = id !== postTemp?.id;
+
+  // Fetching Data
+  const endpoint = API_ROUTES.POSTS.GET_BY_ID(id);
+  const { data, isLoading } = useQuery({
+    queryKey: [endpoint],
+    queryFn: () => axios.get<Response<Post>>(endpoint),
+    enabled: isShouldFetchNewData,
+  });
+  const post = data?.data.data;
+
+  const returnedPostData = isShouldFetchNewData ? post : postTemp;
+
+  useEffect(() => {
+    if (postTemp && isShouldFetchNewData) {
+      setPostTemp(null);
+    }
+  }, [isShouldFetchNewData, postTemp, setPostTemp]);
+
+  if (isLoading || !returnedPostData) {
+    return <PostSkeleton />;
+  }
+
+  return <EditPostComponent id={id} post={returnedPostData} />;
 };
 
 export default EditPost;

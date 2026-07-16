@@ -35,7 +35,7 @@ export default function useInfiniteQueryFn<T>({
     queryFn: fetcher,
     retry: 3,
   });
-console.log(infiniteQuery.data)
+
   const flattedData: T[] = infiniteQuery.data
     ? infiniteQuery.data.pages
         .flatMap((d) => d.data)

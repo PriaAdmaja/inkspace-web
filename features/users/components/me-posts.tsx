@@ -70,7 +70,12 @@ export default function MePost() {
       ) : (
         <section className="flex flex-col gap-4">
           {flattedData.map((d, i) => (
-            <PostItem post={d} key={i} isMe />
+            <PostItem
+              post={d}
+              key={i}
+              isMe
+              showSeparator={flattedData.length - 1 !== i}
+            />
           ))}
           {hasNextPage && (
             <div className="mx-auto mt-2">

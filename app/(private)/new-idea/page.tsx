@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { Save, Send } from "lucide-react";
 import { excerptBuilder } from "@/features/posts/libs/excerpt-builder";
+import { usePostDataTempStore } from "@/store/post-data-temp";
 
 export default function NewIdea() {
   const [title, setTitle] = useState<string>("");
@@ -22,6 +23,7 @@ export default function NewIdea() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [newRoute, setNewRoute] = useState<string | null>(null);
 
+  const setPostDataTemp = usePostDataTempStore((state) => state.setPost);
   const router = useRouter();
 
   const contentEmpty = content === undefined || isContentEmpty(content);
@@ -49,6 +51,7 @@ export default function NewIdea() {
         if (isPublished) {
           setNewRoute(routes.post.view(id));
         } else {
+          setPostDataTemp(response.data.data ?? null);
           setNewRoute(routes.post.edit(id));
         }
       }
