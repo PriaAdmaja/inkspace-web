@@ -6,9 +6,25 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { LogOutIcon, Settings2, User } from "lucide-react";
+import {
+  LogOutIcon,
+  MonitorIcon,
+  MoonIcon,
+  Palette,
+  Settings2,
+  SunIcon,
+  User,
+} from "lucide-react";
 import { useAccessTokenStore } from "@/store/access-token";
 import { API_ROUTES } from "@/constants/api-routes";
 import { AxiosError } from "axios";
@@ -17,12 +33,14 @@ import { routes } from "@/constants/routes";
 import { usePathname, useRouter } from "next/navigation";
 import axios from "@/lib/axios";
 import { toast } from "sonner";
+import { useTheme } from "next-themes";
 
 const privateRoutes = ["/new-idea", "/edit"];
 
 export default function UserAvatar({ user }: { user?: UserData | null }) {
   const pathname = usePathname();
   const router = useRouter();
+  const { theme, setTheme } = useTheme();
 
   const setUserData = useUserDataStore((state) => state.setUserData);
   const setAccessToken = useAccessTokenStore((state) => state.setAccessToken);
@@ -63,6 +81,7 @@ export default function UserAvatar({ user }: { user?: UserData | null }) {
       {user && (
         <DropdownMenuContent align="end">
           <DropdownMenuGroup>
+            <DropdownMenuLabel>Account</DropdownMenuLabel>
             <Link href={routes.user.view(user.username)}>
               <DropdownMenuItem>
                 <User />
@@ -73,15 +92,49 @@ export default function UserAvatar({ user }: { user?: UserData | null }) {
               <Settings2 />
               Settings
             </DropdownMenuItem>
-           
           </DropdownMenuGroup>
+
+          <DropdownMenuSeparator />
+
           <DropdownMenuGroup>
- <DropdownMenuItem variant="destructive" onClick={() => signOut()}>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>
+                <Palette />
+                Theme
+              </DropdownMenuSubTrigger>
+
+              <DropdownMenuPortal>
+                <DropdownMenuSubContent>
+                  <DropdownMenuRadioGroup
+                    value={theme}
+                    onValueChange={(value) => setTheme(value)}
+                  >
+                    <DropdownMenuRadioItem value="light">
+                      <SunIcon />
+                      Light
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="dark">
+                      <MoonIcon />
+                      Dark
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="system">
+                      <MonitorIcon />
+                      System
+                    </DropdownMenuRadioItem>
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuSubContent>
+              </DropdownMenuPortal>
+            </DropdownMenuSub>
+          </DropdownMenuGroup>
+
+          <DropdownMenuSeparator />
+
+          <DropdownMenuGroup>
+            <DropdownMenuItem variant="destructive" onClick={() => signOut()}>
               <LogOutIcon />
               Sign Out
             </DropdownMenuItem>
           </DropdownMenuGroup>
-
         </DropdownMenuContent>
       )}
     </DropdownMenu>
