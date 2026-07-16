@@ -61,7 +61,7 @@ const Tiptap = ({
   return (
     <section className="space-y-4 w-full">
       {!disableToolbar && (
-        <section className="sticky top-17 pb-1 z-10 bg-white -mx-1">
+        <section className="sticky top-17 pb-1 z-10 bg-background -mx-1">
           <Toolbar editor={editor} />
         </section>
       )}

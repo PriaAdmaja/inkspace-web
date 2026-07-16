@@ -23,7 +23,7 @@ import HeadingDropdown from "./components/heading";
 
 export default function Toolbar({ editor }: { editor: Editor | null }) {
   return (
-    <section className="flex flex-wrap gap-0.5 px-2 py-1 bg-neutral-200/80  rounded overflow-x-auto">
+    <section className="flex flex-wrap gap-0.5 px-2 py-1 bg-neutral-200/80 dark:bg-neutral-700  rounded overflow-x-auto">
       {/* Basic Formatting Controls */}
       <Bold editor={editor} />
       <Italic editor={editor} />

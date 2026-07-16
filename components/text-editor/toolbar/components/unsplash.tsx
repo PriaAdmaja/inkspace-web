@@ -1,6 +1,5 @@
 import { Editor } from "@tiptap/core";
 import ToolbarButton from "./shared/toolbar-button";
-import Image from "next/image";
 import {
   Dialog,
   DialogContent,
@@ -9,7 +8,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { HTMLAttributes, ReactNode, useState } from "react";
 import { Photos } from "unsplash-js/dist/methods/search/types/response";
 import { toast } from "sonner";
@@ -22,6 +20,23 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { X } from "lucide-react";
+
+const UnsplashLogo = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 32 32"
+      fill="none"
+      className="size-3.5"
+    >
+      <path
+        d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"
+        fill="currentColor"
+        fillRule="nonzero"
+      />
+    </svg>
+  );
+};
 
 export default function Unsplash({ editor }: { editor: Editor | null }) {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -71,12 +86,7 @@ export default function Unsplash({ editor }: { editor: Editor | null }) {
       <DialogTrigger asChild>
         <div>
           <ToolbarButton toolbarName="Unsplash Image">
-            <Image
-              src="/logo/unsplash.png"
-              alt="Unsplash"
-              width={14}
-              height={14}
-            />
+            <UnsplashLogo />
           </ToolbarButton>
         </div>
       </DialogTrigger>
