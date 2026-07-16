@@ -16,7 +16,7 @@ import PostSkeleton from "./components/post-skeleton";
 import { useMediaQueries } from "@/hooks/use-media-queries";
 import { useNavigationGuard } from "next-navigation-guard";
 import { excerptBuilder } from "./libs/excerpt-builder";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { usePostDataTempStore } from "@/store/post-data-temp";
 
 const EditPostComponent = ({ id, post }: { id: string; post: Post }) => {
@@ -25,8 +25,11 @@ const EditPostComponent = ({ id, post }: { id: string; post: Post }) => {
   const [content, setContent] = useState<JSONContent>(post.content ?? {});
   const [isSaveLoading, setIsSaveLoading] = useState<boolean>(false);
 
+  const setPostTemp = usePostDataTempStore((state) => state.setPost);
+
   const router = useRouter();
   const { sm } = useMediaQueries();
+  const queryClient = useQueryClient();
 
   // Vars
   const isDraft = post.isPublished === false;
@@ -35,11 +38,22 @@ const EditPostComponent = ({ id, post }: { id: string; post: Post }) => {
     try {
       setIsSaveLoading(true);
 
-      await axios.put<Response<Post>>(API_ROUTES.POSTS.UPDATE(post.id), {
-        title,
-        content: content,
-        excerpt,
-        isPublished,
+      const res = await axios.put<Response<Post>>(
+        API_ROUTES.POSTS.UPDATE(post.id),
+        {
+          title,
+          content: content,
+          excerpt,
+          isPublished,
+        },
+      );
+      const newPostData = res.data.data;
+      setPostTemp(newPostData ?? null);
+      queryClient.invalidateQueries({
+        queryKey: [API_ROUTES.POSTS.GET_BY_ID(id)],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [API_ROUTES.ME.POSTS],
       });
       toast.success("Saved!");
     } catch (error) {
@@ -52,9 +66,9 @@ const EditPostComponent = ({ id, post }: { id: string; post: Post }) => {
   };
 
   // Guard for unsaved form
-  const isFormFilled = post?.title !== title || post.content !== content;
+  const isFormChanged = post?.title !== title || post.content !== content;
   useNavigationGuard({
-    enabled: isFormFilled,
+    enabled: isFormChanged,
     confirm: () =>
       window.confirm("You have unsaved changes that will be lost."),
   });
