@@ -35,14 +35,20 @@ export default function PostItem({
               {post.excerpt}
             </p>
           </Link>
-          <div className="text-muted-foreground text-xs sm:text-sm mt-auto">
-            {dayjs(post.createdAt).format("MMM DD, YYYY")} •{" "}
-            <Link
-              href={routes.user.view(post.author.username)}
-              className="hover:underline"
-            >
-              {post.author.name || post.author.username}
-            </Link>
+          <div className="text-muted-foreground text-xs sm:text-sm mt-auto inline-flex gap-1">
+            <p>{dayjs(post.createdAt).format("MMM DD, YYYY")} </p>
+            {isMe === false && (
+              <>
+                <p>•</p>
+
+                <Link
+                  href={routes.user.view(post.author.username)}
+                  className="hover:underline"
+                >
+                  {post.author.name || post.author.username}
+                </Link>
+              </>
+            )}
           </div>
         </section>
         {imageThumbnailUrl && (
