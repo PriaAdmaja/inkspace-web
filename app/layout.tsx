@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Google_Sans, Monomakh } from "next/font/google";
+import { Google_Sans, Monomakh, Reenie_Beanie } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -20,6 +20,12 @@ const monomakh = Monomakh({
   subsets: ["latin"],
 });
 
+const reenieBeanie = Reenie_Beanie({
+  weight: "400",
+  variable: "--font-reenie-beanie",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: "Inkspace",
   description:
@@ -34,7 +40,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${googleSans.className} ${monomakh.variable} ${googleSans.variable} antialiased`}
+        className={`${googleSans.className} ${monomakh.variable} ${reenieBeanie.variable} ${googleSans.variable} antialiased`}
       >
         <ThemeProvider
           attribute="class"

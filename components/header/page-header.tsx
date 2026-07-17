@@ -82,9 +82,14 @@ export default function Header({
           <>
             {/** Logo */}
             <Link href={"/"}>
-              <p className="text-2xl sm:text-3xl font-bold font-monomakh">
-                Inkspace
-              </p>
+              <div className="relative inline-flex">
+                <p className="text-2xl sm:text-3xl font-bold font-monomakh">
+                  Inkspace
+                </p>
+                <span className="font-reenie-beanie absolute -top-2.5 text-xl -right-2">
+                  Beta
+                </span>
+              </div>
             </Link>
 
             {/** Search bar in large screen */}
