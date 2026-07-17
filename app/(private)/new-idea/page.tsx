@@ -16,6 +16,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { Save, Send } from "lucide-react";
 import { excerptBuilder } from "@/features/posts/libs/excerpt-builder";
 import { usePostDataTempStore } from "@/store/post-data-temp";
+import { useMediaQueries } from "@/hooks/use-media-queries";
 
 export default function NewIdea() {
   const [title, setTitle] = useState<string>("");
@@ -25,6 +26,7 @@ export default function NewIdea() {
 
   const setPostDataTemp = usePostDataTempStore((state) => state.setPost);
   const router = useRouter();
+  const { sm } = useMediaQueries();
 
   const contentEmpty = content === undefined || isContentEmpty(content);
   const isDisable = !title.trim() || contentEmpty;
@@ -91,11 +93,12 @@ export default function NewIdea() {
               const excerpt = excerptBuilder(content);
               onSave(excerpt);
             }}
+            size={sm ? "sm" : "icon-sm"}
             variant={"secondary"}
             disabled={isDisable || isLoading}
           >
             {isLoading ? <Spinner data-icon="inline-start" /> : <Save />}
-            Save as Draft
+            {sm && <> Save as Draft</>}
           </Button>
           <Button
             variant={"default"}
@@ -104,9 +107,10 @@ export default function NewIdea() {
               const excerpt = excerptBuilder(content);
               onSave(excerpt, true);
             }}
+            size={sm ? "sm" : "icon-sm"}
           >
             {isLoading ? <Spinner data-icon="inline-start" /> : <Send />}
-            Save & Publish
+            {sm && <>Save & Publish</>}
           </Button>
         </>
       }

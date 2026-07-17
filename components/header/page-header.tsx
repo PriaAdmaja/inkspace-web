@@ -96,7 +96,7 @@ export default function Header({
 
             <section
               className={cn(
-                "flex gap-2 sm:gap-4 items-center justify-end w-40",
+                "flex gap-1 sm:gap-4 items-center justify-end w-40",
                 {
                   invisible: !hasHydrated,
                 },
