@@ -27,9 +27,9 @@ export default function PostItem({
       : routes.post.view(post.id);
 
   return (
-    <section className="space-y-4">
-      <div className="flex flex-col-reverse sm:flex-row gap-3 justify-between">
-        <section className="flex flex-col gap-1 sm:gap-2 w-full pr-4">
+    <section className="space-y-2">
+      <div className="flex flex-col-reverse sm:flex-row gap-2 justify-between">
+        <section className="flex flex-col gap-1 sm:gap-2 w-full">
           <Link href={openPostLink} className="space-y-1 sm:space-y-2 flex-1 w-full">
             <h2 className="text-xl sm:text-2xl font-bold">{post.title}</h2>
             <p className="text-sm sm:text-base line-clamp-3 whitespace-pre-wrap">

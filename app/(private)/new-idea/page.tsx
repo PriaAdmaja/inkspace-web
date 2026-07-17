@@ -17,6 +17,7 @@ import { Save, Send } from "lucide-react";
 import { excerptBuilder } from "@/features/posts/libs/excerpt-builder";
 import { usePostDataTempStore } from "@/store/post-data-temp";
 import { useMediaQueries } from "@/hooks/use-media-queries";
+import errorMessageBuilder from "@/lib/error-message-builder";
 
 export default function NewIdea() {
   const [title, setTitle] = useState<string>("");
@@ -58,8 +59,7 @@ export default function NewIdea() {
         }
       }
     } catch (error) {
-      const message =
-        (error as Error).message || "An unexpected error occurred.";
+      const message = errorMessageBuilder(error);
       toast.error(message);
     } finally {
       setIsLoading(false);

@@ -18,6 +18,7 @@ import { useNavigationGuard } from "next-navigation-guard";
 import { excerptBuilder } from "./libs/excerpt-builder";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { usePostDataTempStore } from "@/store/post-data-temp";
+import errorMessageBuilder from "@/lib/error-message-builder";
 
 const EditPostComponent = ({ id, post }: { id: string; post: Post }) => {
   // States
@@ -57,8 +58,7 @@ const EditPostComponent = ({ id, post }: { id: string; post: Post }) => {
       });
       toast.success("Saved!");
     } catch (error) {
-      const message =
-        (error as Error).message || "An unexpected error occurred.";
+      const message = errorMessageBuilder(error);
       toast.error(message);
     } finally {
       setIsSaveLoading(false);

@@ -8,5 +8,5 @@ export type Response<T> = {
     limit: number;
     total: number;
   };
-  error?: unknown
+  error?: { field: string; message: string }[];
 };

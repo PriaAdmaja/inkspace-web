@@ -26,6 +26,7 @@ import { Pencil } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { isFormChanged } from "./utils";
+import errorMessageBuilder from "@/lib/error-message-builder";
 
 const avatarPlaceholder = "/no-profile.jpg";
 
@@ -88,8 +89,7 @@ export default function EditProfile({ user }: { user?: User }) {
       setOpen(false);
       toast.success("Profile updated successfully!");
     } catch (error) {
-      const message =
-        (error as Error).message || "An unexpected error occurred.";
+      const message = errorMessageBuilder(error);
       toast.error(message);
     } finally {
       setIsLoading(false);
@@ -205,7 +205,6 @@ export default function EditProfile({ user }: { user?: User }) {
   );
 }
 
-
 const ImageUploader = ({
   avatar,
   alt,
@@ -217,15 +216,17 @@ const ImageUploader = ({
   onChange: (file: File | null) => void;
   maxSize?: number;
 }) => {
-const defaultMaxSize = maxSize / (1024 * 1024); // 1MB
+  const defaultMaxSize = maxSize / (1024 * 1024); // 1MB
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
     if (!file) return;
 
-    if(file.size > maxSize) {
-      toast.error(`File size exceeds the maximum limit of ${defaultMaxSize} MB.`);
+    if (file.size > maxSize) {
+      toast.error(
+        `File size exceeds the maximum limit of ${defaultMaxSize} MB.`,
+      );
       return;
     }
 
@@ -269,7 +270,8 @@ const defaultMaxSize = maxSize / (1024 * 1024); // 1MB
         </div>
 
         <p className="text-xs sm:text-sm text-secondary-foreground text-pretty">
-         Recommended size: at least 500 × 500 px, with a file size of no more than {defaultMaxSize} MB.
+          Recommended size: at least 500 × 500 px, with a file size of no more
+          than {defaultMaxSize} MB.
         </p>
       </div>
     </div>
