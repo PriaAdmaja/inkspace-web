@@ -19,6 +19,7 @@ import { excerptBuilder } from "./libs/excerpt-builder";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { usePostDataTempStore } from "@/store/post-data-temp";
 import errorMessageBuilder from "@/lib/error-message-builder";
+import { deepEqualObject } from "@/lib/deep-equal-object";
 
 const EditPostComponent = ({ id, post }: { id: string; post: Post }) => {
   // States
@@ -66,7 +67,8 @@ const EditPostComponent = ({ id, post }: { id: string; post: Post }) => {
   };
 
   // Guard for unsaved form
-  const isFormChanged = post?.title !== title || post.content !== content;
+  const isFormChanged =
+    post.title !== title || deepEqualObject(post.content, content) === false;
   useNavigationGuard({
     enabled: isFormChanged,
     confirm: () =>
