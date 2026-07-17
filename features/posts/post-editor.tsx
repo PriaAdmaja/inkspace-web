@@ -52,7 +52,11 @@ export default function PostEditor({
           />
         </div>
         <Separator />
-        <TiptapEditor defaultContent={content} onChange={setContent} />
+        <TiptapEditor
+          defaultContent={content}
+          onChange={setContent}
+          className="[&_.ProseMirror]:min-h-[calc(100vh-260px)]"
+        />
       </section>
     </PageLayout>
   );
