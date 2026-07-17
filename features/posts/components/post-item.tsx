@@ -28,11 +28,11 @@ export default function PostItem({
 
   return (
     <section className="space-y-4">
-      <div className="flex justify-between">
-        <section className="flex flex-col gap-2 w-full pr-4">
-          <Link href={openPostLink} className="space-y-2 flex-1 w-full">
+      <div className="flex flex-col-reverse sm:flex-row gap-3 justify-between">
+        <section className="flex flex-col gap-1 sm:gap-2 w-full pr-4">
+          <Link href={openPostLink} className="space-y-1 sm:space-y-2 flex-1 w-full">
             <h2 className="text-xl sm:text-2xl font-bold">{post.title}</h2>
-            <p className="text-sm sm:text-base line-clamp-2 sm:line-clamp-4 whitespace-pre-wrap">
+            <p className="text-sm sm:text-base line-clamp-3 whitespace-pre-wrap">
               {post.excerpt}
             </p>
           </Link>
@@ -59,7 +59,7 @@ export default function PostItem({
         {imageThumbnailUrl && (
           <Link
             href={openPostLink}
-            className="size-20 sm:size-32 lg:size-40 shrink-0 flex justify-center items-center border relative rounded-sm overflow-hidden"
+            className="w-full h-32 sm:size-32 lg:size-40 shrink-0 flex justify-center items-center border relative rounded-sm overflow-hidden"
           >
             <Image
               src={imageThumbnailUrl}
