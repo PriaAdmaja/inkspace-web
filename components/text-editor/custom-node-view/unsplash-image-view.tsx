@@ -13,7 +13,7 @@ export function UnsplashImageView({
     <NodeViewWrapper>
       <section
         className={cn(
-          "my-6 flex flex-col items-center w-full gap-3 ",
+          "py-6 flex flex-col items-center w-full gap-3 ",
           selected &&  "ring-2 ring-blue-500",
         )}
       >
