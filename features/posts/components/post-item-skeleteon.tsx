@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function PostItemSkeleteon() {
   return (
-    <section className="flex flex-col-reverse sm:gap-2 gap-4 justify-between w-full">
+    <section className="flex flex-col-reverse sm:flex-row sm:gap-2 gap-4 justify-between w-full">
       <div className="flex-1 space-y-2 sm:space-y-3 md:space-y-5 lg:space-y-7">
         <Skeleton className="h-5 sm:h-8 w-full" />
 
