@@ -1,6 +1,6 @@
 import { ReactNode, Suspense } from "react";
 import Header from "./header/page-header";
-import { cn } from "@/lib/utils";
+import BackTopButton from "./back-top-button";
 
 export default function PageLayout({
   children,
@@ -14,7 +14,7 @@ export default function PageLayout({
   headerContentClassName?: string;
 }) {
   return (
-    <section className={cn("min-h-screen")}>
+    <section className="min-h-screen relative">
       <Suspense>
         <Header
           additionalComponent={headerAdditionalComponent}
@@ -22,9 +22,13 @@ export default function PageLayout({
           contentClassName={headerContentClassName}
         />
       </Suspense>
-      <section className={cn("max-w-7xl mx-auto p-4 sm:p-10 flex-1")}>
+      <section className="max-w-7xl mx-auto p-4 sm:p-10 flex-1">
         {children}
       </section>
+
+      <Suspense>
+        <BackTopButton className="fixed bottom-5 right-5" />
+      </Suspense>
     </section>
   );
 }
