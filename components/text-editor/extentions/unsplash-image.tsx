@@ -67,7 +67,7 @@ export const UnsplashImage = Image.extend({
     return [
       "figure",
       {
-        class: "py-6 flex flex-col items-center",
+        class: "py-4 flex flex-col items-center",
       },
       [
         "img",
