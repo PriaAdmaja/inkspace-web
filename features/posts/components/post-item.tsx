@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
 import { Separator } from "../../../components/ui/separator";
+import PostOptionsDropdown from "./post-options-dropdown";
 
 export default function PostItem({
   post,
@@ -35,9 +36,9 @@ export default function PostItem({
               {post.excerpt}
             </p>
           </Link>
-          <div className="text-muted-foreground text-xs sm:text-sm mt-auto inline-flex gap-1">
+          <div className="text-muted-foreground text-xs sm:text-sm mt-auto inline-flex items-center gap-1">
             <p>{dayjs(post.createdAt).format("MMM DD, YYYY")} </p>
-            {isMe === false && (
+            {isMe === false ? (
               <>
                 <p>•</p>
 
@@ -48,6 +49,10 @@ export default function PostItem({
                   {post.author.name || post.author.username}
                 </Link>
               </>
+            ) : (
+              <div className="ml-auto">
+                <PostOptionsDropdown post={post}/>
+              </div>
             )}
           </div>
         </section>

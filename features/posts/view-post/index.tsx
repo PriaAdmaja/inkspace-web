@@ -11,6 +11,7 @@ import PostDropdown from "./post-dropdown";
 import Link from "next/link";
 import { routes } from "@/constants/routes";
 import { Suspense } from "react";
+import "@/components/text-editor/styles.css";
 
 export default function ViewPost({ post }: { post: Post }) {
   const author = post.author;
@@ -56,7 +57,10 @@ export default function ViewPost({ post }: { post: Post }) {
         <Separator />
 
         {/** Content */}
-        <div dangerouslySetInnerHTML={{ __html: html }} />
+        <div
+          dangerouslySetInnerHTML={{ __html: html }}
+          className="post-content"
+        />
       </section>
     </PageLayout>
   );

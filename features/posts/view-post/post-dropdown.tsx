@@ -15,7 +15,6 @@ import Link from "next/link";
 
 export default function PostDropdown({ post }: { post: Post }) {
   const userData = useUserDataStore((state) => state.userData);
-  const hasHydrated = useUserDataStore((state) => state.hasHydrated);
   const isAuthor = post.author.username === userData?.username;
 
   /** Adjust if there is another  */

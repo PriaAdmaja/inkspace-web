@@ -168,7 +168,8 @@
 }
 
 /** Add spacing between paragraphs in the editor */
-.ProseMirror p + p {
+.ProseMirror p + p,
+.post-content p + p {
   margin-top: 1rem;
 }
 
