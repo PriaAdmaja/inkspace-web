@@ -6,10 +6,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Ellipsis, Trash2 } from "lucide-react";
+import { Ellipsis, FilePen, Trash2 } from "lucide-react";
 import DeleteConfirmation from "./delete-confirmation";
 import { useState } from "react";
 import { Post } from "@/types/posts";
+import Link from "next/link";
+import { routes } from "@/constants/routes";
 
 export default function PostOptionsDropdown({ post }: { post: Post }) {
   const [openDeleteConfirmation, setOpenDeleteConfirmation] =
@@ -27,6 +29,15 @@ export default function PostOptionsDropdown({ post }: { post: Post }) {
 
         <DropdownMenuContent align="end">
           <DropdownMenuGroup>
+            {post.isPublished && (
+              <DropdownMenuItem asChild>
+                <Link href={routes.post.edit(post.id)}>
+                  <FilePen />
+                  Edit
+                </Link>
+              </DropdownMenuItem>
+            )}
+
             <DropdownMenuItem
               variant="destructive"
               onClick={() => setOpenDeleteConfirmation(true)}

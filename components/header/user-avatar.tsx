@@ -52,10 +52,10 @@ export default function UserAvatar({ user }: { user?: UserData | null }) {
 
   const signOut = async () => {
     try {
-      await axios.post(API_ROUTES.AUTH.LOGOUT, {});
       if (privateRoutes.some((route) => pathname.includes(route))) {
         router.replace("/");
       }
+      await axios.post(API_ROUTES.AUTH.LOGOUT, {});
     } catch (error) {
       if (error instanceof AxiosError && error.status !== 401) {
         const message = error.message;

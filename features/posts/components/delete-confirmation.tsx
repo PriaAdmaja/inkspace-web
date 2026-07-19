@@ -1,3 +1,4 @@
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,7 +12,7 @@ import { API_ROUTES } from "@/constants/api-routes";
 import axios from "@/lib/axios";
 import { Post } from "@/types/posts";
 import { useQueryClient } from "@tanstack/react-query";
-import { Trash2 } from "lucide-react";
+import { AlertTriangle, AlertTriangleIcon, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -19,10 +20,12 @@ export default function DeleteConfirmation({
   open,
   onOpenChange,
   post,
+  onSuccess,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   post: Post;
+  onSuccess?: () => void;
 }) {
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
@@ -35,6 +38,9 @@ export default function DeleteConfirmation({
       queryClient.invalidateQueries({
         queryKey: [API_ROUTES.ME.POSTS],
       });
+
+      onSuccess?.();
+
       onOpenChange(false);
     } catch (error) {
       const message =

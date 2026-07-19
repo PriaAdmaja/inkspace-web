@@ -87,7 +87,7 @@ export default function Header({
                   Inkspace
                 </p>
                 <span className="font-reenie-beanie absolute -top-2.5 text-xl -right-2">
-                  Beta
+                  Alpha
                 </span>
               </div>
             </Link>
