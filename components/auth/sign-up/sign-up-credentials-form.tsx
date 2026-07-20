@@ -1,6 +1,5 @@
 import {
   Field,
-  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
@@ -184,7 +183,7 @@ const useUsernameChecker = (username: string): UsernameCheckerResult | null => {
       if (data) {
         setFetchResult({ isPassed: data.isAvailable, message: "" });
       }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     } catch (error) {
       setFetchResult({
         isPassed: false,
