@@ -30,7 +30,7 @@ export default function PostItem({
   const tags = post.tags.map((t) => t.name);
 
   return (
-    <section className="space-y-2">
+    <section className="space-y-2 sm:space-y-4">
       <div className="flex flex-col-reverse sm:flex-row gap-2 justify-between">
         <section className="flex flex-col gap-1 sm:gap-2 w-full">
           <Link
