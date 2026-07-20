@@ -25,5 +25,9 @@ export async function getPostsData({
 export async function getPostById(postId: string) {
   const url = `${baseUrl}${API_ROUTES.POSTS.GET_BY_ID(postId)}`;
   const res = await fetch(url);
+
+   if (!res.ok) {
+    throw new Error(`Failed to fetch post ${postId}`);
+  }
   return res.json() as Promise<Response<Post>>;
 }
