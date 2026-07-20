@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import PostEditor from "./post-editor";
+import PostEditor from "../post-editor";
 import { Post } from "@/types/posts";
 import { JSONContent } from "@tiptap/core";
 import axios from "@/lib/axios";
@@ -12,20 +12,29 @@ import { Spinner } from "@/components/ui/spinner";
 import { MoveLeft, Save, Send } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { routes } from "@/constants/routes";
-import PostSkeleton from "./components/post-skeleton";
+import PostSkeleton from "../components/post-skeleton";
 import { useMediaQueries } from "@/hooks/use-media-queries";
 import { useNavigationGuard } from "next-navigation-guard";
-import { excerptBuilder } from "./libs/excerpt-builder";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { usePostDataTempStore } from "@/store/post-data-temp";
 import errorMessageBuilder from "@/lib/error-message-builder";
 import { deepEqualObject } from "@/lib/deep-equal-object";
+import EditActions from "./components/edit-actions-dropdown";
+import { finalTagsValue } from "./utils/tag-converter";
+import { PostContextProvider, usePostContext } from "./context/post-context";
 
 const EditPostComponent = ({ id, post }: { id: string; post: Post }) => {
   // States
-  const [title, setTitle] = useState<string>(post.title ?? "");
-  const [content, setContent] = useState<JSONContent>(post.content ?? {});
   const [isSaveLoading, setIsSaveLoading] = useState<boolean>(false);
+
+  const {
+    title,
+    setTitle,
+    content,
+    setContent,
+    excerpt,
+    tags: tagsString,
+  } = usePostContext();
 
   const setPostTemp = usePostDataTempStore((state) => state.setPost);
 
@@ -36,17 +45,20 @@ const EditPostComponent = ({ id, post }: { id: string; post: Post }) => {
   // Vars
   const isDraft = post.isPublished === false;
 
-  const onSave = async (excerpt: string, isPublished?: boolean) => {
+  const onSave = async (isPublished?: boolean) => {
     try {
       setIsSaveLoading(true);
+
+      const tags = finalTagsValue(tagsString);
 
       const res = await axios.put<Response<Post>>(
         API_ROUTES.POSTS.UPDATE(post.id),
         {
           title,
-          content: content,
+          content,
           excerpt,
           isPublished,
+          tags,
         },
       );
       const newPostData = res.data.data;
@@ -86,8 +98,7 @@ const EditPostComponent = ({ id, post }: { id: string; post: Post }) => {
           {isDraft ? (
             <Button
               onClick={() => {
-                const excerpt = excerptBuilder(content);
-                onSave(excerpt);
+                onSave();
               }}
               variant={"secondary"}
               disabled={isSaveLoading}
@@ -113,14 +124,15 @@ const EditPostComponent = ({ id, post }: { id: string; post: Post }) => {
             variant={"default"}
             disabled={isSaveLoading}
             onClick={() => {
-              const excerpt = excerptBuilder(content);
-              onSave(excerpt, true);
+              onSave(true);
             }}
             size={sm ? "sm" : "icon-sm"}
           >
             {isSaveLoading ? <Spinner data-icon="inline-start" /> : <Send />}
             {sm && <>Save & Publish</>}
           </Button>
+
+          <EditActions post={post} />
         </>
       }
     />
@@ -154,7 +166,11 @@ const EditPost = ({ id }: { id: string }) => {
     return <PostSkeleton />;
   }
 
-  return <EditPostComponent id={id} post={returnedPostData} />;
+  return (
+    <PostContextProvider post={returnedPostData}>
+      <EditPostComponent id={id} post={returnedPostData} />
+    </PostContextProvider>
+  );
 };
 
 export default EditPost;

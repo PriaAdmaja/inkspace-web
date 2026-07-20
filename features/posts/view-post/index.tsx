@@ -12,6 +12,7 @@ import Link from "next/link";
 import { routes } from "@/constants/routes";
 import { Suspense } from "react";
 import "@/components/text-editor/styles.css";
+import { Badge } from "@/components/ui/badge";
 
 export default function ViewPost({ post }: { post: Post }) {
   const author = post.author;
@@ -19,13 +20,13 @@ export default function ViewPost({ post }: { post: Post }) {
     content: post.content,
     extensions: tiptapExtentions(),
   });
+  const tags = post.tags.map((t) => t.name);
 
   return (
     <PageLayout>
-      <section className="space-y-5">
+      <section className="space-y-4">
         {/** Title */}
         <h2 className="font-bold text-3xl">{post.title}</h2>
-
         {/** Post details*/}
         <section className="flex items-center gap-4">
           <Link
@@ -61,6 +62,22 @@ export default function ViewPost({ post }: { post: Post }) {
           dangerouslySetInnerHTML={{ __html: html }}
           className="post-content"
         />
+
+        {/** Tags */}
+        {tags.length > 0 && (
+          <>
+            <Separator />
+
+            <div className="space-y-1">
+              <p>Tags:</p>
+              <div className="flex gap-2 flex-wrap">
+                {tags.map((t, i) => (
+                  <Badge key={i}>{t}</Badge>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
       </section>
     </PageLayout>
   );

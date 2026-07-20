@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Separator } from "../../../components/ui/separator";
 import PostOptionsDropdown from "./post-options-dropdown";
+import { Badge } from "@/components/ui/badge";
 
 export default function PostItem({
   post,
@@ -26,12 +27,24 @@ export default function PostItem({
       ? routes.post.edit(post.id)
       : routes.post.view(post.id);
 
+  const tags = post.tags.map((t) => t.name);
+
   return (
     <section className="space-y-2">
       <div className="flex flex-col-reverse sm:flex-row gap-2 justify-between">
         <section className="flex flex-col gap-1 sm:gap-2 w-full">
-          <Link href={openPostLink} className="space-y-1 sm:space-y-2 flex-1 w-full">
+          <Link
+            href={openPostLink}
+            className="space-y-1 sm:space-y-2 flex-1 w-full"
+          >
             <h2 className="text-xl sm:text-2xl font-bold">{post.title}</h2>
+            {tags.length > 0 && (
+              <div className="flex gap-1 flex-wrap px-1">
+                {tags.map((t, i) => (
+                  <Badge key={i}>{t}</Badge>
+                ))}
+              </div>
+            )}
             <p className="text-sm sm:text-base line-clamp-3 whitespace-pre-wrap">
               {post.excerpt}
             </p>
@@ -51,7 +64,7 @@ export default function PostItem({
               </>
             ) : (
               <div className="ml-auto">
-                <PostOptionsDropdown post={post}/>
+                <PostOptionsDropdown post={post} />
               </div>
             )}
           </div>

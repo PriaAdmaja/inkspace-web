@@ -55,6 +55,23 @@ const Tiptap = ({
           return false;
         },
       },
+      handlePaste(view, event) {
+        const text = event.clipboardData?.getData("text/plain");
+
+        if (text) {
+          view.dispatch(
+            view.state.tr.insertText(
+              text,
+              view.state.selection.from,
+              view.state.selection.to,
+            ),
+          );
+
+          return true;
+        }
+
+        return false;
+      },
     },
   });
 
