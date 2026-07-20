@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import PostEditor from "../post-editor";
 import { Post } from "@/types/posts";
-import { JSONContent } from "@tiptap/core";
 import axios from "@/lib/axios";
 import { Response } from "@/types/app";
 import { API_ROUTES } from "@/constants/api-routes";
