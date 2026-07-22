@@ -33,6 +33,8 @@ const EditPostComponent = ({ id, post }: { id: string; post: Post }) => {
     setContent,
     excerpt,
     tags: tagsString,
+    seoTitle,
+    seoDescription,
   } = usePostContext();
 
   const setPostTemp = usePostDataTempStore((state) => state.setPost);
@@ -58,6 +60,8 @@ const EditPostComponent = ({ id, post }: { id: string; post: Post }) => {
           excerpt,
           isPublished,
           tags,
+          seoTitle,
+          seoDescription,
         },
       );
       const newPostData = res.data.data;
@@ -78,8 +82,23 @@ const EditPostComponent = ({ id, post }: { id: string; post: Post }) => {
   };
 
   // Guard for unsaved form
-  const isFormChanged =
-    post.title !== title || deepEqualObject(post.content, content) === false;
+  const originalData = {
+    title: post.title,
+    content: post.content,
+    excerpt: post.excerpt,
+    seoTitle: post.seoTitle,
+    seoDescription: post.seoDescription,
+    tags: post.tags.map((t) => t.slug),
+  };
+  const newData = {
+    title,
+    content,
+    excerpt,
+    seoTitle,
+    seoDescription,
+    tags: finalTagsValue(tagsString),
+  };
+  const isFormChanged = deepEqualObject(originalData, newData) === false;
   useNavigationGuard({
     enabled: isFormChanged,
     confirm: () =>

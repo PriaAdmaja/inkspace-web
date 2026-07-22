@@ -11,7 +11,7 @@ export default function PostList({ search }: { search?: string }) {
 
   const {
     isLoading,
-    flattedData,
+    flattedData: returnedData,
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
@@ -33,7 +33,9 @@ export default function PostList({ search }: { search?: string }) {
     );
   }
 
-  const returnedData = flattedData;
+if(returnedData.length === 0) {
+  return <p className="text-center pt-4">No posts yet</p>
+}
 
   return (
     <section className="flex flex-col gap-4">

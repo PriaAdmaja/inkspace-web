@@ -10,12 +10,12 @@ import { Ellipsis, FileSliders, Trash2 } from "lucide-react";
 import { useState } from "react";
 import DeleteConfirmation from "../../components/delete-confirmation";
 import { Post } from "@/types/posts";
-import SettingsDrawer from "./settings-drawer";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import SettingModal from "./setting-modal";
 
 export default function EditActions({ post }: { post: Post }) {
   const [openDeleteConfirmation, setOpenDeleteConfirmation] =
@@ -60,7 +60,9 @@ export default function EditActions({ post }: { post: Post }) {
         post={post}
       />
 
-      <SettingsDrawer open={openDrawer} onOpenChange={setOpenDrawer} />
+      {openDrawer && (
+        <SettingModal open={openDrawer} onOpenChange={setOpenDrawer} />
+      )}
     </>
   );
 }

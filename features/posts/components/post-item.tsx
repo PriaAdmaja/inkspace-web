@@ -28,6 +28,8 @@ export default function PostItem({
       : routes.post.view(post.id);
 
   const tags = post.tags.map((t) => t.name);
+  const date =
+    post.isPublished && post.publishedAt ? post.publishedAt : post.createdAt;
 
   return (
     <section className="space-y-2 sm:space-y-4">
@@ -39,7 +41,7 @@ export default function PostItem({
           >
             <h2 className="text-xl sm:text-2xl font-bold">{post.title}</h2>
             {tags.length > 0 && (
-              <div className="flex gap-1 flex-wrap px-1">
+              <div className="flex gap-1 sm:gap-2 flex-wrap px-1">
                 {tags.map((t, i) => (
                   <Badge key={i}>{t}</Badge>
                 ))}
@@ -50,7 +52,7 @@ export default function PostItem({
             </p>
           </Link>
           <div className="text-muted-foreground text-xs sm:text-sm mt-auto inline-flex items-center gap-1">
-            <p>{dayjs(post.createdAt).format("MMM DD, YYYY")} </p>
+            <p>{dayjs(date).format("MMM DD, YYYY")} </p>
             {isMe === false ? (
               <>
                 <p>•</p>

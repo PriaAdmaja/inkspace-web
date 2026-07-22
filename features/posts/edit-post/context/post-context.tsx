@@ -13,6 +13,10 @@ type PostContextType = {
   setTags: (tags: string) => void;
   excerpt: string;
   setExcerpt: (excerpt: string) => void;
+  seoTitle: string;
+  setSeoTitle: (value: string) => void;
+  seoDescription: string;
+  setSeoDescription: (value: string) => void;
 };
 
 const PostContext = createContext<PostContextType>({
@@ -25,6 +29,10 @@ const PostContext = createContext<PostContextType>({
   setExcerpt: () => {},
   tags: "",
   setTags: () => {},
+  seoTitle: "",
+  setSeoTitle: () => {},
+  seoDescription: "",
+  setSeoDescription: () => {},
 });
 
 export const PostContextProvider = ({
@@ -37,8 +45,12 @@ export const PostContextProvider = ({
   const [title, setTitle] = useState<string>(post.title);
   const [content, setContent] = useState<JSONContent>(post.content);
   const [excerpt, setExcerpt] = useState<string>(post.excerpt);
+  const [seoTitle, setSeoTitle] = useState<string>(post.seoTitle ?? "");
+  const [seoDescription, setSeoDescription] = useState<string>(
+    post.seoDescription ?? "",
+  );
   const [tags, setTags] = useState<string>(() =>
-    arrayToString(post.tags.map((t) => t.name)),
+    arrayToString(post.tags.map((t) => t.slug)),
   );
   return (
     <PostContext.Provider
@@ -52,6 +64,10 @@ export const PostContextProvider = ({
         setTitle,
         tags,
         title,
+        seoTitle,
+        setSeoTitle,
+        seoDescription,
+        setSeoDescription,
       }}
     >
       {children}

@@ -6,8 +6,11 @@ export type Post = {
   content: JSONContent;
   excerpt: string;
   isPublished: boolean
+  seoTitle?: string
+  seoDescription?: string
   createdAt: string;
   updatedAt: string;
+  publishedAt?: string
   author: {
     username: string;
     avatar: string | null;

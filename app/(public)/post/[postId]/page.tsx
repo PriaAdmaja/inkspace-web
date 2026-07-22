@@ -11,8 +11,8 @@ export async function generateMetadata({ params }: Props) {
   const postResponse = await getPostById(postId);
   const data = postResponse.data;
   return {
-    title: data?.title,
-    description: data?.excerpt,
+    title: data?.seoTitle,
+    description: data?.seoDescription,
   };
 }
 
