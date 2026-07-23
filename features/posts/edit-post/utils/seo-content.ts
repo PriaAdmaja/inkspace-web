@@ -26,7 +26,7 @@ export const seoTitleBuilder = (title: string, name?: string): string => {
   if (name) {
     tail = ` | ${nameFormatter(name)} | Inkspace`;
   }
-  const limit = seoDescLimit.bad - tail.length;
+  const limit = seoTitleLimit.bad - tail.length;
   return `${contentFormatter(title, limit)}${tail}`;
 };
 
