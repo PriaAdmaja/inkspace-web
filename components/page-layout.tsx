@@ -7,11 +7,13 @@ export default function PageLayout({
   headerAdditionalComponent,
   headerClassName,
   headerContentClassName,
+  isDisableLogout,
 }: {
   children: ReactNode;
   headerAdditionalComponent?: ReactNode;
   headerClassName?: string;
   headerContentClassName?: string;
+  isDisableLogout?: boolean;
 }) {
   return (
     <section className="min-h-screen relative">
@@ -20,6 +22,7 @@ export default function PageLayout({
           additionalComponent={headerAdditionalComponent}
           className={headerClassName}
           contentClassName={headerContentClassName}
+          isDisableLogout={isDisableLogout}
         />
       </Suspense>
       <section className="max-w-7xl mx-auto p-4 sm:p-10 flex-1">

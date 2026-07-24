@@ -111,6 +111,7 @@ const EditPostComponent = ({ id, post }: { id: string; post: Post }) => {
       content={content}
       setTitle={setTitle}
       setContent={setContent}
+      isDisableLogout={isFormChanged}
       headerAdditionalComponent={
         <>
           {isDraft ? (

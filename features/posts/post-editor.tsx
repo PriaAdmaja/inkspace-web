@@ -16,6 +16,7 @@ export type PostEditorProps = {
   content?: JSONContent;
   setContent?: (content: JSONContent, isEmpty?: boolean) => void;
   headerAdditionalComponent?: ReactNode;
+  isDisableLogout?: boolean;
 };
 
 export default function PostEditor({
@@ -24,6 +25,7 @@ export default function PostEditor({
   content,
   setContent,
   headerAdditionalComponent,
+  isDisableLogout,
 }: PostEditorProps) {
   const saveTitle = (title: object) => {
     const titleText = generateText(title, [StarterKit]);
@@ -38,6 +40,7 @@ export default function PostEditor({
         </div>
       }
       headerContentClassName="max-w-[1440px] mx-auto"
+      isDisableLogout={isDisableLogout}
     >
       <section className="flex flex-col gap-2">
         <div className="flex w-full">

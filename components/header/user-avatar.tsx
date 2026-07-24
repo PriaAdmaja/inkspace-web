@@ -37,7 +37,13 @@ import { useTheme } from "next-themes";
 
 const privateRoutes = ["/new-idea", "/edit"];
 
-export default function UserAvatar({ user }: { user?: UserData | null }) {
+export default function UserAvatar({
+  user,
+  isDisableLogout,
+}: {
+  user?: UserData | null;
+  isDisableLogout?: boolean;
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const { theme, setTheme } = useTheme();
@@ -55,15 +61,19 @@ export default function UserAvatar({ user }: { user?: UserData | null }) {
       if (privateRoutes.some((route) => pathname.includes(route))) {
         router.replace("/");
       }
+      if (isDisableLogout === true) {
+        console.log(isDisableLogout);
+        return;
+      }
+      console.log("lolos");
       await axios.post(API_ROUTES.AUTH.LOGOUT, {});
+      setAccessToken(null);
+      setUserData(null);
     } catch (error) {
       if (error instanceof AxiosError && error.status !== 401) {
         const message = error.message;
         toast.error(message);
       }
-    } finally {
-      setAccessToken(null);
-      setUserData(null);
     }
   };
 

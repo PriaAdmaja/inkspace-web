@@ -15,10 +15,12 @@ export default function Header({
   additionalComponent,
   className,
   contentClassName,
+  isDisableLogout
 }: {
   additionalComponent?: ReactNode;
   className?: string;
   contentClassName?: string;
+  isDisableLogout?: boolean
 }) {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [isSearchHeader, setIsSearchHeader] = useState<boolean>(false);
@@ -134,7 +136,7 @@ export default function Header({
               )}
 
               {/** User Menu */}
-              {!!userData ? <UserAvatar user={userData} /> : <SignInButton />}
+              {!!userData ? <UserAvatar user={userData} isDisableLogout={isDisableLogout}/> : <SignInButton />}
             </section>
           </>
         )}
