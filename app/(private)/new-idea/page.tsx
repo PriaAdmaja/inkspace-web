@@ -90,7 +90,7 @@ export default function NewIdea() {
 
   const onSaveDraft = async () => {
     const submittedExcerpt = excerptBuilder(content);
-    const submittedSeoDescription = seoDescriptionBuilder(excerpt);
+    const submittedSeoDescription = seoDescriptionBuilder(submittedExcerpt);
     const submittedSeoTitle = seoTitleBuilder(title, userData?.name);
     try {
       setIsLoading(true);
