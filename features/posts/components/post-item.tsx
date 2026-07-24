@@ -7,6 +7,12 @@ import Link from "next/link";
 import { Separator } from "../../../components/ui/separator";
 import PostOptionsDropdown from "./post-options-dropdown";
 import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import DateDisplay from "./date-display";
 
 export default function PostItem({
   post,
@@ -52,7 +58,8 @@ export default function PostItem({
             </p>
           </Link>
           <div className="text-muted-foreground text-xs sm:text-sm mt-auto inline-flex items-center gap-1">
-            <p>{dayjs(date).format("MMM DD, YYYY")} </p>
+            <DateDisplay date={date} />
+
             {isMe === false ? (
               <>
                 <p>•</p>

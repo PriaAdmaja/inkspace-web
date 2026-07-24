@@ -6,13 +6,13 @@ import { CircleUser } from "lucide-react";
 import { renderToHTMLString } from "@tiptap/static-renderer";
 import { tiptapExtentions } from "@/components/text-editor/extentions";
 import { Separator } from "@/components/ui/separator";
-import dayjs from "dayjs";
 import PostDropdown from "./post-dropdown";
 import Link from "next/link";
 import { routes } from "@/constants/routes";
 import { Suspense } from "react";
 import "@/components/text-editor/styles.css";
 import { Badge } from "@/components/ui/badge";
+import DateDisplay from "../components/date-display";
 
 export default function ViewPost({ post }: { post: Post }) {
   const author = post.author;
@@ -28,7 +28,7 @@ export default function ViewPost({ post }: { post: Post }) {
         {/** Title */}
         <h2 className="font-bold text-3xl">{post.title}</h2>
         {/** Post details*/}
-        <section className="flex items-center gap-4">
+        <section className="flex items-center gap-4 flex-wrap">
           <Link
             href={routes.user.view(author.username)}
             className="flex items-center gap-2"
@@ -44,9 +44,12 @@ export default function ViewPost({ post }: { post: Post }) {
 
             <p className="hover:underline">{author.name || author.username}</p>
           </Link>
-          <p className="text-muted-foreground text-sm">
-            {dayjs(post.createdAt).format("MMM DD, YYYY")}
-          </p>
+
+          {post.publishedAt && (
+            <div className="text-muted-foreground text-sm">
+              <DateDisplay date={post.publishedAt} />
+            </div>
+          )}
 
           <Suspense>
             <div className="ml-auto">
