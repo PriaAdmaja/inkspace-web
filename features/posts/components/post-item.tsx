@@ -1,17 +1,11 @@
 "use client";
 import { routes } from "@/constants/routes";
 import { Post } from "@/types/posts";
-import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
 import { Separator } from "../../../components/ui/separator";
 import PostOptionsDropdown from "./post-options-dropdown";
 import { Badge } from "@/components/ui/badge";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import DateDisplay from "./date-display";
 
 export default function PostItem({
