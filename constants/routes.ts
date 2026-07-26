@@ -7,4 +7,7 @@ export const routes = {
   user: {
     view: (username: string) => `/${username}`,
   },
+  me: {
+    settings: '/me/settings'
+  }
 };

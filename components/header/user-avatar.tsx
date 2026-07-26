@@ -98,9 +98,11 @@ export default function UserAvatar({
                 Profile
               </DropdownMenuItem>
             </Link>
-            <DropdownMenuItem>
-              <Settings2 />
-              Settings
+            <DropdownMenuItem asChild>
+              <Link href={routes.me.settings}>
+                <Settings2 />
+                Settings
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuGroup>
 

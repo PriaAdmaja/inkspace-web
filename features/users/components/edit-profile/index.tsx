@@ -23,14 +23,20 @@ import { useUserDataStore } from "@/store/user-data";
 import { Response } from "@/types/app";
 import { User } from "@/types/users";
 import { Pencil } from "lucide-react";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { toast } from "sonner";
 import { isFormChanged } from "./utils";
 import errorMessageBuilder from "@/lib/error-message-builder";
 
 const avatarPlaceholder = "/no-profile.jpg";
 
-export default function EditProfile({ user }: { user?: User }) {
+export default function EditProfile({
+  user,
+  triggerButton,
+}: {
+  user?: User;
+  triggerButton?: ReactNode;
+}) {
   const [open, setOpen] = useState<boolean>(false);
   const [avatar, setAvatar] = useState<File | null | undefined>(undefined); // undefined means no change, null means remove avatar, File means new avatar
   const [avatarPreview, setAvatarPreview] = useState(
@@ -117,9 +123,13 @@ export default function EditProfile({ user }: { user?: User }) {
       }}
     >
       <DialogTrigger asChild>
-        <Button size={sm ? "default" : "sm"}>
-          <Pencil /> Edit
-        </Button>
+        {triggerButton ? (
+          triggerButton
+        ) : (
+          <Button size={sm ? "default" : "sm"}>
+            <Pencil /> Edit
+          </Button>
+        )}
       </DialogTrigger>
 
       <DialogContent
