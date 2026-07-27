@@ -37,7 +37,7 @@ export default function Page() {
 
           <CardContent className="flex items-center gap-4">
             <img
-              src={userData.avatar?.small}
+              src={userData.avatar?.medium ?? "/no-profile.jpg"}
               alt={userData.username}
               className="object-cover shrink-0 rounded-xl size-16 "
             />
