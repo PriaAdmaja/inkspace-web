@@ -26,7 +26,7 @@ import { Pencil } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { toast } from "sonner";
 import { isFormChanged } from "./utils";
-import errorMessageBuilder from "@/lib/error-message-builder";
+import { errorMessageBuilder } from "@/lib/error";
 
 const avatarPlaceholder = "/no-profile.jpg";
 

@@ -16,7 +16,7 @@ import { useMediaQueries } from "@/hooks/use-media-queries";
 import { useNavigationGuard } from "next-navigation-guard";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { usePostDataTempStore } from "@/store/post-data-temp";
-import errorMessageBuilder from "@/lib/error-message-builder";
+import {errorMessageBuilder} from "@/lib/error";
 import { deepEqualObject } from "@/lib/deep-equal-object";
 import EditActions from "./components/edit-actions-dropdown";
 import { finalTagsValue } from "./utils/tag-converter";

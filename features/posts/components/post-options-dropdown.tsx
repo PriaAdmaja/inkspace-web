@@ -12,7 +12,7 @@ import { useState } from "react";
 import { Post } from "@/types/posts";
 import Link from "next/link";
 import { routes } from "@/constants/routes";
-import errorMessageBuilder from "@/lib/error-message-builder";
+import { errorMessageBuilder } from "@/lib/error";
 import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
 import axios from "@/lib/axios";

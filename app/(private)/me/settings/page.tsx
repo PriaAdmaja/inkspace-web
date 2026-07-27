@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import UpdatePassword from "@/features/me/settings/update-password";
 import EditProfile from "@/features/users/components/edit-profile";
 import { useUserDataStore } from "@/store/user-data";
 
@@ -48,6 +49,18 @@ export default function Page() {
               user={userData}
               triggerButton={<Button>Edit Profile</Button>}
             />
+          </CardFooter>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Password</CardTitle>
+            <CardDescription>
+              Update your password regularly to help keep your account secure.
+            </CardDescription>
+          </CardHeader>
+          <CardFooter className="justify-end border-t">
+            <UpdatePassword />
           </CardFooter>
         </Card>
       </section>

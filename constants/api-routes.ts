@@ -17,10 +17,11 @@ export const API_ROUTES = {
     GET: "/api/me",
     UPDATE: "/api/me",
     POSTS: "/api/me/posts",
+    CHANGE_PASSWORD: "/api/me/password",
   },
   USERS: {
     POSTS: (username: string) => `/api/public/users/${username}/posts`,
     CHECK_USERNAME: "/api/public/users/username/check",
-    DETAIL: (username: string) => `/api/public/users/${username}`
+    DETAIL: (username: string) => `/api/public/users/${username}`,
   },
 };

@@ -17,7 +17,7 @@ import { Save, Send } from "lucide-react";
 import { excerptBuilder } from "@/features/posts/libs/excerpt-builder";
 import { usePostDataTempStore } from "@/store/post-data-temp";
 import { useMediaQueries } from "@/hooks/use-media-queries";
-import errorMessageBuilder from "@/lib/error-message-builder";
+import {errorMessageBuilder} from "@/lib/error";
 import {
   Dialog,
   DialogClose,

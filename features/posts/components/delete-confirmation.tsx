@@ -10,7 +10,7 @@ import {
 import { API_ROUTES } from "@/constants/api-routes";
 import { routes } from "@/constants/routes";
 import axios from "@/lib/axios";
-import errorMessageBuilder from "@/lib/error-message-builder";
+import { errorMessageBuilder } from "@/lib/error";
 import { useUserDataStore } from "@/store/user-data";
 import { Post } from "@/types/posts";
 import { useQueryClient } from "@tanstack/react-query";
