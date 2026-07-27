@@ -147,6 +147,7 @@ export default function NewIdea() {
         content={content}
         setContent={setContent}
         setTitle={setTitle}
+        isDisableLogout={isFormFilled}
         headerAdditionalComponent={
           <>
             <Button

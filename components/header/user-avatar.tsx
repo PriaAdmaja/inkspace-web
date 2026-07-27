@@ -62,10 +62,9 @@ export default function UserAvatar({
         router.replace("/");
       }
       if (isDisableLogout === true) {
-        console.log(isDisableLogout);
         return;
       }
-      console.log("lolos");
+
       await axios.post(API_ROUTES.AUTH.LOGOUT, {});
       setAccessToken(null);
       setUserData(null);
@@ -73,6 +72,8 @@ export default function UserAvatar({
       if (error instanceof AxiosError && error.status !== 401) {
         const message = error.message;
         toast.error(message);
+        setAccessToken(null);
+        setUserData(null);
       }
     }
   };
