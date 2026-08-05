@@ -1,15 +1,8 @@
-import { UserAvatar } from "./users";
+import { UserMe } from "./me";
 
 export type LoginResponse = {
   accessToken: string;
-  user: {
-    id: string
-    username: string;
-    name: string;
-    email: string;
-    avatar?: UserAvatar | null;
-    about?: string | null;
-  };
+  user: UserMe;
 };
 
 export type RegisterResponse = LoginResponse;

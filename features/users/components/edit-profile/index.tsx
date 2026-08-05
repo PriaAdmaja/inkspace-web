@@ -27,6 +27,7 @@ import { ReactNode, useState } from "react";
 import { toast } from "sonner";
 import { isFormChanged } from "./utils";
 import { errorMessageBuilder } from "@/lib/error";
+import { UserMe } from "@/types/me";
 
 const avatarPlaceholder = "/no-profile.jpg";
 
@@ -51,6 +52,18 @@ export default function EditProfile({
 
   const isChanged = isFormChanged({ user, name, about, avatar });
 
+  const onClose = (props?: {
+    name?: string;
+    about?: string;
+    avatar?: string;
+  }) => {
+    setAvatarPreview(props?.avatar ?? user?.avatar?.medium ?? avatarPlaceholder);
+    setAvatar(undefined);
+    setName(props?.name ?? user?.name ?? "");
+    setAbout(props?.about ?? user?.about ?? "");
+    setOpen(false);
+  };
+
   const onSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -71,7 +84,7 @@ export default function EditProfile({
           formData.set("avatarAction", "upload");
       }
 
-      const res = await axios.patch<Response<User>>(
+      const res = await axios.patch<Response<UserMe>>(
         API_ROUTES.ME.UPDATE,
         formData,
         {
@@ -89,10 +102,15 @@ export default function EditProfile({
           name: userData.name,
           about: userData.about ?? undefined,
           avatar: userData.avatar,
+          isEmailVerified: userData.isEmailVerified,
         });
       }
 
-      setOpen(false);
+      onClose({
+        about: userData?.about ?? undefined,
+        name: userData?.name,
+        avatar: userData?.avatar?.medium,
+      });
       toast.success("Profile updated successfully!");
     } catch (error) {
       const message = errorMessageBuilder(error);
@@ -100,14 +118,6 @@ export default function EditProfile({
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const onClose = () => {
-    setAvatarPreview(user?.avatar?.medium ?? avatarPlaceholder);
-    setAvatar(undefined);
-    setName(user?.name ?? "");
-    setAbout(user?.about ?? "");
-    setOpen(false);
   };
 
   return (
